@@ -1,0 +1,98 @@
+非常棒，您已经有了 GitHub 账号（Jelisos）和仓库地址！  
+下面是**将本地项目上传到 GitHub** 的详细步骤，适合小白操作，您只需跟着做即可。
+
+---
+
+## 一、前提准备
+
+1. **已注册并登录 GitHub 账号**（您已完成）
+2. **本地已安装 Git**  
+   - 如果未安装，请访问 [Git官网](https://git-scm.com/) 下载并安装，安装时一路“下一步”即可。
+
+---
+
+## 二、创建远程仓库
+
+1. 打开 [https://github.com/Jelisos](https://github.com/Jelisos)
+2. 点击右上角 “+” → “New repository”
+3. 填写仓库名（如 wallpaper-site），可选描述，建议选择 Public（公开）
+4. 不要勾选“Initialize this repository with a README”
+5. 点击“Create repository”
+
+---
+
+## 三、上传本地项目到 GitHub
+
+假设您的本地项目路径为：  
+`F:/Jelis-doubao/壁纸站点`
+
+### 1. 打开命令行（Win10可用PowerShell或CMD）
+
+### 2. 切换到项目目录
+```sh
+cd /d F:/Jelis-doubao/壁纸站点
+```
+
+### 3. 初始化本地Git仓库
+```sh
+git init
+```
+
+### 4. 添加所有文件
+```sh
+git add .
+```
+
+### 5. 提交到本地仓库
+```sh
+git commit -m \"首次提交\"
+```
+
+### 6. 关联远程仓库
+假设您的仓库地址为：https://github.com/Jelisos/wallpaper-site.git  
+（如果仓库名不同，请用您实际创建的仓库名）
+
+```sh
+git remote add origin https://github.com/Jelisos/wallpaper-site.git
+```
+
+### 7. 推送到GitHub
+```sh
+git branch -M main
+git push -u origin main
+```
+
+---
+
+## 四、常见问题
+
+- **首次推送需输入GitHub账号密码**，建议用[Token](https://github.com/settings/tokens)（推荐，安全）。
+- 如果遇到“fatal: remote origin already exists”，可先执行：
+  ```sh
+  git remote remove origin
+  ```
+  然后再添加远程仓库。
+
+---
+
+## 五、后续更新
+
+以后每次修改后，只需：
+```sh
+git add .
+git commit -m \"更新说明\"
+git push
+```
+
+---
+
+如需自动执行命令，请确认您的仓库名（如 wallpaper-site），我可以为您生成一键命令。  
+如有任何报错，欢迎截图反馈，我会帮您解决！
+
+---
+
+**参考：**  
+- [GitHub官方新手教程](https://docs.github.com/zh/get-started/quickstart/create-a-repo)
+- [Git下载与安装](https://git-scm.com/)
+
+如果需要自动化脚本或遇到任何问题，随时告诉我！

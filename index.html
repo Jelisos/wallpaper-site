@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallpaper Haven - 你的专属壁纸库</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 配置Tailwind自定义主题 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1A73E8',
+                        secondary: '#4285F4',
+                        accent: '#8AB4F8',
+                        neutral: '#F0F2F5',
+                        'neutral-dark': '#E0E3E9',
+                        dark: '#333333'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                },
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .masonry-grid {
+                column-count: 1;
+                column-gap: 1rem;
+            }
+            @screen md {
+                .masonry-grid {
+                    column-count: 2;
+                }
+            }
+            @screen lg {
+                .masonry-grid {
+                    column-count: 3;
+                }
+            }
+            @screen xl {
+                .masonry-grid {
+                    column-count: 4;
+                }
+            }
+            .masonry-item {
+                break-inside: avoid;
+                margin-bottom: 1rem;
+            }
+            .bg-blur {
+                backdrop-filter: blur(8px);
+            }
+            .transition-transform-opacity {
+                transition-property: transform, opacity;
+                transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+                transition-duration: 300ms;
+            }
+            .preview-btn {
+                background-color: #8B5CF6;
+            }
+            .preview-btn:hover {
+                background-color: #7C3AED;
+            }
+        }
+    </style>
+</head>
+<body class="font-inter bg-neutral text-dark min-h-screen flex flex-col">
+    <!-- 导航栏 -->
+    <header class="sticky top-0 z-50 bg-white/80 bg-blur border-b border-gray-200 transition-all duration-300">
+        <div class="container max-w-screen-xl mx-auto px-4">
+            <nav class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center space-x-2">
+                        <i class="fa fa-picture-o text-primary text-2xl"></i>
+                        <span class="text-xl font-bold text-primary">Wallpaper Haven</span>
+                    </a>
+                </div>
+                
+                <!-- 搜索框 -->
+                <div class="hidden md:flex items-center mx-4 flex-1 max-w-xl">
+                    <div class="relative w-full">
+                        <input type="text" id="search-input" placeholder="搜索壁纸..." 
+                            class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
+                        <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="upload-btn" class="hidden md:flex items-center space-x-2 bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-full transition-all not-implemented">
+                        <i class="fa fa-cloud-upload"></i>
+                        <span>上传壁纸</span>
+                    </button>
+                    
+                    <div id="user-menu" class="hidden md:block relative">
+                        <button id="user-btn" class="flex items-center space-x-2 focus:outline-none">
+                            <img id="user-avatar" src="https://picsum.photos/id/64/40/40" alt="用户头像" class="w-8 h-8 rounded-full border-2 border-primary">
+                            <span id="username" class="font-medium">游客</span>
+                            <i class="fa fa-caret-down text-gray-500"></i>
+                        </button>
+                        <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 z-50">
+                            <a href="#" id="login-link" class="block px-4 py-2 hover:bg-gray-100 not-implemented">登录</a>
+                            <a href="#" id="register-link" class="block px-4 py-2 hover:bg-gray-100 not-implemented">注册</a>
+                            <div class="border-t border-gray-100"></div>
+                            <a href="#" id="logout-link" class="hidden block px-4 py-2 hover:bg-gray-100 not-implemented">退出登录</a>
+                        </div>
+                    </div>
+                    
+                    <!-- 移动端菜单按钮 -->
+                    <button id="mobile-menu-btn" class="md:hidden text-gray-500 hover:text-primary">
+                        <i class="fa fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </nav>
+            
+            <!-- 移动端搜索框 -->
+            <div class="md:hidden pb-3">
+                <div class="relative w-full">
+                    <input type="text" placeholder="搜索壁纸..." 
+                        class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+                    <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+            </div>
+            
+            <!-- 移动端菜单 -->
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <button class="w-full flex items-center justify-center space-x-2 bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-full mb-3 not-implemented">
+                    <i class="fa fa-cloud-upload"></i>
+                    <span>上传壁纸</span>
+                </button>
+                <div class="flex flex-col space-y-2">
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded-lg not-implemented">登录</a>
+                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 rounded-lg not-implemented">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="flex-1 container max-w-screen-xl mx-auto px-4 py-6">
+        <!-- 分类导航 -->
+        <div class="mb-8 overflow-x-auto">
+            <div class="flex space-x-2 pb-2 min-w-max">
+                <button class="px-4 py-2 rounded-full bg-primary text-white">全部</button>
+                <button class="px-4 py-2 rounded-full bg-white hover:bg-neutral-dark transition-colors">风景</button>
+                <button class="px-4 py-2 rounded-full bg-white hover:bg-neutral-dark transition-colors">动物</button>
+                <button class="px-4 py-2 rounded-full bg-white hover:bg-neutral-dark transition-colors">动漫</button>
+                <button class="px-4 py-2 rounded-full bg-white hover:bg-neutral-dark transition-colors">城市</button>
+                <button class="px-4 py-2 rounded-full bg-white hover:bg-neutral-dark transition-colors">抽象</button>
+                <button class="px-4 py-2 rounded-full bg-white hover:bg-neutral-dark transition-colors">科技</button>
+                <button class="px-4 py-2 rounded-full bg-white hover:bg-neutral-dark transition-colors">创意</button>
+                <button class="px-4 py-2 rounded-full bg-white hover:bg-neutral-dark transition-colors">美食</button>
+                <button id="manage-categories-btn" class="px-4 py-2 rounded-full bg-white border border-gray-300 hover:bg-neutral-dark transition-colors not-implemented">
+                    <i class="fa fa-cog"></i> 管理分类
+                </button>
+            </div>
+        </div>
+        
+        <!-- 视图切换 -->
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold">热门壁纸</h2>
+            <div class="flex space-x-2">
+                <button id="grid-view-btn" class="p-2 rounded bg-primary text-white">
+                    <i class="fa fa-th-large"></i>
+                </button>
+                <button id="list-view-btn" class="p-2 rounded bg-white hover:bg-neutral-dark transition-colors">
+                    <i class="fa fa-list"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 瀑布流展示区 -->
+        <div id="wallpaper-container" class="masonry-grid">
+            <!-- 由JS动态生成壁纸卡片 -->
+        </div>
+        
+        <!-- 加载更多按钮 -->
+        <div class="flex justify-center mt-8">
+            <button id="load-more-btn" class="px-6 py-3 bg-white border border-gray-300 rounded-full hover:bg-neutral-dark transition-colors flex items-center space-x-2">
+                <span>加载更多</span>
+                <i class="fa fa-refresh"></i>
+            </button>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-white border-t border-gray-200 py-8">
+        <div class="container max-w-screen-xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <i class="fa fa-picture-o text-primary text-2xl mr-2"></i>
+                    <span class="text-xl font-bold text-primary">Wallpaper Haven</span>
+                </div>
+                <div class="flex space-x-6 mb-4 md:mb-0">
+                    <a href="#" class="text-gray-600 hover:text-primary transition-colors not-implemented">关于我们</a>
+                    <a href="#" class="text-gray-600 hover:text-primary transition-colors not-implemented">使用条款</a>
+                    <a href="#" class="text-gray-600 hover:text-primary transition-colors not-implemented">隐私政策</a>
+                    <a href="#" class="text-gray-600 hover:text-primary transition-colors not-implemented">联系我们</a>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-neutral flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition-all">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-neutral flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition-all">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-neutral flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition-all">
+                        <i class="fa fa-instagram"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-neutral flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition-all">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-6 text-center text-gray-500 text-sm">
+                <p>© 2023 Wallpaper Haven. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 登录模态框 -->
+    <div id="login-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-xl w-full max-w-md mx-4 transform transition-all duration-300 scale-95 opacity-0" id="login-modal-content">
+            <div class="relative p-6">
+                <button id="close-login-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold text-center mb-6">登录</h2>
+                <form>
+                    <div class="mb-4">
+                        <label for="login-email" class="block text-sm font-medium text-gray-700 mb-1">邮箱</label>
+                        <input type="email" id="login-email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="your@email.com">
+                    </div>
+                    <div class="mb-6">
+                        <label for="login-password" class="block text-sm font-medium text-gray-700 mb-1">密码</label>
+                        <input type="password" id="login-password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="••••••••">
+                    </div>
+                    <button type="button" id="login-submit" class="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-lg transition-colors">登录</button>
+                </form>
+                <div class="mt-4 text-center">
+                    <span class="text-gray-600">还没有账号？</span>
+                    <button id="switch-to-register" class="text-primary hover:underline ml-1">立即注册</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 注册模态框 -->
+    <div id="register-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-xl w-full max-w-md mx-4 transform transition-all duration-300 scale-95 opacity-0" id="register-modal-content">
+            <div class="relative p-6">
+                <button id="close-register-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold text-center mb-6">注册</h2>
+                <form>
+                    <div class="mb-4">
+                        <label for="register-username" class="block text-sm font-medium text-gray-700 mb-1">用户名</label>
+                        <input type="text" id="register-username" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请输入用户名">
+                    </div>
+                    <div class="mb-4">
+                        <label for="register-email" class="block text-sm font-medium text-gray-700 mb-1">邮箱</label>
+                        <input type="email" id="register-email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="your@email.com">
+                    </div>
+                    <div class="mb-4">
+                        <label for="register-password" class="block text-sm font-medium text-gray-700 mb-1">密码</label>
+                        <input type="password" id="register-password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="至少8位，包含字母和数字">
+                    </div>
+                    <div class="mb-6">
+                        <label for="register-confirm-password" class="block text-sm font-medium text-gray-700 mb-1">确认密码</label>
+                        <input type="password" id="register-confirm-password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="再次输入密码">
+                    </div>
+                    <button type="button" id="register-submit" class="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-lg transition-colors">注册</button>
+                </form>
+                <div class="mt-4 text-center">
+                    <span class="text-gray-600">已有账号？</span>
+                    <button id="switch-to-login" class="text-primary hover:underline ml-1">立即登录</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 上传壁纸模态框 -->
+    <div id="upload-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-xl w-full max-w-2xl mx-4 transform transition-all duration-300 scale-95 opacity-0" id="upload-modal-content">
+            <div class="relative p-6">
+                <button id="close-upload-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold text-center mb-6">上传壁纸</h2>
+                <form id="upload-form">
+                    <div class="mb-6">
+                        <div id="drop-area" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-primary transition-colors cursor-pointer">
+                            <i class="fa fa-cloud-upload text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-gray-600 mb-2">点击或拖拽文件到此处上传</p>
+                            <p class="text-sm text-gray-500">支持 JPG, PNG, WebP 格式，最大 10MB</p>
+                            <input type="file" id="file-input" class="hidden" accept="image/*">
+                            <button type="button" id="browse-btn" class="mt-4 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">选择文件</button>
+                        </div>
+                        <div id="preview-container" class="hidden mt-4">
+                            <img id="image-preview" src="" alt="预览图" class="max-h-60 mx-auto rounded-lg">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label for="wallpaper-title" class="block text-sm font-medium text-gray-700 mb-1">壁纸标题</label>
+                            <input type="text" id="wallpaper-title" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请输入壁纸标题">
+                        </div>
+                        <div>
+                            <label for="wallpaper-category" class="block text-sm font-medium text-gray-700 mb-1">壁纸分类</label>
+                            <select id="wallpaper-category" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+                                <option value="">选择分类</option>
+                                <option value="风景">风景</option>
+                                <option value="动物">动物</option>
+                                <option value="动漫">动漫</option>
+                                <option value="城市">城市</option>
+                                <option value="抽象">抽象</option>
+                                <option value="科技">科技</option>
+                                <option value="创意">创意</option>
+                                <option value="美食">美食</option>
+                            </select>
+                            <button type="button" id="add-category-btn" class="mt-2 text-primary hover:underline text-sm">+ 添加新分类</button>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label for="wallpaper-tags" class="block text-sm font-medium text-gray-700 mb-1">标签（用逗号分隔）</label>
+                        <input type="text" id="wallpaper-tags" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="例如：自然,山脉,湖泊">
+                    </div>
+                    
+                    <div class="flex justify-end space-x-4 mt-8">
+                        <button type="button" id="cancel-upload" class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-neutral-dark transition-colors">关闭</button>
+                        <button type="button" id="submit-upload" class="px-6 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors not-implemented">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加分类模态框 -->
+    <div id="add-category-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-xl w-full max-w-md mx-4 transform transition-all duration-300 scale-95 opacity-0" id="add-category-modal-content">
+            <div class="relative p-6">
+                <button id="close-add-category-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold text-center mb-6">添加新分类</h2>
+                <form>
+                    <div class="mb-6">
+                        <label for="new-category" class="block text-sm font-medium text-gray-700 mb-1">分类名称</label>
+                        <input type="text" id="new-category" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请输入新分类名称">
+                    </div>
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" id="cancel-add-category" class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-neutral-dark transition-colors">取消</button>
+                        <button type="button" id="submit-add-category" class="px-6 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors">添加</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 壁纸详情模态框 -->
+    <div id="wallpaper-detail-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center">
+        <div class="w-full max-w-4xl mx-4 transform transition-all duration-300 scale-95 opacity-0" id="wallpaper-detail-modal-content">
+            <div class="relative">
+                <button id="close-detail-modal" class="absolute top-4 right-4 text-white hover:text-gray-300 bg-black/50 p-2 rounded-full">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+                <div class="bg-white rounded-lg overflow-hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2">
+                        <div class="flex items-center justify-center bg-black rounded-l-lg min-h-[320px] min-w-[320px] p-4">
+                            <img id="detail-image" src="https://picsum.photos/id/10/1200/800" alt="壁纸详情" class="max-h-[80vh] max-w-full object-contain rounded-2xl shadow-lg transition-all duration-300">
+                        </div>
+                        <div class="p-6">
+                            <h2 id="detail-title" class="text-2xl font-bold mb-2">自然风景</h2>
+                            <div class="flex items-center space-x-2 mb-4">
+                                <img src="https://picsum.photos/id/64/40/40" alt="用户头像" class="w-8 h-8 rounded-full">
+                                <span class="text-gray-600">摄影师</span>
+                                <span class="text-gray-400">•</span>
+                                <span class="text-gray-500 text-sm">2023-05-20</span>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h3 class="font-medium mb-2">分类</h3>
+                                <span id="detail-category" class="px-3 py-1 bg-neutral rounded-full text-sm">风景</span>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h3 class="font-medium mb-2">标签</h3>
+                                <div id="detail-tags" class="flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-neutral rounded-full text-sm">自然</span>
+                                    <span class="px-3 py-1 bg-neutral rounded-full text-sm">山脉</span>
+                                    <span class="px-3 py-1 bg-neutral rounded-full text-sm">湖泊</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h3 class="font-medium mb-2">尺寸</h3>
+                                <span id="detail-size" class="text-gray-600">2048 × 1152 像素</span>
+                            </div>
+                            
+                            <div class="flex flex-wrap gap-3 mb-6">
+                                <button class="flex-1 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors flex items-center justify-center space-x-2" id="download-original">
+                                    <i class="fa fa-download"></i>
+                                    <span>下载原图</span>
+                                </button>
+                                <button class="flex-1 py-3 preview-btn text-white rounded-lg transition-colors flex items-center justify-center space-x-2" id="preview-wallpaper">
+                                    <i class="fa fa-eye"></i>
+                                    <span>多平台预览</span>
+                                </button>
+                                <button class="w-12 py-3 border border-gray-300 rounded-lg hover:bg-neutral-dark transition-colors flex items-center justify-center">
+                                    <i class="fa fa-heart-o text-red-500"></i>
+                                </button>
+                                <button class="w-12 py-3 border border-gray-300 rounded-lg hover:bg-neutral-dark transition-colors flex items-center justify-center">
+                                    <i class="fa fa-share-alt"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="border-t border-gray-200 pt-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="flex items-center space-x-1">
+                                            <i class="fa fa-eye text-gray-400"></i>
+                                            <span id="detail-views" class="text-gray-600">1.2k</span>
+                                        </div>
+                                        <div class="flex items-center space-x-1">
+                                            <i class="fa fa-heart text-red-400"></i>
+                                            <span id="detail-likes" class="text-gray-600">156</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-gray-500">收藏到：</span>
+                                        <select class="px-3 py-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+                                            <option value="">我的收藏</option>
+                                            <option value="1">桌面壁纸</option>
+                                            <option value="2">手机壁纸</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 回到顶部按钮 -->
+    <button id="back-to-top" title="回到顶部" class="fixed right-6 bottom-8 z-50 bg-primary text-white rounded-full shadow-lg w-12 h-12 flex items-center justify-center text-2xl transition-all duration-300 opacity-0 pointer-events-none hover:bg-primary/90">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 全局变量声明（只声明一次）
+            const wallpaperContainer = document.getElementById('wallpaper-container');
+            const detailModal = document.getElementById('wallpaper-detail-modal');
+            const detailModalContent = document.getElementById('wallpaper-detail-modal-content');
+
+            // 壁纸文件名数组（如有新图片请手动添加到此数组）
+            const wallpapers = [
+                { filename: '机械少女2.jpeg', path: 'static/wallpapers/机械少女2.jpeg' },
+                { filename: '机械少女.jpeg', path: 'static/wallpapers/机械少女.jpeg' },
+                { filename: '血色残阳.jpeg', path: 'static/wallpapers/血色残阳.jpeg' },
+                { filename: '神秘人.png', path: 'static/wallpapers/神秘人.png' },
+                { filename: '兽耳娘.png', path: 'static/wallpapers/兽耳娘.png' }
+            ];
+
+            // 模态框动画效果
+            const modalEffects = {
+                open: function(modal, content) {
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        content.classList.remove('scale-95', 'opacity-0');
+                        content.classList.add('scale-100', 'opacity-100');
+                    }, 10);
+                },
+                close: function(modal, content) {
+                    content.classList.remove('scale-100', 'opacity-100');
+                    content.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                    }, 300);
+                }
+            };
+
+            // 搜索功能实现
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', function() {
+                const keyword = this.value.trim().toLowerCase();
+                renderWallpapers(keyword);
+            });
+
+            // 动态渲染壁纸卡片，支持关键词过滤
+            function renderWallpapers(keyword = '') {
+                wallpaperContainer.innerHTML = '';
+                // 用于去重
+                const uniqueWallpapers = Array.from(new Set(wallpapers.map(w => w.filename))).map(name => wallpapers.find(w => w.filename === name));
+                // 过滤
+                const filtered = uniqueWallpapers.filter(wallpaper => {
+                    const name = wallpaper.filename.replace(/\.(jpg|jpeg|png|webp)$/i, '');
+                    let category = name.replace(/\d+/g, '').replace(/[^\u4e00-\u9fa5a-zA-Z]/g, '/').replace(/\/+$/, '').replace(/^\/+/, '');
+                    if (!category) category = '未分类';
+                    let tags = name.split(/[^\u4e00-\u9fa5a-zA-Z0-9]+/).filter(Boolean);
+                    // 匹配：文件名、分类、标签
+                    return (
+                        name.toLowerCase().includes(keyword) ||
+                        category.toLowerCase().includes(keyword) ||
+                        tags.some(t => t.toLowerCase().includes(keyword))
+                    );
+                });
+                if (filtered.length === 0) {
+                    wallpaperContainer.innerHTML = '<div class="text-center text-gray-400 py-12">未找到相关壁纸</div>';
+                    return;
+                }
+                filtered.forEach(wallpaper => {
+                    const name = wallpaper.filename.replace(/\.(jpg|jpeg|png|webp)$/i, '');
+                    let category = name.replace(/\d+/g, '').replace(/[^\u4e00-\u9fa5a-zA-Z]/g, '/').replace(/\/+$/, '').replace(/^\/+/, '');
+                    if (!category) category = '未分类';
+                    let tags = name.split(/[^\u4e00-\u9fa5a-zA-Z0-9]+/).filter(Boolean);
+                    const card = document.createElement('div');
+                    card.className = 'masonry-item';
+                    card.innerHTML = `
+                        <div class="bg-white rounded-lg overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 transform hover:-translate-y-1">
+                            <div class="relative">
+                                <img src="${wallpaper.path}" alt="${name}" class="w-full object-cover cursor-pointer hover:opacity-90 transition-opacity wallpaper-thumb">
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="font-medium">${name}</h3>
+                                    <span class="text-sm text-gray-500 size-info">加载中...</span>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mt-2">
+                                    <span class="px-3 py-1 bg-neutral rounded-full text-sm">${category}</span>
+                                    ${tags.map(t => `<span class='px-3 py-1 bg-neutral rounded-full text-sm'>${t}</span>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    wallpaperContainer.appendChild(card);
+                    const img = card.querySelector('img');
+                    img.onload = function() {
+                        const sizeSpan = card.querySelector('.size-info');
+                        sizeSpan.textContent = `${img.naturalWidth} × ${img.naturalHeight}`;
+                    };
+                });
+            }
+
+            // 初始化渲染壁纸
+            renderWallpapers();
+
+            // 视图切换（网格/列表）
+            const gridViewBtn = document.getElementById('grid-view-btn');
+            const listViewBtn = document.getElementById('list-view-btn');
+            
+            gridViewBtn.addEventListener('click', function() {
+                wallpaperContainer.classList.add('masonry-grid');
+                gridViewBtn.classList.remove('bg-white', 'hover:bg-neutral-dark');
+                gridViewBtn.classList.add('bg-primary', 'text-white');
+                listViewBtn.classList.remove('bg-primary', 'text-white');
+                listViewBtn.classList.add('bg-white', 'hover:bg-neutral-dark');
+            });
+            
+            listViewBtn.addEventListener('click', function() {
+                wallpaperContainer.classList.remove('masonry-grid');
+                listViewBtn.classList.remove('bg-white', 'hover:bg-neutral-dark');
+                listViewBtn.classList.add('bg-primary', 'text-white');
+                gridViewBtn.classList.remove('bg-primary', 'text-white');
+                gridViewBtn.classList.add('bg-white', 'hover:bg-neutral-dark');
+            });
+
+            // 详情模态框逻辑
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('wallpaper-thumb')) {
+                    const img = e.target;
+                    const card = img.closest('.masonry-item');
+                    const name = card.querySelector('h3').textContent;
+                    const size = card.querySelector('.size-info').textContent;
+                    const category = card.querySelectorAll('.bg-neutral')[0].textContent;
+                    const tags = Array.from(card.querySelectorAll('.bg-neutral')).slice(1).map(e => e.textContent);
+                    
+                    // 更新详情模态框内容
+                    document.getElementById('detail-image').src = img.src;
+                    document.getElementById('detail-title').textContent = name;
+                    document.getElementById('detail-category').textContent = category;
+                    
+                    // 标签
+                    const tagContainer = document.getElementById('detail-tags');
+                    tagContainer.innerHTML = '';
+                    tags.forEach(t => {
+                        const span = document.createElement('span');
+                        span.className = 'px-3 py-1 bg-neutral rounded-full text-sm';
+                        span.textContent = t;
+                        tagContainer.appendChild(span);
+                    });
+                    
+                    document.getElementById('detail-size').textContent = size + ' 像素';
+                    
+                    // 预览和下载按钮
+                    document.getElementById('preview-wallpaper').onclick = function() {
+                        window.open(`yulan.html?image=${encodeURIComponent(img.src)}#previewControls`, '_blank');
+                    };
+                    
+                    document.getElementById('download-original').onclick = function() {
+                        const link = document.createElement('a');
+                        link.href = img.src;
+                        link.download = img.src.split('/').pop();
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    };
+                    
+                    // 打开模态框
+                    modalEffects.open(detailModal, detailModalContent);
+                }
+            });
+
+            // 登录模态框
+            const loginModal = document.getElementById('login-modal');
+            const loginModalContent = document.getElementById('login-modal-content');
+            document.getElementById('login-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                modalEffects.open(loginModal, loginModalContent);
+            });
+            document.getElementById('close-login-modal').addEventListener('click', function() {
+                modalEffects.close(loginModal, loginModalContent);
+            });
+
+            // 注册模态框
+            const registerModal = document.getElementById('register-modal');
+            const registerModalContent = document.getElementById('register-modal-content');
+            document.getElementById('register-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                modalEffects.open(registerModal, registerModalContent);
+            });
+            document.getElementById('close-register-modal').addEventListener('click', function() {
+                modalEffects.close(registerModal, registerModalContent);
+            });
+
+            // 上传模态框
+            const uploadModal = document.getElementById('upload-modal');
+            const uploadModalContent = document.getElementById('upload-modal-content');
+            document.getElementById('upload-btn').addEventListener('click', function() {
+                modalEffects.open(uploadModal, uploadModalContent);
+            });
+            document.getElementById('close-upload-modal').addEventListener('click', function() {
+                uploadModal.classList.add('hidden');
+            });
+            document.getElementById('cancel-upload').addEventListener('click', function() {
+                uploadModal.classList.add('hidden');
+            });
+            uploadModal.addEventListener('click', function(e) {
+                if (e.target === uploadModal) {
+                    uploadModal.classList.add('hidden');
+                }
+            });
+
+            // 添加分类模态框
+            const addCategoryModal = document.getElementById('add-category-modal');
+            const addCategoryModalContent = document.getElementById('add-category-modal-content');
+            document.getElementById('add-category-btn').addEventListener('click', function() {
+                modalEffects.open(addCategoryModal, addCategoryModalContent);
+            });
+            document.getElementById('close-add-category-modal').addEventListener('click', function() {
+                modalEffects.close(addCategoryModal, addCategoryModalContent);
+            });
+
+            // 模态框切换（登录/注册）
+            document.getElementById('switch-to-register').addEventListener('click', function() {
+                modalEffects.close(loginModal, loginModalContent);
+                setTimeout(() => {
+                    modalEffects.open(registerModal, registerModalContent);
+                }, 300);
+            });
+            document.getElementById('switch-to-login').addEventListener('click', function() {
+                modalEffects.close(registerModal, registerModalContent);
+                setTimeout(() => {
+                    modalEffects.open(loginModal, loginModalContent);
+                }, 300);
+            });
+
+            // 移动端菜单
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // 用户下拉菜单
+            const userBtn = document.getElementById('user-btn');
+            const userDropdown = document.getElementById('user-dropdown');
+            userBtn.addEventListener('click', function() {
+                userDropdown.classList.toggle('hidden');
+            });
+
+            // 点击其他区域关闭下拉菜单
+            document.addEventListener('click', function(event) {
+                if (!userBtn.contains(event.target) && !userDropdown.contains(event.target)) {
+                    userDropdown.classList.add('hidden');
+                }
+            });
+
+            // 上传文件功能
+            const dropArea = document.getElementById('drop-area');
+            const fileInput = document.getElementById('file-input');
+            const browseBtn = document.getElementById('browse-btn');
+            const previewContainer = document.getElementById('preview-container');
+            const imagePreview = document.getElementById('image-preview');
+            
+            // 点击按钮选择文件
+            browseBtn.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            // 监听文件选择
+            fileInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    previewFile(file);
+                }
+            });
+            
+            // 拖放功能
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropArea.classList.add('border-primary');
+            }
+            
+            function unhighlight() {
+                dropArea.classList.remove('border-primary');
+            }
+            
+            dropArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const file = dt.files[0];
+                if (file) {
+                    previewFile(file);
+                }
+            }
+            
+            function previewFile(file) {
+                if (!file.type.match('image.*')) {
+                    alert('请选择图片文件！');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    previewContainer.classList.remove('hidden');
+                }
+                
+                reader.readAsDataURL(file);
+            }
+
+            // 模拟登录功能
+            document.getElementById('login-submit').addEventListener('click', function() {
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                
+                if (!email || !password) {
+                    alert('请输入邮箱和密码！');
+                    return;
+                }
+                
+                // 模拟登录成功
+                document.getElementById('username').textContent = '用户12345';
+                document.getElementById('user-avatar').src = 'https://picsum.photos/id/64/40/40';
+                document.getElementById('login-link').classList.add('hidden');
+                document.getElementById('register-link').classList.add('hidden');
+                document.getElementById('logout-link').classList.remove('hidden');
+                
+                modalEffects.close(loginModal, loginModalContent);
+                alert('登录成功！');
+            });
+
+            // 模拟注册功能
+            document.getElementById('register-submit').addEventListener('click', function() {
+                const username = document.getElementById('register-username').value;
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+                const confirmPassword = document.getElementById('register-confirm-password').value;
+                
+                if (!username || !email || !password) {
+                    alert('请填写完整的注册信息！');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    alert('两次输入的密码不一致！');
+                    return;
+                }
+                
+                // 模拟注册成功
+                modalEffects.close(registerModal, registerModalContent);
+                alert('注册成功！请登录');
+                
+                // 自动打开登录模态框
+                setTimeout(() => {
+                    modalEffects.open(loginModal, loginModalContent);
+                    document.getElementById('login-email').value = email;
+                }, 300);
+            });
+
+            // 模拟上传功能
+            document.getElementById('submit-upload').addEventListener('click', function() {
+                const file = fileInput.files[0];
+                const title = document.getElementById('wallpaper-title').value;
+                const category = document.getElementById('wallpaper-category').value;
+                
+                if (!file) {
+                    alert('请选择要上传的图片！');
+                    return;
+                }
+                
+                if (!title || !category) {
+                    alert('请填写标题和选择分类！');
+                    return;
+                }
+                
+                // 模拟上传中
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> 上传中...';
+                this.disabled = true;
+                
+                // 模拟上传成功
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.disabled = false;
+                    modalEffects.close(uploadModal, uploadModalContent);
+                    alert('上传成功！');
+                    
+                    // 重置表单
+                    document.getElementById('upload-form').reset();
+                    previewContainer.classList.add('hidden');
+                }, 2000);
+            });
+
+            // 模拟添加分类
+            document.getElementById('submit-add-category').addEventListener('click', function() {
+                const newCategory = document.getElementById('new-category').value;
+                
+                if (!newCategory) {
+                    alert('请输入分类名称！');
+                    return;
+                }
+                
+                // 模拟添加成功
+                const categorySelect = document.getElementById('wallpaper-category');
+                const option = document.createElement('option');
+                option.value = newCategory;
+                option.textContent = newCategory;
+                categorySelect.appendChild(option);
+                categorySelect.value = newCategory;
+                
+                modalEffects.close(addCategoryModal, addCategoryModalContent);
+                alert('分类添加成功！');
+                
+                // 重置表单
+                document.getElementById('new-category').value = '';
+            });
+
+            // 模拟加载更多
+            document.getElementById('load-more-btn').addEventListener('click', function() {
+                // 模拟加载中
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> 加载中...';
+                this.disabled = true;
+                
+                // 模拟加载成功
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.disabled = false;
+                    alert('已加载全部内容！');
+                }, 1500);
+            });
+
+            // 滚动时导航栏效果
+            window.addEventListener('scroll', function() {
+                const header = document.querySelector('header');
+                if (window.scrollY > 50) {
+                    header.classList.add('shadow-md');
+                    header.classList.remove('border-b');
+                } else {
+                    header.classList.remove('shadow-md');
+                    header.classList.add('border-b');
+                }
+            });
+
+            // 添加关闭按钮事件监听
+            document.getElementById('close-detail-modal').addEventListener('click', function() {
+                modalEffects.close(detailModal, detailModalContent);
+            });
+
+            // 添加点击空白处关闭功能
+            detailModal.addEventListener('click', function(e) {
+                if (e.target === detailModal) {
+                    modalEffects.close(detailModal, detailModalContent);
+                }
+            });
+
+            // 统一为所有未实现功能按钮添加提示
+            document.querySelectorAll('.not-implemented').forEach(function(el) {
+                el.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('该功能尚未实现');
+                });
+            });
+
+            // 回到顶部按钮逻辑
+            const backToTopBtn = document.getElementById('back-to-top');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+                    backToTopBtn.classList.add('opacity-100');
+                } else {
+                    backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+                    backToTopBtn.classList.remove('opacity-100');
+                }
+            });
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>    

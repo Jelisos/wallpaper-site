@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>壁纸网站管理后台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1A73E8',
+                        secondary: '#4285F4',
+                        accent: '#8AB4F8',
+                        neutral: '#F0F2F5',
+                        'neutral-dark': '#E0E3E9',
+                        dark: '#333333',
+                        success: '#34A853',
+                        warning: '#FBBC05',
+                        danger: '#EA4335',
+                        info: '#4285F4'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .sidebar-link {
+                @apply flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200;
+            }
+            .sidebar-link.active {
+                @apply bg-primary/10 text-primary font-medium;
+            }
+            .sidebar-link:not(.active) {
+                @apply text-gray-600 hover:bg-neutral-dark;
+            }
+            .table-row-hover {
+                @apply hover:bg-gray-50 transition-colors;
+            }
+            .badge {
+                @apply px-2 py-1 rounded-full text-xs font-medium;
+            }
+            .badge-pending {
+                @apply bg-warning/20 text-warning;
+            }
+            .badge-approved {
+                @apply bg-success/20 text-success;
+            }
+            .badge-rejected {
+                @apply bg-danger/20 text-danger;
+            }
+        }
+    </style>
+</head>
+<body class="font-inter bg-neutral text-dark flex h-screen overflow-hidden">
+    <!-- 侧边栏 -->
+    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col h-full transition-all duration-300" id="sidebar">
+        <div class="p-4 border-b border-gray-200">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-picture-o text-primary text-2xl"></i>
+                <span class="text-xl font-bold text-primary">壁纸管理系统</span>
+            </div>
+        </div>
+        
+        <nav class="flex-1 overflow-y-auto py-4">
+            <div class="px-4 mb-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">主菜单</div>
+            <a href="#" class="sidebar-link active">
+                <i class="fa fa-tachometer"></i>
+                <span>仪表盘</span>
+            </a>
+            <a href="#wallpaper-review" class="sidebar-link">
+                <i class="fa fa-image"></i>
+                <span>壁纸审核</span>
+                <span class="ml-auto bg-warning text-white text-xs px-2 py-0.5 rounded-full">12</span>
+            </a>
+            <a href="#wallpapers" class="sidebar-link">
+                <i class="fa fa-th-large"></i>
+                <span>壁纸管理</span>
+            </a>
+            <a href="#categories" class="sidebar-link">
+                <i class="fa fa-folder"></i>
+                <span>分类管理</span>
+            </a>
+            <a href="#users" class="sidebar-link">
+                <i class="fa fa-users"></i>
+                <span>用户管理</span>
+            </a>
+            
+            <div class="px-4 mt-8 mb-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">系统设置</div>
+            <a href="#settings" class="sidebar-link">
+                <i class="fa fa-cog"></i>
+                <span>系统设置</span>
+            </a>
+            <a href="#logs" class="sidebar-link">
+                <i class="fa fa-history"></i>
+                <span>操作日志</span>
+            </a>
+        </nav>
+        
+        <div class="p-4 border-t border-gray-200">
+            <div class="flex items-center space-x-3">
+                <img src="https://picsum.photos/id/64/40/40" alt="管理员头像" class="w-10 h-10 rounded-full border-2 border-primary">
+                <div>
+                    <div class="font-medium">超级管理员</div>
+                    <div class="text-xs text-gray-500">admin@example.com</div>
+                </div>
+                <button class="ml-auto text-gray-500 hover:text-danger transition-colors">
+                    <i class="fa fa-sign-out"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- 顶部导航 -->
+        <header class="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-6">
+            <div class="flex items-center">
+                <button id="toggle-sidebar" class="mr-4 text-gray-500 hover:text-primary transition-colors">
+                    <i class="fa fa-bars text-xl"></i>
+                </button>
+                <h1 class="text-xl font-bold">仪表盘</h1>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <button class="text-gray-500 hover:text-primary transition-colors">
+                        <i class="fa fa-bell text-xl"></i>
+                        <span class="absolute -top-1 -right-1 bg-danger text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">3</span>
+                    </button>
+                </div>
+                
+                <div class="relative">
+                    <button class="text-gray-500 hover:text-primary transition-colors">
+                        <i class="fa fa-envelope text-xl"></i>
+                        <span class="absolute -top-1 -right-1 bg-primary text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">5</span>
+                    </button>
+                </div>
+                
+                <div class="h-8 border-r border-gray-200 mx-1"></div>
+                
+                <div class="flex items-center space-x-2">
+                    <img src="https://picsum.photos/id/64/40/40" alt="管理员头像" class="w-8 h-8 rounded-full">
+                    <span class="font-medium">超级管理员</span>
+                </div>
+            </div>
+        </header>
+        
+        <!-- 内容区域 -->
+        <main class="flex-1 overflow-y-auto p-6 bg-neutral">
+            <!-- 统计卡片 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 transition-all hover:shadow-md">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">总壁纸数</p>
+                            <h3 class="text-3xl font-bold mt-1">1,284</h3>
+                            <p class="text-success text-sm mt-2 flex items-center">
+                                <i class="fa fa-arrow-up mr-1"></i> 12.5% <span class="text-gray-500 ml-1">较上月</span>
+                            </p>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                            <i class="fa fa-image text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 transition-all hover:shadow-md">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">待审核</p>
+                            <h3 class="text-3xl font-bold mt-1">12</h3>
+                            <p class="text-danger text-sm mt-2 flex items-center">
+                                <i class="fa fa-arrow-up mr-1"></i> 8.3% <span class="text-gray-500 ml-1">较上月</span>
+                            </p>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-warning/10 flex items-center justify-center text-warning">
+                            <i class="fa fa-clock-o text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 transition-all hover:shadow-md">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">注册用户</p>
+                            <h3 class="text-3xl font-bold mt-1">3,256</h3>
+                            <p class="text-success text-sm mt-2 flex items-center">
+                                <i class="fa fa-arrow-up mr-1"></i> 23.8% <span class="text-gray-500 ml-1">较上月</span>
+                            </p>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-info/10 flex items-center justify-center text-info">
+                            <i class="fa fa-users text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 transition-all hover:shadow-md">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-sm">今日浏览</p>
+                            <h3 class="text-3xl font-bold mt-1">8,642</h3>
+                            <p class="text-success text-sm mt-2 flex items-center">
+                                <i class="fa fa-arrow-up mr-1"></i> 15.2% <span class="text-gray-500 ml-1">较昨日</span>
+                            </p>
+                        </div>
+                        <div class="w-12 h-12 rounded-full bg-success/10 flex items-center justify-center text-success">
+                            <i class="fa fa-eye text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 最近上传的壁纸（待审核） -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-bold">最近上传的壁纸（待审核）</h2>
+                    <div class="flex space-x-2">
+                        <div class="relative">
+                            <input type="text" placeholder="搜索..." class="pl-9 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+                            <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        </div>
+                        <select class="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+                            <option>全部状态</option>
+                            <option>待审核</option>
+                            <option>已通过</option>
+                            <option>已拒绝</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">预览</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">标题</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">分类</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">上传者</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">上传时间</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">状态</th>
+                                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr class="table-row-hover">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <img src="https://picsum.photos/id/10/80/60" alt="壁纸预览" class="w-16 h-12 object-cover rounded">
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="font-medium">高山湖泊风景</div>
+                                    <div class="text-sm text-gray-500">nature_landscape.jpg</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="text-sm">风景</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <img src="https://picsum.photos/id/64/32/32" alt="用户头像" class="w-8 h-8 rounded-full mr-2">
+                                        <div>
+                                            <div class="text-sm font-medium">user12345</div>
+                                            <div class="text-xs text-gray-500">user@example.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    2023-05-20 14:30
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="badge badge-pending">待审核</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button class="text-primary hover:text-primary/80 mr-3" onclick="showPreviewModal(1)">查看</button>
+                                    <button class="text-success hover:text-success/80 mr-3" onclick="approveWallpaper(1)">通过</button>
+                                    <button class="text-danger hover:text-danger/80" onclick="rejectWallpaper(1)">拒绝</button>
+                                </td>
+                            </tr>
+                            <tr class="table-row-hover">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <img src="https://picsum.photos/id/20/80/60" alt="壁纸预览" class="w-16 h-12 object-cover rounded">
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="font-medium">城市夜景</div>
+                                    <div class="text-sm text-gray-500">city_night.jpg</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="text-sm">城市</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <img src="https://picsum.photos/id/65/32/32" alt="用户头像" class="w-8 h-8 rounded-full mr-2">
+                                        <div>
+                                            <div class="text-sm font-medium">citylovers</div>
+                                            <div class="text-xs text-gray-500">city@example.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    2023-05-20 13:45
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="badge badge-pending">待审核</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button class="text-primary hover:text-primary/80 mr-3" onclick="showPreviewModal(2)">查看</button>
+                                    <button class="text-success hover:text-success/80 mr-3" onclick="approveWallpaper(2)">通过</button>
+                                    <button class="text-danger hover:text-danger/80" onclick="rejectWallpaper(2)">拒绝</button>
+                                </td>
+                            </tr>
+                            <tr class="table-row-hover">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <img src="https://picsum.photos/id/42/80/60" alt="壁纸预览" class="w-16 h-12 object-cover rounded">
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="font-medium">抽象艺术</div>
+                                    <div class="text-sm text-gray-500">abstract_design.jpg</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="text-sm">抽象</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <img src="https://picsum.photos/id/66/32/32" alt="用户头像" class="w-8 h-8 rounded-full mr-2">
+                                        <div>
+                                            <div class="text-sm font-medium">artlover</div>
+                                            <div class="text-xs text-gray-500">art@example.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    2023-05-20 11:20
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="badge badge-pending">待审核</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button class="text-primary hover:text-primary/80 mr-3" onclick="showPreviewModal(3)">查看</button>
+                                    <button class="text-success hover:text-success/80 mr-3" onclick="approveWallpaper(3)">通过</button>
+                                    <button class="text-danger hover:text-danger/80" onclick="rejectWallpaper(3)">拒绝</button>
+                                </td>
+                            </tr>
+                            <tr class="table-row-hover">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <img src="https://picsum.photos/id/65/80/60" alt="壁纸预览" class="w-16 h-12 object-cover rounded">
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="font-medium">野生动物</div>
+                                    <div class="text-sm text-gray-500">wild_animal.jpg</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="text-sm">动物</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <img src="https://picsum.photos/id/67/32/32" alt="用户头像" class="w-8 h-8 rounded-full mr-2">
+                                        <div>
+                                            <div class="text-sm font-medium">naturephotographer</div>
+                                            <div class="text-xs text-gray-500">nature@example.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    2023-05-20 10:15
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="badge badge-pending">待审核</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button class="text-primary hover:text-primary/80 mr-3" onclick="showPreviewModal(4)">查看</button>
+                                    <button class="text-success hover:text-success/80 mr-3" onclick="approveWallpaper(4)">通过</button>
+                                    <button class="text-danger hover:text-danger/80" onclick="rejectWallpaper(4)">拒绝</button>
+                                </td>
+                            </tr>
+                            <tr class="table-row-hover">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <img src="https://picsum.photos/id/96/80/60" alt="壁纸预览" class="w-16 h-12 object-cover rounded">
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="font-medium">科技未来</div>
+                                    <div class="text-sm text-gray-500">tech_future.jpg</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="text-sm">科技</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <img src="https://picsum.photos/id/68/32/32" alt="用户头像" class="w-8 h-8 rounded-full mr-2">
+                                        <div>
+                                            <div class="text-sm font-medium">techgeek</div>
+                                            <div class="text-xs text-gray-500">tech@example.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    2023-05-20 09:30
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="badge badge-pending">待审核</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button class="text-primary hover:text-primary/80 mr-3" onclick="showPreviewModal(5)">查看</button>
+                                    <button class="text-success hover:text-success/80 mr-3" onclick="approveWallpaper(5)">通过</button>
+                                    <button class="text-danger hover:text-danger/80" onclick="rejectWallpaper(5)">拒绝</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="flex items-center justify-between mt-6">
+                    <div class="text-sm text-gray-500">
+                        显示 1 到 5 条，共 12 条
+                    </div>
+                    <div class="flex space-x-1">
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-gray-500 hover:bg-gray-50 disabled:opacity-50" disabled>上一页</button>
+                        <button class="px-3 py-1 border border-primary bg-primary text-white rounded-md">1</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">2</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">下一页</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 最近活动 -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 lg:col-span-2">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold">最近活动</h2>
+                        <button class="text-primary hover:text-primary/80 text-sm">查看全部</button>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-success">
+                                    <i class="fa fa-check"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium">
+                                    <span class="text-gray-900">管理员</span> 审核通过了 
+                                    <span class="text-gray-900">高山湖泊风景</span> 壁纸
+                                </p>
+                                <p class="text-xs text-gray-500 mt-1">今天 14:30</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="w-10 h-10 rounded-full bg-danger/10 flex items-center justify-center text-danger">
+                                    <i class="fa fa-times"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium">
+                                    <span class="text-gray-900">管理员</span> 拒绝了 
+                                    <span class="text-gray-900">城市夜景</span> 壁纸（包含违规内容）
+                                </p>
+                                <p class="text-xs text-gray-500 mt-1">今天 13:45</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                    <i class="fa fa-upload"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium">
+                                    <span class="text-gray-900">user12345</span> 上传了新壁纸 
+                                    <span class="text-gray-900">抽象艺术</span>
+                                </p>
+                                <p class="text-xs text-gray-500 mt-1">今天 11:20</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="w-10 h-10 rounded-full bg-info/10 flex items-center justify-center text-info">
+                                    <i class="fa fa-user-plus"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium">
+                                    <span class="text-gray-900">newuser6789</span> 注册了新账号
+                                </p>
+                                <p class="text-xs text-gray-500 mt-1">今天 10:15</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="w-10 h-10 rounded-full bg-warning/10 flex items-center justify-center text-warning">
+                                    <i class="fa fa-flag"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium">
+                                    <span class="text-gray-900">user54321</span> 举报了壁纸 
+                                    <span class="text-gray-900">科技未来</span>（涉嫌侵权）
+                                </p>
+                                <p class="text-xs text-gray-500 mt-1">今天 09:30</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold">壁纸统计</h2>
+                        <button class="text-primary hover:text-primary/80 text-sm">查看详情</button>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-medium">风景类</span>
+                                <span class="text-sm text-gray-500">32%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-primary h-2 rounded-full" style="width: 32%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-medium">动物类</span>
+                                <span class="text-sm text-gray-500">18%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-success h-2 rounded-full" style="width: 18%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-medium">动漫类</span>
+                                <span class="text-sm text-gray-500">24%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-info h-2 rounded-full" style="width: 24%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-medium">城市类</span>
+                                <span class="text-sm text-gray-500">15%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-warning h-2 rounded-full" style="width: 15%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-medium">其他类</span>
+                                <span class="text-sm text-gray-500">11%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-danger h-2 rounded-full" style="width: 11%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- 壁纸预览模态框 -->
+    <div id="wallpaper-preview-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-xl w-full max-w-4xl mx-4 transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+            <div class="relative">
+                <button id="close-preview-modal" class="absolute top-4 right-4 text-white hover:text-gray-300 bg-black/50 p-2 rounded-full z-10">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+                <div class="grid grid-cols-1 lg:grid-cols-2">
+                    <div class="bg-black flex items-center justify-center h-[400px] lg:h-auto">
+                        <img id="preview-image" src="https://picsum.photos/id/10/1200/800" alt="壁纸预览" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="p-6">
+                        <h2 id="preview-title" class="text-2xl font-bold mb-4">高山湖泊风景</h2>
+                        
+                        <div class="mb-4">
+                            <h3 class="font-medium mb-2">基本信息</h3>
+                            <div class="grid grid-cols-2 gap-2 text-sm">
+                                <div>
+                                    <span class="text-gray-500">分类:</span>
+                                    <span id="preview-category" class="ml-2">风景</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">上传者:</span>
+                                    <span id="preview-user" class="ml-2">user12345</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">上传时间:</span>
+                                    <span id="preview-time" class="ml-2">2023-05-20 14:30</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">文件大小:</span>
+                                    <span id="preview-size" class="ml-2">2.4 MB</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">分辨率:</span>
+                                    <span id="preview-resolution" class="ml-2">3840 × 2160</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">格式:</span>
+                                    <span id="preview-format" class="ml-2">JPG</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h3 class="font-medium mb-2">标签</h3>
+                            <div id="preview-tags" class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-neutral rounded-full text-sm">自然</span>
+                                <span class="px-3 py-1 bg-neutral rounded-full text-sm">山脉</span>
+                                <span class="px-3 py-1 bg-neutral rounded-full text-sm">湖泊</span>
+                                <span class="px-3 py-1 bg-neutral rounded-full text-sm">风景</span>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-gray-200 pt-4 mt-6">
+                            <div class="flex justify-end space-x-3">
+                                <button id="modal-reject-btn" class="px-4 py-2 border border-danger text-danger rounded-lg hover:bg-danger/10 transition-colors">
+                                    <i class="fa fa-times mr-1"></i> 拒绝
+                                </button>
+                                <button id="modal-approve-btn" class="px-4 py-2 bg-success text-white rounded-lg hover:bg-success/90 transition-colors">
+                                    <i class="fa fa-check mr-1"></i> 通过
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 拒绝理由模态框 -->
+    

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WallpaperX - 用户中心</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1A73E8',
+                        secondary: '#4285F4',
+                        accent: '#8AB4F8',
+                        neutral: '#F0F2F5',
+                        'neutral-dark': '#E0E3E9',
+                        dark: '#333333',
+                        success: '#34A853',
+                        warning: '#FBBC05',
+                        danger: '#EA4335',
+                        info: '#4285F4'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-hover {
+                @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+            }
+            .animate-fade-in {
+                animation: fadeIn 0.3s ease-in-out;
+            }
+            .animate-slide-up {
+                animation: slideUp 0.3s ease-out;
+            }
+            .animate-scale {
+                transition: transform 0.3s ease;
+            }
+            .animate-scale:hover {
+                transform: scale(1.03);
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="font-inter bg-neutral text-dark min-h-screen flex flex-col">
+    <!-- 顶部导航栏 -->
+    <header class="sticky top-0 z-40 bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <a href="#" class="text-primary text-2xl">
+                        <i class="fa fa-picture-o"></i>
+                    </a>
+                    <a href="#" class="text-xl font-bold text-primary hidden sm:block">WallpaperX</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="relative hidden sm:block">
+                        <input type="text" placeholder="搜索壁纸..." class="pl-9 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary w-40 md:w-64">
+                        <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    
+                    <a href="#" class="hidden sm:block px-4 py-2 bg-primary text-white rounded-full hover:bg-primary/90 transition-colors">
+                        <i class="fa fa-upload mr-1"></i> 上传壁纸
+                    </a>
+                    
+                    <div class="relative">
+                        <button id="user-menu-button" class="flex items-center space-x-2">
+                            <img src="https://picsum.photos/id/64/40/40" alt="用户头像" class="w-8 h-8 rounded-full border-2 border-primary">
+                            <span class="hidden sm:inline font-medium">用户名称</span>
+                            <i class="fa fa-angle-down text-gray-500"></i>
+                        </button>
+                        
+                        <div id="user-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden animate-fade-in">
+                            <a href="#" class="block px-4 py-2 text-sm hover:bg-neutral transition-colors">
+                                <i class="fa fa-user mr-2 text-gray-500"></i> 个人中心
+                            </a>
+                            <a href="#" class="block px-4 py-2 text-sm hover:bg-neutral transition-colors">
+                                <i class="fa fa-heart mr-2 text-gray-500"></i> 我的喜欢
+                            </a>
+                            <a href="#" class="block px-4 py-2 text-sm hover:bg-neutral transition-colors">
+                                <i class="fa fa-bookmark mr-2 text-gray-500"></i> 我的收藏
+                            </a>
+                            <a href="#" class="block px-4 py-2 text-sm hover:bg-neutral transition-colors">
+                                <i class="fa fa-history mr-2 text-gray-500"></i> 浏览历史
+                            </a>
+                            <a href="#" class="block px-4 py-2 text-sm hover:bg-neutral transition-colors">
+                                <i class="fa fa-cog mr-2 text-gray-500"></i> 设置
+                            </a>
+                            <div class="border-t border-gray-100 my-1"></div>
+                            <a href="#" class="block px-4 py-2 text-sm text-danger hover:bg-neutral transition-colors">
+                                <i class="fa fa-sign-out mr-2"></i> 退出登录
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <button id="mobile-menu-button" class="sm:hidden text-gray-500 hover:text-primary">
+                        <i class="fa fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+        <!-- 侧边栏 -->
+        <aside id="sidebar" class="w-64 bg-white shadow-md z-30 hidden md:block transition-all duration-300 overflow-y-auto max-h-[calc(100vh-64px)]">
+            <div class="p-4">
+                <div class="flex items-center space-x-3 mb-6">
+                    <img src="https://picsum.photos/id/64/80/80" alt="用户头像" class="w-12 h-12 rounded-full border-2 border-primary">
+                    <div>
+                        <h3 class="font-bold">用户名称</h3>
+                        <p class="text-sm text-gray-500">普通会员</p>
+                    </div>
+                </div>
+                
+                <nav>
+                    <ul class="space-y-1">
+                        <li>
+                            <a href="#dashboard" class="flex items-center space-x-3 px-4 py-3 rounded-lg bg-primary/10 text-primary">
+                                <i class="fa fa-tachometer"></i>
+                                <span>仪表盘</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#liked" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-neutral transition-colors">
+                                <i class="fa fa-heart"></i>
+                                <span>我的喜欢</span>
+                                <span class="ml-auto bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full">24</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#collections" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-neutral transition-colors">
+                                <i class="fa fa-bookmark"></i>
+                                <span>我的收藏</span>
+                                <span class="ml-auto bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full">18</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#downloads" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-neutral transition-colors">
+                                <i class="fa fa-download"></i>
+                                <span>我的下载</span>
+                                <span class="ml-auto bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full">56</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#uploads" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-neutral transition-colors">
+                                <i class="fa fa-upload"></i>
+                                <span>我的上传</span>
+                                <span class="ml-auto bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full">12</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#history" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-neutral transition-colors">
+                                <i class="fa fa-history"></i>
+                                <span>浏览历史</span>
+                                <span class="ml-auto bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full">89</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#settings" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-neutral transition-colors">
+                                <i class="fa fa-cog"></i>
+                                <span>账户设置</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <div class="mt-8 p-4 bg-primary/5 rounded-lg">
+                    <h4 class="font-medium mb-2">升级为高级会员</h4>
+                    <p class="text-sm text-gray-600 mb-3">解锁更多功能，享受无限制下载</p>
+                    <button class="w-full py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
+                        立即升级
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="flex-1 overflow-y-auto bg-neutral p-4 md:p-6">
+            <!-- 移动端菜单按钮 -->
+            <button id="mobile-sidebar-button" class="md:hidden mb-4 px-3 py-2 bg-white rounded-lg shadow-sm flex items-center space-x-2">
+                <i class="fa fa-bars"></i>
+                <span>菜单</span>
+            </button>
+            
+            <!-- 仪表盘 -->
+            <section id="dashboard-section" class="animate-fade-in">
+                <div class="mb-6">
+                    <h1 class="text-2xl font-bold mb-2">用户仪表盘</h1>
+                    <p class="text-gray-500">欢迎回来，用户名称！这是你的个人中心</p>
+                </div>
+                
+                <!-- 统计卡片 -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-white rounded-xl p-5 shadow-sm card-hover">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">我的喜欢</p>
+                                <h3 class="text-2xl font-bold mt-1">24</h3>
+                            </div>
+                            <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                                <i class="fa fa-heart"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex items-center text-xs text-gray-500">
+                            <span>较上周 <span class="text-success font-medium">+12%</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-5 shadow-sm card-hover">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">我的收藏</p>
+                                <h3 class="text-2xl font-bold mt-1">18</h3>
+                            </div>
+                            <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                                <i class="fa fa-bookmark"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex items-center text-xs text-gray-500">
+                            <span>较上周 <span class="text-success font-medium">+5%</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-5 shadow-sm card-hover">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">我的下载</p>
+                                <h3 class="text-2xl font-bold mt-1">56</h3>
+                            </div>
+                            <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                                <i class="fa fa-download"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex items-center text-xs text-gray-500">
+                            <span>较上周 <span class="text-success font-medium">+23%</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-5 shadow-sm card-hover">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">我的上传</p>
+                                <h3 class="text-2xl font-bold mt-1">12</h3>
+                            </div>
+                            <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                                <i class="fa fa-upload"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex items-center text-xs text-gray-500">
+                            <span>较上周 <span class="text-danger font-medium">-3%</span></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 最近活动 -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- 最近喜欢 -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-xl shadow-sm p-5 mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="font-bold text-lg">最近喜欢</h2>
+                                <a href="#liked" class="text-primary hover:underline text-sm">查看全部</a>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-3 p-2 hover:bg-neutral rounded-lg transition-colors">
+                                    <img src="https://picsum.photos/id/10/100/100" alt="壁纸缩略图" class="w-16 h-16 rounded-lg object-cover">
+                                    <div class="flex-1">
+                                        <h3 class="font-medium">高山湖泊风景</h3>
+                                        <div class="flex items-center text-sm text-gray-500">
+                                            <span>风景</span>
+                                            <span class="mx-2">•</span>
+                                            <span>3840 × 2160</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-danger transition-colors">
+                                            <i class="fa fa-heart-o"></i>
+                                        </button>
+                                        <button class="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-primary transition-colors">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center space-x-3 p-2 hover:bg-neutral rounded-lg transition-colors">
+                                    <img src="https://picsum.photos/id/20/100/100" alt="壁纸缩略图" class="w-16 h-16 rounded-lg object-cover">
+                                    <div class="flex-1">
+                                        <h3 class="font-medium">城市夜景</h3>
+                                        <div class="flex items-center text-sm text-gray-500">
+                                            <span>城市</span>
+                                            <span class="mx-2">•</span>
+                                            <span>3840 × 2160</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-danger transition-colors">
+                                            <i class="fa fa-heart-o"></i>
+                                        </button>
+                                        <button class="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-primary transition-colors">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center space-x-3 p-2 hover:bg-neutral rounded-lg transition-colors">
+                                    <img src="https://picsum.photos/id/42/100/100" alt="壁纸缩略图" class="w-16 h-16 rounded-lg object-cover">
+                                    <div class="flex-1">
+                                        <h3 class="font-medium">抽象艺术</h3>
+                                        <div class="flex items-center text-sm text-gray-500">
+                                            <span>抽象</span>
+                                            <span class="mx-2">•</span>
+                                            <span>3840 × 2160</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-danger transition-colors">
+                                            <i class="fa fa-heart-o"></i>
+                                        </button>
+                                        <button class="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-primary transition-colors">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 最近下载 -->
+                        <div class="bg-white rounded-xl shadow-sm p-5">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="font-bold text-lg">最近下载</h2>
+                                <a href="#downloads" class="text-primary hover:underline text-sm">查看全部</a>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-3 p-2 hover:bg-neutral rounded-lg transition-colors">
+                                    <img src="https://picsum.photos/id/65/100/100" alt="壁纸缩略图" class="w-16 h-16 rounded-lg object-cover">
+                                    <div class="flex-1">
+                                        <h3 class="font-medium">野生动物</h3>
+                                        <div class="flex items-center text-sm text-gray-500">
+                                            <span>动物</span>
+                                            <span class="mx-2">•</span>
+                                            <span>3840 × 2160</span>
+                                            <span class="mx-2">•</span>
+                                            <span class="text-xs bg-success/10 text-success px-2 py-0.5 rounded-full">已下载</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button class="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-primary transition-colors">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center space-x-3 p-2 hover:bg-neutral rounded-lg transition-colors">
+                                    <img src="https://picsum.photos/id/96/100/100" alt="壁纸缩略图" class="w-16 h-16 rounded-lg object-cover">
+                                    <div class="flex-1">
+                                        <h3 class="font-medium">科技未来</h3>
+                                        <div class="flex items-center text-sm text-gray-500">
+                                            <span>科技</span>
+                                            <span class="mx-2">•</span>
+                                            <span>3840 × 2160</span>
+                                            <span class="mx-2">•</span>
+                                            <span class="text-xs bg-success/10 text-success px-2 py-0.5 rounded-full">已下载</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button class="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-primary transition-colors">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 右侧栏 -->
+                    <div>
+                        <!-- 上传统计 -->
+                        <div class="bg-white rounded-xl shadow-sm p-5 mb-6">
+                            <h2 class="font-bold text-lg mb-4">上传统计</h2>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span>风景</span>
+                                        <span>5</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-primary h-2 rounded-full" style="width: 42%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span>城市</span>
+                                        <span>3</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-secondary h-2 rounded-full" style="width: 25%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span>抽象</span>
+                                        <span>2</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-accent h-2 rounded-full" style="width: 17%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="flex justify-between text-sm mb-1">
+                                        <span>其他</span>
+                                        <span>2</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-info h-2 rounded-full" style="width: 17%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4 pt-4 border-t border-gray-100">
+                                <div class="flex items-center justify-between text-sm">
+                                    <span>总上传量</span>
+                                    <span class="font-medium">12 张</span>
+                                </div>
+                                <div class="flex items-center justify-between text-sm text-gray-500 mt-1">
+                                    <span>总下载量</span>
+                                    <span>328 次</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 活动记录 -->
+                        <div class="bg-white rounded-xl shadow-sm p-5">
+                            <h2 class="font-bold text-lg mb-4">活动记录</h2>
+                            <div class="space-y-3">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
+                                        <i class="fa fa-heart"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm">喜欢了 <span class="font-medium">高山湖泊风景</span></p>
+                                        <p class="text-xs text-gray-500">10分钟前</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-success/10 flex items-center justify-center text-success flex-shrink-0">
+                                        <i class="fa fa-download"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm">下载了 <span class="font-medium">野生动物</span></p>
+                                        <p class="text-xs text-gray-500">2小时前</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-warning/10 flex items-center justify-center text-warning flex-shrink-0">
+                                        <i class="fa fa-upload"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm">上传了 <span class="font-medium">森林深处</span></p>
+                                        <p class="text-xs text-gray-500">昨天</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
+                                        <i class="fa fa-bookmark"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm">收藏了 <span class="font-medium">抽象艺术</span></p>
+                                        <p class="text-xs text-gray-500">3天前</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 我的喜欢 -->
+            <section id="liked-section" class="hidden animate-fade-in">
+                <div class="mb-6">
+                    <h1 class="text-2xl font-bold mb-2">我的喜欢</h1>
+                    <p class="text-gray-500">你喜欢的壁纸都会显示在这里</p>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-sm card-hover">
+                        <div class="relative">
+                            <img src="https://picsum.photos/id/10/600/400" alt="高山湖泊风景" class="w-full h-48 object-cover">
+                            <div class="absolute top-3 right-3 flex space-x-2">
+                                <button class="w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-danger transition-colors">
+                                    <i class="fa fa-heart"></i>
+                                </button>
+                                <button class="w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-600 hover:text-primary transition-colors">
+                                    <i class="fa fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-lg mb-1">高山湖泊风景</h3>
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <div class="flex items-center">
+                                    <img src="https://picsum.photos/id/64/32/32" alt="用户头像" class="w-6 h-6 rounded-full mr-2">
+                                    <span>user12345</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <span><i class="fa fa-eye mr-1"></i> 2.4k</span>
+                                    <span><i class="fa fa-download mr-1"></i> 324</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl overflow-hidden shadow-sm card-hover">
+                        <div class="relative">
+                            <img src="https://picsum.photos/id/20/600/400" alt="城市夜景" class="w-full h-48 object-cover">
+                            <div class="absolute top-3 right-3 flex space-x-2">
+                                <button class="w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-danger transition-colors">
+                                    <i class="fa fa-heart"></i>
+                                </button>
+                                <button class="w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-600 hover:text-primary transition-colors">
+                                    <i class="fa fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-lg mb-1">城市夜景</h3>
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <div class="flex items-center">
+                                    <img src="https://picsum.photos/id/65/32/32" alt="用户头像" class="w-6 h-6 rounded-full mr-2">
+                                    <span>citylovers</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <span><i class="fa fa-eye mr-1"></i> 3.8k</span>
+                                    <span><i class="fa fa-download mr-1"></i> 562</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl overflow-hidden shadow-sm card-hover">
+                        <div class="relative">
+                            <img src="https://picsum.photos/id/42/600/400" alt="抽象艺术" class="w-full h-48 object-cover">
+                            <div class="absolute top-3 right-3 flex space-x-2">
+                                <button class="w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-danger transition-colors">
+                                    <i class="fa fa-heart"></i>
+                                </button>
+                                <button class="w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-600 hover:text-primary transition-colors">
+                                    <i class="fa fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-lg mb-1">抽象艺术</h3>
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <div class="flex items-center">
+                                    <img src="https://picsum.photos/id/66/32/32" alt="用户头像" class="w-6 h-6 rounded-full mr-2">
+                                    <span>artlover</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <span><i class="fa fa-eye mr-1"></i> 1.9k</span>
+                                    <span><i class="fa fa-download mr-1"></i> 178</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl overflow-hidden shadow-sm card-hover">
+                        <div class="relative">
+                            <img src="https://picsum.photos/id/65/600/400" alt="野生动物" class="w-full h-48 object-cover">
+                            <div class="absolute top-3 right-3 flex space-x-2">
+                                <button class="w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-danger transition-colors">
+                                    <i class="fa fa-heart"></i>
+                                </button>
+                                <button class="w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-600 hover:text-primary transition-colors">
+                                    <i class="fa fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-medium text-lg mb-1">野生动物</h3>
+                            <div class="flex items-center justify-between text-sm text-gray-500">
+                                <div class="flex items-center">
+                                    <img src="https://picsum.photos/id/67/32/32" alt="用户头像" class="w-6 h-6 rounded-full mr-2">
+                                    <span>naturephotographer</span>
+                                </div>
