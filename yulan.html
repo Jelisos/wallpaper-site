@@ -348,8 +348,8 @@
             const laptopBaseHeight = 40; // 电脑底座高度
             
             // 朋友圈封面尺寸
-            const momentWidth = 750;
-            const momentHeight = 422;
+            const momentWidth = 550;
+            const momentHeight = 372;
             const momentBarHeight = 100; // 底部白色栏高度
             const momentAvatarSize = 80;
             const momentAvatarRadius = 20;
@@ -360,25 +360,24 @@
             // 壁纸位置偏移量
             let yOffset = 0;
             
-            // 设置Canvas尺寸
-            phoneCanvas.width = phoneWidth;
-            phoneCanvas.height = phoneHeight;
-            
-            tabletCanvas.width = tabletWidth;
-            tabletCanvas.height = tabletHeight;
-            
-            laptopCanvas.width = laptopWidth;
-            laptopCanvas.height = laptopHeight + laptopBaseHeight;
-            
-            // 朋友圈canvas尺寸
-            const momentCanvas = document.getElementById('momentCanvas');
-            momentCanvas.width = momentWidth;
-            momentCanvas.height = momentHeight;
-            const momentCtx = momentCanvas.getContext('2d');
-            
-            // 加载本地相机icon
-            const cameraIconImg = new Image();
-            cameraIconImg.src = '相机.png'; // 请确保与index.html同目录
+            // 适配高DPI屏幕
+            const dpr = window.devicePixelRatio || 1;
+            function setCanvasHD(canvas, width, height) {
+                canvas.width = width * dpr;
+                canvas.height = height * dpr;
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
+                const ctx = canvas.getContext('2d');
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                return ctx;
+            }
+            // 设置所有canvas为高清
+            setCanvasHD(phoneCanvas, phoneWidth, phoneHeight);
+            setCanvasHD(tabletCanvas, tabletWidth, tabletHeight);
+            setCanvasHD(laptopCanvas, laptopWidth, laptopHeight + laptopBaseHeight);
+            setCanvasHD(momentCanvas, momentWidth, momentHeight);
+            // 修复朋友圈canvas context丢失
+            momentCtx = momentCanvas.getContext('2d');
             
             // 获取URL参数中的图片
             const urlParams = new URLSearchParams(window.location.search);
@@ -1045,23 +1044,6 @@
                 ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
             }
             
-            // 绘制朋友圈封面
-            function drawCover(ctx, img) {
-                // 清除画布
-                ctx.clearRect(0, 0, coverSize.width, coverSize.height);
-                
-                // 计算图片缩放和位置
-                const scale = Math.max(
-                    coverSize.width / img.width,
-                    coverSize.height / img.height
-                );
-                
-                const x = (coverSize.width - img.width * scale) / 2;
-                const y = (coverSize.height - img.height * scale) / 2;
-                
-                ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-            }
-            
             // 下载微信头像
             function downloadAvatar() {
                 if (!currentWallpaper || !currentWallpaper.complete || currentWallpaper.naturalWidth === 0) {
@@ -1119,9 +1101,85 @@
                 downloadCoverButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> 下载中...';
                 downloadCoverButton.disabled = true;
                 try {
-                    // 只下载朋友圈完整预览
-                    drawMomentFullPreview(currentWallpaper, currentWallpaper);
-                    exportCanvasAsImage(momentFullCanvas, '朋友圈预览.png');
+                    // 新建临时canvas，宽高用最新momentWidth和momentHeight
+                    const tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = momentWidth;
+                    tempCanvas.height = momentHeight;
+                    const tempCtx = tempCanvas.getContext('2d');
+                    tempCtx.save();
+                    roundRect(tempCtx, 0, 0, momentWidth, momentHeight, 20);
+                    tempCtx.clip();
+                    // 绘制壁纸
+                    if (currentWallpaper) {
+                        const imageRatio = currentWallpaper.width / currentWallpaper.height;
+                        const screenRatio = momentWidth / momentHeight;
+                        let drawWidth, drawHeight, drawX, drawY;
+                        if (imageRatio > screenRatio) {
+                            drawHeight = momentHeight;
+                            drawWidth = drawHeight * imageRatio;
+                            drawX = -(drawWidth - momentWidth) / 2;
+                            drawY = 0;
+                        } else {
+                            drawWidth = momentWidth;
+                            drawHeight = drawWidth / imageRatio;
+                            drawX = 0;
+                            drawY = -(drawHeight - momentHeight) / 2;
+                        }
+                        tempCtx.drawImage(currentWallpaper, drawX, drawY, drawWidth, drawHeight);
+                    } else {
+                        tempCtx.fillStyle = '#EEE';
+                        tempCtx.fillRect(0, 0, momentWidth, momentHeight);
+                    }
+                    // 底部白色栏
+                    tempCtx.fillStyle = '#fff';
+                    tempCtx.fillRect(0, momentHeight - momentBarHeight, momentWidth, momentBarHeight);
+                    // 底部白色栏左侧说明文字
+                    tempCtx.save();
+                    tempCtx.font = 'bold 16px sans-serif'; // 避免自定义字体导致异常
+                    tempCtx.fillStyle = 'rgba(120,120,120,0.85)';
+                    tempCtx.textAlign = 'left';
+                    tempCtx.textBaseline = 'middle';
+                    tempCtx.shadowColor = 'rgba(255,255,255,0.7)';
+                    tempCtx.shadowBlur = 4;
+                    tempCtx.fillText('朋友圈封面预览+头像', 24, momentHeight - momentBarHeight/2);
+                    tempCtx.restore();
+                    // 右下角头像框
+                    const avatarX = momentWidth - momentAvatarSize - momentAvatarMargin;
+                    const avatarY = momentHeight - momentBarHeight/2 - momentAvatarSize/2;
+                    tempCtx.save();
+                    roundRect(tempCtx, avatarX, avatarY, momentAvatarSize, momentAvatarSize, momentAvatarRadius);
+                    tempCtx.clip();
+                    if (currentWallpaper && currentWallpaper.complete) {
+                        const scale = Math.max(momentAvatarSize / currentWallpaper.width, momentAvatarSize / currentWallpaper.height);
+                        const ax = avatarX + (momentAvatarSize - currentWallpaper.width * scale) / 2;
+                        const ay = avatarY + (momentAvatarSize - currentWallpaper.height * scale) / 2;
+                        tempCtx.drawImage(currentWallpaper, ax, ay, currentWallpaper.width * scale, currentWallpaper.height * scale);
+                    } else {
+                        tempCtx.fillStyle = '#CCC';
+                        tempCtx.fillRect(avatarX, avatarY, momentAvatarSize, momentAvatarSize);
+                    }
+                    tempCtx.restore();
+                    // 昵称
+                    tempCtx.font = 'bold 36px sans-serif'; // 避免自定义字体导致异常
+                    tempCtx.fillStyle = '#222';
+                    tempCtx.textAlign = 'right';
+                    tempCtx.textBaseline = 'middle';
+                    tempCtx.fillText(momentName, avatarX - 20, momentHeight - momentBarHeight/2);
+                    // 相机icon（右上角）
+                    tempCtx.save();
+                    if (typeof cameraIconImg !== 'undefined' && cameraIconImg.complete && cameraIconImg.naturalWidth > 0) {
+                        tempCtx.drawImage(cameraIconImg, momentWidth - 40 - 16, 40 - 16, 32, 32);
+                    }
+                    tempCtx.restore();
+                    // 边框
+                    tempCtx.save();
+                    roundRect(tempCtx, 0.5, 0.5, momentWidth-1, momentHeight-1, 20);
+                    tempCtx.strokeStyle = '#e5e7eb';
+                    tempCtx.lineWidth = 4;
+                    tempCtx.stroke();
+                    tempCtx.restore();
+                    // 导出图片
+                    exportCanvasAsImage(tempCanvas, '朋友圈预览.png');
                     downloadCoverButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
                     downloadCoverButton.classList.remove('bg-blue-500');
                     downloadCoverButton.classList.add('bg-blue-600');
@@ -1133,6 +1191,7 @@
                     }, 2000);
                 } catch (error) {
                     console.error('下载失败:', error);
+                    alert('下载失败：' + error.message);
                     downloadCoverButton.innerHTML = '<i class="fa-solid fa-times mr-2"></i> 下载失败';
                     downloadCoverButton.classList.remove('bg-blue-500');
                     downloadCoverButton.classList.add('bg-red-500');
@@ -1170,8 +1229,7 @@
                     drawAvatar(avatarSquareCtx, currentWallpaper, false);
                     exportCanvasAsImage(avatarSquareCanvas, '方形头像.png');
                     // 下载朋友圈完整预览
-                    drawMomentFullPreview(currentWallpaper, currentWallpaper);
-                    exportCanvasAsImage(momentFullCanvas, '朋友圈预览.png');
+                    downloadCover();
                     downloadBothButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
                     downloadBothButton.classList.remove('bg-purple-500');
                     downloadBothButton.classList.add('bg-purple-600');
@@ -1284,6 +1342,8 @@
             const momentFullCtx = momentFullCanvas.getContext('2d');
             // 绘制完整朋友圈预览截图
             function drawMomentFullPreview(wallpaper, avatarImg) {
+                momentFullCanvas.width = momentWidth;
+                momentFullCanvas.height = momentHeight;
                 momentFullCtx.clearRect(0, 0, momentWidth, momentHeight);
                 momentFullCtx.save();
                 momentFullCtx.beginPath();
