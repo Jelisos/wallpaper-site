@@ -80,7 +80,7 @@ git push -u origin main
 以后每次修改后，只需：
 ```sh
 git add .
-git commit -m \"更新说明\"
+git commit -m \"增加二维码访问\"
 git push
 ```
 
