@@ -96,6 +96,10 @@
                             class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all">
                         <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                     </div>
+                    <!-- 二维码按钮 -->
+                    <button id="qrcode-btn" title="站点二维码" class="ml-2 flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-300 hover:bg-primary hover:text-white transition-colors">
+                        <img src="static/icons/fa-qrcode.svg" alt="二维码" class="w-6 h-6 mx-auto" />
+                    </button>
                 </div>
                 
                 <div class="flex items-center space-x-4">
@@ -463,7 +467,19 @@
         <i class="fa fa-arrow-up"></i>
     </button>
 
+    <!-- 二维码模态框 -->
+    <div id="qrcode-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-xl p-8 shadow-lg flex flex-col items-center">
+            <span class="text-lg font-bold mb-4">手机扫码访问本站</span>
+            <canvas id="qrcode-canvas" class="mb-4" width="200" height="200"></canvas>
+            <button id="close-qrcode-modal" class="mt-2 px-6 py-2 border border-gray-300 rounded-lg hover:bg-neutral-dark transition-colors">关闭</button>
+        </div>
+    </div>
+
     <!-- JavaScript -->
+    <!-- 本地二维码库 -->
+    <!-- <script src="static/libs/qrious.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
     <script>
         // 页面加载完成后执行
         document.addEventListener('DOMContentLoaded', function() {
@@ -954,6 +970,35 @@
             });
             backToTopBtn.addEventListener('click', function() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // 二维码功能
+            const qrcodeBtn = document.getElementById('qrcode-btn');
+            const qrcodeModal = document.getElementById('qrcode-modal');
+            const qrcodeCanvas = document.getElementById('qrcode-canvas');
+            const closeQrcodeModal = document.getElementById('close-qrcode-modal');
+            
+            qrcodeBtn.addEventListener('click', function() {
+                qrcodeModal.classList.remove('hidden');
+                // 清空canvas
+                qrcodeCanvas.getContext('2d').clearRect(0, 0, qrcodeCanvas.width, qrcodeCanvas.height);
+                // 生成二维码
+                new QRious({
+                    element: qrcodeCanvas,
+                    value: window.location.href,
+                    size: 200,
+                    level: 'H'
+                });
+            });
+            
+            closeQrcodeModal.addEventListener('click', function() {
+                qrcodeModal.classList.add('hidden');
+            });
+            
+            qrcodeModal.addEventListener('click', function(e) {
+                if (e.target === qrcodeModal) {
+                    qrcodeModal.classList.add('hidden');
+                }
             });
         });
     </script>
