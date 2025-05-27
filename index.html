@@ -41,17 +41,17 @@
                 column-count: 1;
                 column-gap: 1rem;
             }
-            @screen md {
+            @screen sm {
                 .masonry-grid {
                     column-count: 2;
                 }
             }
-            @screen lg {
+            @screen md {
                 .masonry-grid {
                     column-count: 3;
                 }
             }
-            @screen xl {
+            @screen lg {
                 .masonry-grid {
                     column-count: 4;
                 }
@@ -73,6 +73,53 @@
             }
             .preview-btn:hover {
                 background-color: #7C3AED;
+            }
+            /* 移动端优化样式 */
+            @media (max-width: 640px) {
+                .mobile-full-width {
+                    width: 100%;
+                    margin: 0;
+                    padding: 0 1rem;
+                }
+                .mobile-stack {
+                    flex-direction: column;
+                }
+                .mobile-center {
+                    text-align: center;
+                }
+                .mobile-p-4 {
+                    padding: 1rem;
+                }
+                .mobile-mt-4 {
+                    margin-top: 1rem;
+                }
+                .mobile-gap-2 {
+                    gap: 0.5rem;
+                }
+                .mobile-text-sm {
+                    font-size: 0.875rem;
+                }
+                .mobile-flex-col {
+                    flex-direction: column;
+                }
+                .mobile-w-full {
+                    width: 100%;
+                }
+                .mobile-h-auto {
+                    height: auto;
+                }
+                .mobile-max-h-60 {
+                    max-height: 15rem;
+                }
+                .mobile-rounded-none {
+                    border-radius: 0;
+                }
+                .mobile-border-t {
+                    border-top-width: 1px;
+                }
+                .mobile-border-b {
+                    border-bottom-width: 1px;
+                }
             }
         }
     </style>
@@ -377,77 +424,79 @@
     </div>
 
     <!-- 壁纸详情模态框 -->
-    <div id="wallpaper-detail-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center">
-        <div class="w-full max-w-4xl mx-4 transform transition-all duration-300 scale-95 opacity-0" id="wallpaper-detail-modal-content">
+    <div id="wallpaper-detail-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center mobile-p-0">
+        <div class="w-full max-w-4xl mx-4 transform transition-all duration-300 scale-95 opacity-0 mobile-mx-0 mobile-rounded-none" id="wallpaper-detail-modal-content">
             <div class="relative">
-                <button id="close-detail-modal" class="absolute top-4 right-4 text-white hover:text-gray-300 bg-black/50 p-2 rounded-full">
+                <button id="close-detail-modal" class="absolute top-4 right-4 text-white hover:text-gray-300 bg-black/50 p-2 rounded-full z-10">
                     <i class="fa fa-times text-xl"></i>
                 </button>
                 <div class="bg-white rounded-lg overflow-hidden">
-                    <div class="grid grid-cols-1 lg:grid-cols-2">
-                        <div class="flex items-center justify-center bg-black rounded-l-lg min-h-[320px] min-w-[320px] p-4">
-                            <img id="detail-image" src="https://picsum.photos/id/10/1200/800" alt="壁纸详情" class="max-h-[80vh] max-w-full object-contain rounded-2xl shadow-lg transition-all duration-300">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 mobile-grid-cols-1">
+                        <div class="flex items-center justify-center bg-black rounded-l-lg min-h-[320px] min-w-[320px] p-4 mobile-p-2 mobile-rounded-none mobile-min-w-0">
+                            <img id="detail-image" src="https://picsum.photos/id/10/1200/800" alt="壁纸详情" class="max-h-[80vh] max-w-full object-contain rounded-2xl shadow-lg transition-all duration-300 mobile-max-h-xs mobile-rounded-none">
                         </div>
-                        <div class="p-6">
-                            <h2 id="detail-title" class="text-2xl font-bold mb-2">自然风景</h2>
-                            <div class="flex items-center space-x-2 mb-4">
+                        <div class="p-6 mobile-p-4 mobile-text-left">
+                            <h2 id="detail-title" class="text-2xl font-bold mb-2 mobile-text-xl">自然风景</h2>
+                            <div class="flex items-center space-x-2 mb-4 mobile-flex-col mobile-items-start mobile-gap-1">
                                 <img src="https://picsum.photos/id/64/40/40" alt="用户头像" class="w-8 h-8 rounded-full">
-                                <span class="text-gray-600">摄影师</span>
-                                <span class="text-gray-400">•</span>
-                                <span class="text-gray-500 text-sm">2023-05-20</span>
+                                <span class="text-gray-600 mobile-text-sm">摄影师</span>
+                                <span class="text-gray-400 hidden mobile-inline">•</span>
+                                <span class="text-gray-500 text-sm mobile-text-xs">2023-05-20</span>
                             </div>
                             
-                            <div class="mb-4">
-                                <h3 class="font-medium mb-2">分类</h3>
-                                <span id="detail-category" class="px-3 py-1 bg-neutral rounded-full text-sm">风景</span>
+                            <div class="mb-4 mobile-mb-2">
+                                <h3 class="font-medium mb-2 mobile-text-sm">分类</h3>
+                                <span id="detail-category" class="px-3 py-1 bg-neutral rounded-full text-sm mobile-text-xs">风景</span>
                             </div>
                             
-                            <div class="mb-4">
-                                <h3 class="font-medium mb-2">标签</h3>
-                                <div id="detail-tags" class="flex flex-wrap gap-2">
-                                    <span class="px-3 py-1 bg-neutral rounded-full text-sm">自然</span>
-                                    <span class="px-3 py-1 bg-neutral rounded-full text-sm">山脉</span>
-                                    <span class="px-3 py-1 bg-neutral rounded-full text-sm">湖泊</span>
+                            <div class="mb-4 mobile-mb-2">
+                                <h3 class="font-medium mb-2 mobile-text-sm">标签</h3>
+                                <div id="detail-tags" class="flex flex-wrap gap-2 mobile-gap-1">
+                                    <span class="px-3 py-1 bg-neutral rounded-full text-sm mobile-text-xs">自然</span>
+                                    <span class="px-3 py-1 bg-neutral rounded-full text-sm mobile-text-xs">山脉</span>
+                                    <span class="px-3 py-1 bg-neutral rounded-full text-sm mobile-text-xs">湖泊</span>
                                 </div>
                             </div>
                             
-                            <div class="mb-6">
-                                <h3 class="font-medium mb-2">尺寸</h3>
-                                <span id="detail-size" class="text-gray-600">2048 × 1152 像素</span>
+                            <div class="mb-6 mobile-mb-4">
+                                <h3 class="font-medium mb-2 mobile-text-sm">尺寸</h3>
+                                <span id="detail-size" class="text-gray-600 mobile-text-sm">2048 × 1152 像素</span>
                             </div>
                             
-                            <div class="flex flex-wrap gap-3 mb-6">
-                                <button class="flex-1 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors flex items-center justify-center space-x-2" id="download-original">
+                            <div class="flex flex-wrap gap-3 mb-6 mobile-flex-col mobile-gap-2">
+                                <button class="flex-1 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors flex items-center justify-center space-x-2 mobile-w-full" id="download-original">
                                     <i class="fa fa-download"></i>
                                     <span>下载图片</span>
                                 </button>
-                                <button class="flex-1 py-3 preview-btn text-white rounded-lg transition-colors flex items-center justify-center space-x-2" id="preview-wallpaper">
+                                <button class="flex-1 py-3 preview-btn text-white rounded-lg transition-colors flex items-center justify-center space-x-2 mobile-w-full" id="preview-wallpaper">
                                     <i class="fa fa-eye"></i>
                                     <span>多平台预览</span>
                                 </button>
-                                <button class="w-12 py-3 border border-gray-300 rounded-lg hover:bg-neutral-dark transition-colors flex items-center justify-center">
-                                    <i class="fa fa-heart-o text-red-500"></i>
-                                </button>
-                                <button class="w-12 py-3 border border-gray-300 rounded-lg hover:bg-neutral-dark transition-colors flex items-center justify-center">
-                                    <i class="fa fa-share-alt"></i>
-                                </button>
+                                <div class="flex gap-2 mobile-w-full">
+                                    <button class="flex-1 py-3 border border-gray-300 rounded-lg hover:bg-neutral-dark transition-colors flex items-center justify-center">
+                                        <i class="fa fa-heart-o text-red-500"></i>
+                                    </button>
+                                    <button class="flex-1 py-3 border border-gray-300 rounded-lg hover:bg-neutral-dark transition-colors flex items-center justify-center">
+                                        <i class="fa fa-share-alt"></i>
+                                    </button>
+                                </div>
                             </div>
                             
-                            <div class="border-t border-gray-200 pt-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center space-x-4">
+                            <div class="border-t border-gray-200 pt-4 mobile-border-t mobile-pt-2">
+                                <div class="flex items-center justify-between mobile-flex-col mobile-gap-2 mobile-items-start">
+                                    <div class="flex items-center space-x-4 mobile-stack mobile-gap-2">
                                         <div class="flex items-center space-x-1">
-                                            <i class="fa fa-eye text-gray-400"></i>
-                                            <span id="detail-views" class="text-gray-600">1.2k</span>
+                                            <i class="fa fa-eye text-gray-400 mobile-text-sm"></i>
+                                            <span id="detail-views" class="text-gray-600 mobile-text-sm">1.2k</span>
                                         </div>
                                         <div class="flex items-center space-x-1">
-                                            <i class="fa fa-heart text-red-400"></i>
-                                            <span id="detail-likes" class="text-gray-600">156</span>
+                                            <i class="fa fa-heart text-red-400 mobile-text-sm"></i>
+                                            <span id="detail-likes" class="text-gray-600 mobile-text-sm">156</span>
                                         </div>
                                     </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="text-gray-500">收藏到：</span>
-                                        <select class="px-3 py-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+                                    <div class="flex items-center space-x-2 mobile-stack mobile-gap-2 mobile-w-full mobile-justify-start">
+                                        <span class="text-gray-500 mobile-text-sm">收藏到：</span>
+                                        <select class="px-3 py-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary mobile-w-full mobile-text-sm">
                                             <option value="">我的收藏</option>
                                             <option value="1">桌面壁纸</option>
                                             <option value="2">手机壁纸</option>
