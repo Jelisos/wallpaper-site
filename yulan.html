@@ -395,54 +395,19 @@
             // 获取URL参数中的图片
             const urlParams = new URLSearchParams(window.location.search);
             let imageUrl = urlParams.get('image');
-            // 自动将缩略图路径替换为原图路径（如有需要，可自定义规则）
-            if (imageUrl) {
-                // 只在不是blob:和不是http/https/static/wallpapers/开头时拼接
-                if (!imageUrl.startsWith('blob:') && !imageUrl.startsWith('http') && !imageUrl.startsWith('static/wallpapers/')) {
-                    imageUrl = 'static/wallpapers/' + imageUrl;
-                }
-                // 例如如果有thumb/或small/等目录，可替换为原图目录
-                imageUrl = imageUrl.replace('/thumb/', '/').replace('/small/', '/');
-                // 如果是压缩后的图片URL，需要获取原始图片URL
-                if (imageUrl.startsWith('blob:') || imageUrl.includes('compressed')) {
-                    // 从URL中提取文件名
-                    const fileName = imageUrl.split('/').pop();
-                    // 在wallpapers数组中查找对应的原始图片
-                    const originalWallpaper = wallpapers.find(w => w.filename === fileName);
-                    if (originalWallpaper) {
-                        imageUrl = originalWallpaper.path;
-                    }
-                }
-            }
+
+            // 简化图片URL处理逻辑：直接使用从URL参数获取的imageUrl
+            // 假设从首页传递过来的imageUrl就是原始图片的正确路径
+
             if (imageUrl) {
                 // 如果有图片URL，加载该图片
-                const img = new Image();
-                img.crossOrigin = 'anonymous';
-                img.onload = function() {
-                    currentWallpaper = img;
-                    previewImage.src = imageUrl;
-                    previewControls.classList.remove('hidden');
-                    // 加载高清原图后，重绘所有设备canvas
-                    drawPhone(currentWallpaper);
-                    drawTablet(currentWallpaper);
-                    drawLaptop(currentWallpaper);
-                    drawMomentPreview(currentWallpaper, currentWallpaper);
-                };
-                img.src = imageUrl;
+                loadAndDisplayWallpaper(imageUrl);
             } else {
-                // 如果没有图片URL，加载默认图片
-                const defaultWallpaper = new Image();
-                defaultWallpaper.src = 'Jelis.jpeg';
-                defaultWallpaper.onload = function() {
-                    currentWallpaper = defaultWallpaper;
-                    previewImage.src = defaultWallpaper.src;
-                    previewControls.classList.remove('hidden');
-                    drawPhone(defaultWallpaper);
-                    drawTablet(defaultWallpaper);
-                    drawLaptop(defaultWallpaper);
-                };
+                // 如果没有图片URL，不加载任何图片，等待用户上传
+                 console.log('没有指定图片URL，请上传。');
+                 // 可以在这里加载一个默认的提示图，或者保持空白
             }
-            
+
             // 设备切换
             deviceTabs.forEach(tab => {
                 tab.addEventListener('click', () => {
@@ -512,30 +477,56 @@
             // 一键下载高清壁纸按钮
             const downloadHDAllButton = document.getElementById('downloadHDAllButton');
             downloadHDAllButton.addEventListener('click', function() {
-                if (!currentWallpaper || !currentWallpaper.complete || !currentWallpaper.naturalWidth === 0) {
-                    alert('壁纸未加载完成，无法下载！');
+                // 直接使用已经加载到 currentWallpaper 的原图对象
+                if (!currentWallpaper || !currentWallpaper.complete || currentWallpaper.naturalWidth === 0) {
+                    alert('壁纸未加载或加载异常，无法导出高清壁纸！');
+                    // 尝试恢复按钮状态
+                    downloadHDAllButton.innerHTML = '<i class="fa-solid fa-times mr-2"></i> 导出失败';
+                     downloadHDAllButton.classList.remove('bg-gradient-to-r', 'from-blue-500', 'to-green-400', 'hover:from-blue-600', 'hover:to-green-500');
+                     downloadHDAllButton.classList.add('bg-red-500');
+                     setTimeout(() => {
+                         downloadHDAllButton.classList.remove('bg-red-500');
+                         downloadHDAllButton.classList.add('bg-gradient-to-r', 'from-blue-500', 'to-green-400', 'hover:from-blue-600', 'hover:to-green-500');
+                         downloadHDAllButton.disabled = false;
+                     }, 2000);
                     return;
                 }
                 downloadHDAllButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> 下载中...';
                 downloadHDAllButton.disabled = true;
-                // 手机 - 提高分辨率到2K
-                exportHDWallpaper(currentWallpaper, 1440, 3200, '手机高清壁纸.jpg');
-                // 平板 - 提高分辨率到4K
-                exportHDWallpaper(currentWallpaper, 2560, 3840, '平板高清壁纸.jpg');
-                // 电脑 - 提高分辨率到4K，内容区yOffset等比例缩放（与预览一致，无补偿）
-                /**
-                 * 电脑壁纸导出时，yOffset等比例缩放，保证与预览一致
-                 * 预览内容区高度为：laptopScreenHeight - 3 * laptopBezelWidth
-                 * 导出内容区高度为：2160
-                 */
-                const previewContentHeight = laptopScreenHeight - 3 * laptopBezelWidth; // 296
-                const exportContentHeight = 2160;
-                const scaledYOffset = yOffset * (exportContentHeight / previewContentHeight); // 仅等比例缩放
-                exportHDWallpaper(currentWallpaper, 3840, 2160, '电脑高清壁纸.jpg', scaledYOffset);
-                setTimeout(() => {
-                    downloadHDAllButton.innerHTML = '<i class="fa-solid fa-cloud-arrow-down mr-2"></i> 一键下载高清壁纸（手机/平板/电脑）';
-                    downloadHDAllButton.disabled = false;
-                }, 2000);
+                let exportComplete = false; // 标记导出是否完成
+
+                // 高清导出函数，直接使用 currentWallpaper 对象
+                const performHDExport = (img) => {
+                    // 手机 - 提高分辨率到2K
+                    exportHDWallpaper(img, 1440, 3200, '手机高清壁纸.jpg');
+                    // 平板 - 提高分辨率到4K
+                    exportHDWallpaper(img, 2560, 3840, '平板高清壁纸.jpg');
+                    // 电脑 - 提高分辨率到4K，内容区yOffset等比例缩放（与预览一致，无补偿）
+                    /**
+                     * 电脑壁纸导出时，yOffset等比例缩放，保证与预览一致
+                     * 预览内容区高度为：laptopScreenHeight - 3 * laptopBezelWidth
+                     * 导出内容区高度为：2160
+                     */
+                    const previewContentHeight = laptopScreenHeight - 3 * laptopBezelWidth; // 296
+                    const exportContentHeight = 2160;
+                    const scaledYOffset = yOffset * (exportContentHeight / previewContentHeight); // 仅等比例缩放
+                    exportHDWallpaper(img, 3840, 2160, '电脑高清壁纸.jpg', scaledYOffset);
+
+                    // 标记导出完成，更新按钮状态
+                    downloadHDAllButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
+                    downloadHDAllButton.classList.remove('bg-gradient-to-r', 'from-blue-500', 'to-green-400', 'hover:from-blue-600', 'hover:to-green-500');
+                    downloadHDAllButton.classList.add('bg-green-500');
+                    exportComplete = true;
+                    // 延迟恢复按钮状态
+                     setTimeout(() => {
+                         downloadHDAllButton.classList.remove('bg-green-500');
+                         downloadHDAllButton.classList.add('bg-gradient-to-r', 'from-blue-500', 'to-green-400', 'hover:from-blue-600', 'hover:to-green-500');
+                         downloadHDAllButton.disabled = false;
+                    }, 2000);
+                };
+
+                // 直接使用 currentWallpaper 进行导出
+                performHDExport(currentWallpaper);
             });
 
             /**
@@ -606,28 +597,8 @@
                 if (!file) return;
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const img = new Image();
-                    img.crossOrigin = 'anonymous'; // 防止canvas污染
-                    img.onload = function() {
-                        currentWallpaper = img;
-                        previewImage.src = e.target.result;
-                        previewControls.classList.remove('hidden');
-                        // 同步预览图片位置
-                        previewImage.style.objectPosition = `center -${yOffset}px`;
-                        drawPhone(img);
-                        drawTablet(img);
-                        drawLaptop(img);
-                        drawMomentPreview(img, img);
-                        phoneCanvas.classList.add('animate-pulse');
-                        tabletCanvas.classList.add('animate-pulse');
-                        laptopCanvas.classList.add('animate-pulse');
-                        setTimeout(() => {
-                            phoneCanvas.classList.remove('animate-pulse');
-                            tabletCanvas.classList.remove('animate-pulse');
-                            laptopCanvas.classList.remove('animate-pulse');
-                        }, 1000);
-                    };
-                    img.src = e.target.result;
+                    // 使用统一的加载函数处理本地上传的图片
+                    loadAndDisplayWallpaper(e.target.result); // e.target.result 是blob: URL
                 };
                 reader.readAsDataURL(file);
             }
@@ -1474,6 +1445,47 @@
                     }, 1500);
                 }, 800);
             });
+
+            // 定义图片加载和更新页面的统一函数
+            /**
+             * 根据图片URL加载图片，成功后更新全局currentWallpaper并绘制所有预览
+             * @param {string} url - 要加载的图片的URL
+             */
+            function loadAndDisplayWallpaper(url) {
+                const img = new Image();
+                img.crossOrigin = 'anonymous'; // 解决跨域问题
+                img.onload = function() {
+                    currentWallpaper = img; // 成功加载后，将原图对象赋给currentWallpaper
+                    previewImage.src = url; // 预览小窗口显示加载成功的URL对应的图片
+                    previewControls.classList.remove('hidden'); // 显示控制区域
+                    // 同步预览图片位置（仅对电脑预览有效，但这里更新小窗口预览图）
+                    previewImage.style.objectPosition = `center -${yOffset}px`;
+                    // 绘制所有设备canvas
+                    drawPhone(currentWallpaper);
+                    drawTablet(currentWallpaper);
+                    drawLaptop(currentWallpaper);
+                    // drawMomentPreview(currentWallpaper, currentWallpaper); // 朋友圈预览可能需要单独处理头像，暂不在这里统一绘制
+
+                    // 添加动画效果
+                    phoneCanvas.classList.add('animate-pulse');
+                    tabletCanvas.classList.add('animate-pulse');
+                    laptopCanvas.classList.add('animate-pulse');
+                    setTimeout(() => {
+                        phoneCanvas.classList.remove('animate-pulse');
+                        tabletCanvas.classList.remove('animate-pulse');
+                        laptopCanvas.classList.remove('animate-pulse');
+                    }, 1000);
+
+                    console.log('壁纸加载成功：', url);
+                };
+                img.onerror = function() {
+                    console.error('壁纸加载失败：', url);
+                    alert('加载壁纸失败，请检查图片链接或重新上传！');
+                    previewControls.classList.add('hidden'); // 隐藏控制区域
+                    currentWallpaper = null; // 加载失败，清空currentWallpaper
+                };
+                img.src = url;
+            }
         });
     </script>
 </body>

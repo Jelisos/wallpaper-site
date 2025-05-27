@@ -616,7 +616,7 @@
                         card.innerHTML = `
                             <div class="bg-white rounded-lg overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 transform hover:-translate-y-1">
                                 <div class="relative">
-                                    <img src="${compressedUrl}" alt="${name}" class="w-full object-cover cursor-pointer hover:opacity-90 transition-opacity wallpaper-thumb">
+                                    <img src="${compressedUrl}" alt="${name}" class="w-full object-cover cursor-pointer hover:opacity-90 transition-opacity wallpaper-thumb" data-original-path="${encodeURIComponent(wallpaper.path)}">
                                 </div>
                                 <div class="p-4">
                                     <div class="flex justify-between items-center">
@@ -676,6 +676,9 @@
                     const category = card.querySelectorAll('.bg-neutral')[0].textContent;
                     const tags = Array.from(card.querySelectorAll('.bg-neutral')).slice(1).map(e => e.textContent);
                     
+                    // 从img元素的数据属性中获取原始图片路径
+                    const originalPath = decodeURIComponent(img.dataset.originalPath);
+                    
                     // 更新详情模态框内容
                     document.getElementById('detail-image').src = img.src;
                     document.getElementById('detail-title').textContent = name;
@@ -695,30 +698,26 @@
                     
                     // 预览和下载按钮
                     document.getElementById('preview-wallpaper').onclick = function() {
-                        // 获取当前图片的原始路径
-                        const originalPath = img.src;
-                        // 从wallpapers数组中查找对应的原始图片路径
-                        const wallpaper = wallpapers.find(w => w.path === originalPath);
-                        if (wallpaper) {
-                            // 使用原始图片路径
-                            window.open(`yulan.html?image=${encodeURIComponent(wallpaper.path)}#previewControls`, '_blank');
+                        if (originalPath) {
+                            window.open(`yulan.html?image=${encodeURIComponent(originalPath)}#previewControls`, '_blank');
                         } else {
-                            // 如果找不到原始路径，则使用当前图片路径
-                            window.open(`yulan.html?image=${encodeURIComponent(img.src)}#previewControls`, '_blank');
+                            alert('无法获取原图路径，无法进行多平台预览。');
+                            console.error('无法获取原始路径，请检查data-original-path属性。');
                         }
                     };
                     
                     document.getElementById('download-original').onclick = function() {
-                        // 获取当前图片的原始路径
-                        const originalPath = img.src;
-                        // 从wallpapers数组中查找对应的原始图片路径
-                        const wallpaper = wallpapers.find(w => w.path === originalPath);
-                        const link = document.createElement('a');
-                        link.href = wallpaper ? wallpaper.path : img.src;
-                        link.download = img.src.split('/').pop();
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
+                        if (originalPath) {
+                            const link = document.createElement('a');
+                            link.href = originalPath;
+                            link.download = originalPath.split('/').pop();
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        } else {
+                            alert('无法获取原图路径，无法下载！');
+                            console.error('无法获取原始路径，请检查data-original-path属性。');
+                        }
                     };
                     
                     // 打开模态框
