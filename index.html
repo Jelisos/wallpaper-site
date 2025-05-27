@@ -419,7 +419,7 @@
                             <div class="flex flex-wrap gap-3 mb-6">
                                 <button class="flex-1 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors flex items-center justify-center space-x-2" id="download-original">
                                     <i class="fa fa-download"></i>
-                                    <span>下载原图</span>
+                                    <span>下载图片</span>
                                 </button>
                                 <button class="flex-1 py-3 preview-btn text-white rounded-lg transition-colors flex items-center justify-center space-x-2" id="preview-wallpaper">
                                     <i class="fa fa-eye"></i>
@@ -488,6 +488,52 @@
             const detailModal = document.getElementById('wallpaper-detail-modal');
             const detailModalContent = document.getElementById('wallpaper-detail-modal-content');
 
+            // 图片压缩函数
+            async function compressImage(file, options = {}) {
+                const {
+                    maxWidth = 1920, // 最大宽度
+                    maxHeight = 1080, // 最大高度
+                    quality = 0.85, // 压缩质量
+                    type = 'image/jpeg' // 输出格式
+                } = options;
+
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = function(e) {
+                        const img = new Image();
+                        img.src = e.target.result;
+                        img.onload = function() {
+                            const canvas = document.createElement('canvas');
+                            let width = img.width;
+                            let height = img.height;
+
+                            // 计算缩放比例
+                            if (width > maxWidth) {
+                                height = Math.round((height * maxWidth) / width);
+                                width = maxWidth;
+                            }
+                            if (height > maxHeight) {
+                                width = Math.round((width * maxHeight) / height);
+                                height = maxHeight;
+                            }
+
+                            canvas.width = width;
+                            canvas.height = height;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, width, height);
+
+                            // 转换为Blob
+                            canvas.toBlob((blob) => {
+                                resolve(blob);
+                            }, type, quality);
+                        };
+                        img.onerror = reject;
+                    };
+                    reader.onerror = reject;
+                });
+            }
+
             // 壁纸文件名数组（如有新图片请手动添加到此数组）
             const wallpapers = [
                 { filename: '机械少女2.jpeg', path: 'static/wallpapers/机械少女2.jpeg' },
@@ -523,7 +569,7 @@
             });
 
             // 动态渲染壁纸卡片，支持关键词过滤
-            function renderWallpapers(keyword = '') {
+            async function renderWallpapers(keyword = '') {
                 wallpaperContainer.innerHTML = '';
                 // 用于去重
                 const uniqueWallpapers = Array.from(new Set(wallpapers.map(w => w.filename))).map(name => wallpapers.find(w => w.filename === name));
@@ -544,37 +590,57 @@
                     wallpaperContainer.innerHTML = '<div class="text-center text-gray-400 py-12">未找到相关壁纸</div>';
                     return;
                 }
-                filtered.forEach(wallpaper => {
-                    const name = wallpaper.filename.replace(/\.(jpg|jpeg|png|webp)$/i, '');
-                    let category = name.replace(/\d+/g, '').replace(/[^\u4e00-\u9fa5a-zA-Z]/g, '/').replace(/\/+$/, '').replace(/^\/+/, '');
-                    if (!category) category = '未分类';
-                    let tags = name.split(/[^\u4e00-\u9fa5a-zA-Z0-9]+/).filter(Boolean);
-                    const card = document.createElement('div');
-                    card.className = 'masonry-item';
-                    card.innerHTML = `
-                        <div class="bg-white rounded-lg overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 transform hover:-translate-y-1">
-                            <div class="relative">
-                                <img src="${wallpaper.path}" alt="${name}" class="w-full object-cover cursor-pointer hover:opacity-90 transition-opacity wallpaper-thumb">
-                            </div>
-                            <div class="p-4">
-                                <div class="flex justify-between items-center">
-                                    <h3 class="font-medium">${name}</h3>
-                                    <span class="text-sm text-gray-500 size-info">加载中...</span>
+                for (const wallpaper of filtered) {
+                    try {
+                        // 获取原始图片
+                        const response = await fetch(wallpaper.path);
+                        const blob = await response.blob();
+                        
+                        // 压缩图片
+                        const compressedBlob = await compressImage(blob, {
+                            maxWidth: 1920,
+                            maxHeight: 1080,
+                            quality: 0.85
+                        });
+                        
+                        // 创建压缩后的图片URL
+                        const compressedUrl = URL.createObjectURL(compressedBlob);
+                        
+                        const name = wallpaper.filename.replace(/\.(jpg|jpeg|png|webp)$/i, '');
+                        let category = name.replace(/\d+/g, '').replace(/[^\u4e00-\u9fa5a-zA-Z]/g, '/').replace(/\/+$/, '').replace(/^\/+/, '');
+                        if (!category) category = '未分类';
+                        let tags = name.split(/[^\u4e00-\u9fa5a-zA-Z0-9]+/).filter(Boolean);
+                        
+                        const card = document.createElement('div');
+                        card.className = 'masonry-item';
+                        card.innerHTML = `
+                            <div class="bg-white rounded-lg overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 transform hover:-translate-y-1">
+                                <div class="relative">
+                                    <img src="${compressedUrl}" alt="${name}" class="w-full object-cover cursor-pointer hover:opacity-90 transition-opacity wallpaper-thumb">
                                 </div>
-                                <div class="flex flex-wrap gap-2 mt-2">
-                                    <span class="px-3 py-1 bg-neutral rounded-full text-sm">${category}</span>
-                                    ${tags.map(t => `<span class='px-3 py-1 bg-neutral rounded-full text-sm'>${t}</span>`).join('')}
+                                <div class="p-4">
+                                    <div class="flex justify-between items-center">
+                                        <h3 class="font-medium">${name}</h3>
+                                        <span class="text-sm text-gray-500 size-info">加载中...</span>
+                                    </div>
+                                    <div class="flex flex-wrap gap-2 mt-2">
+                                        <span class="px-3 py-1 bg-neutral rounded-full text-sm">${category}</span>
+                                        ${tags.map(t => `<span class='px-3 py-1 bg-neutral rounded-full text-sm'>${t}</span>`).join('')}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    `;
-                    wallpaperContainer.appendChild(card);
-                    const img = card.querySelector('img');
-                    img.onload = function() {
-                        const sizeSpan = card.querySelector('.size-info');
-                        sizeSpan.textContent = `${img.naturalWidth} × ${img.naturalHeight}`;
-                    };
-                });
+                        `;
+                        wallpaperContainer.appendChild(card);
+                        
+                        const img = card.querySelector('img');
+                        img.onload = function() {
+                            const sizeSpan = card.querySelector('.size-info');
+                            sizeSpan.textContent = `${img.naturalWidth} × ${img.naturalHeight}`;
+                        };
+                    } catch (error) {
+                        console.error('图片处理失败:', error);
+                    }
+                }
             }
 
             // 初始化渲染壁纸
@@ -629,12 +695,26 @@
                     
                     // 预览和下载按钮
                     document.getElementById('preview-wallpaper').onclick = function() {
-                        window.open(`yulan.html?image=${encodeURIComponent(img.src)}#previewControls`, '_blank');
+                        // 获取当前图片的原始路径
+                        const originalPath = img.src;
+                        // 从wallpapers数组中查找对应的原始图片路径
+                        const wallpaper = wallpapers.find(w => w.path === originalPath);
+                        if (wallpaper) {
+                            // 使用原始图片路径
+                            window.open(`yulan.html?image=${encodeURIComponent(wallpaper.path)}#previewControls`, '_blank');
+                        } else {
+                            // 如果找不到原始路径，则使用当前图片路径
+                            window.open(`yulan.html?image=${encodeURIComponent(img.src)}#previewControls`, '_blank');
+                        }
                     };
                     
                     document.getElementById('download-original').onclick = function() {
+                        // 获取当前图片的原始路径
+                        const originalPath = img.src;
+                        // 从wallpapers数组中查找对应的原始图片路径
+                        const wallpaper = wallpapers.find(w => w.path === originalPath);
                         const link = document.createElement('a');
-                        link.href = img.src;
+                        link.href = wallpaper ? wallpaper.path : img.src;
                         link.download = img.src.split('/').pop();
                         document.body.appendChild(link);
                         link.click();

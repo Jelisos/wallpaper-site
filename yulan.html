@@ -244,6 +244,10 @@
 
                 <!-- 信息卡片 -->
                 <div class="w-full max-w-md bg-white rounded-2xl p-6 shadow-lg">
+                    <!-- 下载原图按钮（新增） -->
+                    <button id="downloadOriginalButton" class="w-full mb-4 bg-primary hover:bg-primary/90 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 button-hover button-shadow flex items-center justify-center">
+                        <i class="fa-solid fa-download mr-2"></i> 下载原图
+                    </button>
                     <h3 class="text-xl font-semibold mb-3 flex items-center">
                         <i class="fa-solid fa-info-circle text-primary mr-2"></i> 使用说明
                     </h3>
@@ -358,7 +362,7 @@
             let momentAvatarImg = null;
             
             // 壁纸位置偏移量
-            let yOffset = 0;
+            let yOffset = 100;
             
             // 适配高DPI屏幕
             const dpr = window.devicePixelRatio || 1;
@@ -379,13 +383,36 @@
             // 修复朋友圈canvas context丢失
             momentCtx = momentCanvas.getContext('2d');
             
+            // 壁纸文件名数组（如有新图片请手动添加到此数组）
+            const wallpapers = [
+                { filename: '机械少女2.jpeg', path: 'static/wallpapers/机械少女2.jpeg' },
+                { filename: '机械少女.jpeg', path: 'static/wallpapers/机械少女.jpeg' },
+                { filename: '血色残阳.jpeg', path: 'static/wallpapers/血色残阳.jpeg' },
+                { filename: '神秘人.png', path: 'static/wallpapers/神秘人.png' },
+                { filename: '兽耳娘.png', path: 'static/wallpapers/兽耳娘.png' }
+            ];
+
             // 获取URL参数中的图片
             const urlParams = new URLSearchParams(window.location.search);
             let imageUrl = urlParams.get('image');
             // 自动将缩略图路径替换为原图路径（如有需要，可自定义规则）
             if (imageUrl) {
+                // 只在不是blob:和不是http/https/static/wallpapers/开头时拼接
+                if (!imageUrl.startsWith('blob:') && !imageUrl.startsWith('http') && !imageUrl.startsWith('static/wallpapers/')) {
+                    imageUrl = 'static/wallpapers/' + imageUrl;
+                }
                 // 例如如果有thumb/或small/等目录，可替换为原图目录
                 imageUrl = imageUrl.replace('/thumb/', '/').replace('/small/', '/');
+                // 如果是压缩后的图片URL，需要获取原始图片URL
+                if (imageUrl.startsWith('blob:') || imageUrl.includes('compressed')) {
+                    // 从URL中提取文件名
+                    const fileName = imageUrl.split('/').pop();
+                    // 在wallpapers数组中查找对应的原始图片
+                    const originalWallpaper = wallpapers.find(w => w.filename === fileName);
+                    if (originalWallpaper) {
+                        imageUrl = originalWallpaper.path;
+                    }
+                }
             }
             if (imageUrl) {
                 // 如果有图片URL，加载该图片
@@ -491,16 +518,20 @@
                 }
                 downloadHDAllButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> 下载中...';
                 downloadHDAllButton.disabled = true;
-                // 手机
-                exportHDWallpaper(currentWallpaper, 1080, 2400, '手机高清壁纸.jpg');
-                // 平板
-                exportHDWallpaper(currentWallpaper, 1600, 2560, '平板高清壁纸.jpg');
-                // 电脑，内容区yOffset等比例缩放并加补偿
-                const previewContentHeight = 320 - 3 * 8; // 296
-                const exportContentHeight = 1600;
-                const compensation = 400; // 导出时上调60像素
-                const scaledYOffset = yOffset * (exportContentHeight / previewContentHeight) - compensation;
-                exportHDWallpaper(currentWallpaper, 2560, 1600, '电脑高清壁纸.jpg', scaledYOffset);
+                // 手机 - 提高分辨率到2K
+                exportHDWallpaper(currentWallpaper, 1440, 3200, '手机高清壁纸.jpg');
+                // 平板 - 提高分辨率到4K
+                exportHDWallpaper(currentWallpaper, 2560, 3840, '平板高清壁纸.jpg');
+                // 电脑 - 提高分辨率到4K，内容区yOffset等比例缩放（与预览一致，无补偿）
+                /**
+                 * 电脑壁纸导出时，yOffset等比例缩放，保证与预览一致
+                 * 预览内容区高度为：laptopScreenHeight - 3 * laptopBezelWidth
+                 * 导出内容区高度为：2160
+                 */
+                const previewContentHeight = laptopScreenHeight - 3 * laptopBezelWidth; // 296
+                const exportContentHeight = 2160;
+                const scaledYOffset = yOffset * (exportContentHeight / previewContentHeight); // 仅等比例缩放
+                exportHDWallpaper(currentWallpaper, 3840, 2160, '电脑高清壁纸.jpg', scaledYOffset);
                 setTimeout(() => {
                     downloadHDAllButton.innerHTML = '<i class="fa-solid fa-cloud-arrow-down mr-2"></i> 一键下载高清壁纸（手机/平板/电脑）';
                     downloadHDAllButton.disabled = false;
@@ -520,8 +551,12 @@
                 canvas.width = targetWidth;
                 canvas.height = targetHeight;
                 const ctx = canvas.getContext('2d');
+                // 设置图像平滑
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                
                 // 电脑壁纸导出时，内容区绘制逻辑与预览一致，防止顶部黑边
-                if (targetWidth === 2560 && targetHeight === 1600) {
+                if (targetWidth === 3840 && targetHeight === 2160) {
                     const imageRatio = img.width / img.height;
                     const screenRatio = targetWidth / targetHeight;
                     let drawWidth, drawHeight, drawX, drawY;
@@ -538,7 +573,7 @@
                     }
                     ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
                 } else {
-                    // 其它设备保持原有逻辑
+                    // 手机和平板壁纸导出，强制忽略yOffset，始终居中
                     const imgRatio = img.width / img.height;
                     const targetRatio = targetWidth / targetHeight;
                     let drawWidth, drawHeight, drawX, drawY;
@@ -546,17 +581,17 @@
                         drawHeight = targetHeight;
                         drawWidth = drawHeight * imgRatio;
                         drawX = -(drawWidth - targetWidth) / 2;
-                        drawY = 0;
+                        drawY = 0; // 不用yOffset
                     } else {
                         drawWidth = targetWidth;
                         drawHeight = drawWidth / imgRatio;
                         drawX = 0;
-                        drawY = -(drawHeight - targetHeight) / 2;
+                        drawY = -(drawHeight - targetHeight) / 2; // 不用yOffset
                     }
                     ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
                 }
-                // 导出JPG格式，质量0.92
-                const dataURL = canvas.toDataURL('image/jpeg', 0.92);
+                // 导出JPG格式，提高质量到0.95
+                const dataURL = canvas.toDataURL('image/jpeg', 0.95);
                 const link = document.createElement('a');
                 link.download = filename;
                 link.href = dataURL;
@@ -880,7 +915,7 @@
                 button.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> 下载中...';
                 button.disabled = true;
                 try {
-                    // 1. 下载"外观+壁纸"
+                    // 只下载"带外观的壁纸"
                     if (canvas === phoneCanvas) drawPhone(currentWallpaper);
                     if (canvas === tabletCanvas) drawTablet(currentWallpaper);
                     if (canvas === laptopCanvas) drawLaptop(currentWallpaper);
@@ -907,37 +942,6 @@
                         return;
                     }
                     exportCanvasAsImage(canvas, filename + '.png');
-
-                    // 2. 下载"仅壁纸"
-                    let pureCanvas = document.createElement('canvas');
-                    let pureCtx = pureCanvas.getContext('2d');
-                    if (deviceType === 'phone') {
-                        // 手机屏幕区域
-                        const w = 300 - 3 * 8;
-                        const h = 620 - 3 * 8;
-                        pureCanvas.width = w;
-                        pureCanvas.height = h;
-                        drawWallpaperContentArea(pureCtx, currentWallpaper, 0, 0, w, h, yOffset);
-                    } else if (deviceType === 'tablet') {
-                        const w = 420 - 3 * 12;
-                        const h = 560 - 3 * 12;
-                        pureCanvas.width = w;
-                        pureCanvas.height = h;
-                        drawWallpaperContentArea(pureCtx, currentWallpaper, 0, 0, w, h, yOffset);
-                    } else if (deviceType === 'laptop') {
-                        const w = 600 - 3 * 8; // 576
-                        const h = 320 - 3 * 8; // 296
-                        pureCanvas.width = w;
-                        pureCanvas.height = h;
-                        // 电脑壁纸内容区与预览完全一致
-                        drawWallpaperContentArea(pureCtx, currentWallpaper, 0, 0, w, h, yOffset);
-                    }
-                    // 中文命名
-                    let pureName = '';
-                    if (deviceType === 'phone') pureName = '手机纯壁纸.png';
-                    if (deviceType === 'tablet') pureName = '平板纯壁纸.png';
-                    if (deviceType === 'laptop') pureName = '电脑纯壁纸.png';
-                    exportCanvasAsImage(pureCanvas, pureName);
 
                     // 更新按钮状态
                     button.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
@@ -1422,6 +1426,54 @@
                 momentFullCtx.stroke();
                 momentFullCtx.restore();
             }
+
+            // 新增：下载原图按钮
+            /**
+             * 下载当前预览的原始图片
+             * @description 支持首页跳转和本地上传两种情况，自动识别图片来源
+             */
+            const downloadOriginalButton = document.getElementById('downloadOriginalButton');
+            downloadOriginalButton.addEventListener('click', function() {
+                let url = '';
+                // 优先使用 static/wallpapers/ 路径
+                if (typeof imageUrl === 'string' && imageUrl.startsWith('static/wallpapers/')) {
+                    url = imageUrl;
+                } else if (currentWallpaper && typeof currentWallpaper.src === 'string' && currentWallpaper.src.startsWith('static/wallpapers/')) {
+                    url = currentWallpaper.src;
+                } else if (typeof imageUrl === 'string' && imageUrl.startsWith('blob:')) {
+                    url = imageUrl;
+                } else if (currentWallpaper && typeof currentWallpaper.src === 'string' && currentWallpaper.src.startsWith('blob:')) {
+                    url = currentWallpaper.src;
+                }
+                if (!url) {
+                    alert('未找到原图，无法下载！\n请确保是从首页跳转或本地上传原图。');
+                    return;
+                }
+                const originalText = downloadOriginalButton.innerHTML;
+                downloadOriginalButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> 下载中...';
+                downloadOriginalButton.disabled = true;
+                // 创建a标签下载
+                const link = document.createElement('a');
+                link.href = url;
+                // 自动识别文件名
+                let filename = url.split('/').pop().split('?')[0] || '原图.jpg';
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                // 状态恢复
+                setTimeout(() => {
+                    downloadOriginalButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
+                    downloadOriginalButton.classList.remove('bg-primary');
+                    downloadOriginalButton.classList.add('bg-green-500');
+                    setTimeout(() => {
+                        downloadOriginalButton.innerHTML = originalText;
+                        downloadOriginalButton.classList.remove('bg-green-500');
+                        downloadOriginalButton.classList.add('bg-primary');
+                        downloadOriginalButton.disabled = false;
+                    }, 1500);
+                }, 800);
+            });
         });
     </script>
 </body>
