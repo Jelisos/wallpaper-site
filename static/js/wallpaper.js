@@ -139,16 +139,32 @@ const WallpaperManager = {
             const text = await response.text();
             const parser = new DOMParser();
             const doc = parser.parseFromString(text, 'text/html');
-            this.state.allWallpapers = Array.from(doc.querySelectorAll('a'))
-                .map(a => a.href)
-                .filter(href => href.match(/\.(jpg|jpeg|png|webp)$/i))
-                .map(href => {
-                    const filename = href.split('/').pop();
+            
+            // 获取所有链接元素
+            const links = Array.from(doc.querySelectorAll('a'));
+            
+            // 过滤并处理图片文件
+            this.state.allWallpapers = links
+                .map(a => {
+                    const href = a.href;
+                    const filename = decodeURIComponent(href.split('/').pop());
                     return {
-                        filename: decodeURIComponent(filename),
-                        path: 'static/wallpapers/' + filename
+                        href,
+                        filename,
+                        path: 'static/wallpapers/' + encodeURIComponent(filename)
                     };
-                });
+                })
+                .filter(file => {
+                    // 使用更宽松的文件扩展名匹配
+                    const ext = file.filename.toLowerCase().split('.').pop();
+                    return ['jpg', 'jpeg', 'png', 'webp', 'gif'].includes(ext);
+                })
+                .map(file => ({
+                    filename: file.filename,
+                    path: file.path
+                }));
+
+            console.log('扫描到的壁纸文件:', this.state.allWallpapers);
         } catch (error) {
             console.error('扫描壁纸目录失败:', error);
             this.state.allWallpapers = [];
