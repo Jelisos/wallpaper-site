@@ -1,0 +1,94 @@
+/* 预览页面样式 */
+
+/* 设备预览相关样式 */
+.device-tabs {
+    display: flex;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.device-tab {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.device-tab.active {
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-primary);
+}
+
+.device-preview {
+    transition: opacity 0.3s;
+}
+
+.device-preview.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* 设备旋转效果 */
+.phone-rotate {
+    transform: rotateY(5deg) rotateX(3deg);
+    transform-style: preserve-3d;
+}
+
+.tablet-rotate {
+    transform: rotateY(5deg) rotateX(2deg);
+    transform-style: preserve-3d;
+}
+
+.laptop-rotate {
+    transform: rotateX(10deg);
+    transform-style: preserve-3d;
+}
+
+/* 设备边框和阴影效果 */
+.phone-shadow {
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.phone-bezel {
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+/* 按钮样式 */
+.button-shadow {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button-hover {
+    transition: all 0.3s ease;
+}
+
+.button-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* 上传区域样式 */
+.upload-area {
+    transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+    transform: translateY(-3px);
+}
+
+/* 苹果设备刘海样式 */
+.apple-notch {
+    position: absolute;
+    top: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160px;
+    height: 40px;
+    background-color: #000;
+    border-radius: 0 0 30px 30px;
+    z-index: 2;
+}
+
+/* 画布容器样式 */
+.canvas-container {
+    perspective: 1000px;
+} 

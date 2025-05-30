@@ -79,8 +79,10 @@ git push -u origin main
 
 以后每次修改后，只需：
 ```sh
+f:
+cd F:\Jelis-doubao\壁纸站点
 git add .
-git commit -m \"原图裁剪\"
+git commit -m \"CSS.JS封装\"
 git push
 ```
 
