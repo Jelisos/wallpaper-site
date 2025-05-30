@@ -17,7 +17,13 @@ def generate_wallpaper_list():
     image_files = []
     for file in os.listdir(wallpaper_dir):
         if file.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.webp')):
-            image_files.append(file)
+            # 构建完整的相对路径
+            relative_path = os.path.join(wallpaper_dir, file).replace('\\', '/')
+            image_files.append({
+                'filename': file,
+                'path': relative_path,
+                'name': os.path.splitext(file)[0]  # 去掉扩展名的文件名
+            })
     
     # 生成JSON文件
     output_file = os.path.join(wallpaper_dir, 'list.json')

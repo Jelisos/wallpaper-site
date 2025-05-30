@@ -1,53 +1,252 @@
 [
-  "Jk服御姐1.jpeg",
-  "JK服御姐2.jpeg",
-  "xiao.jpg",
-  "与克杰逊合影1.jpeg",
-  "与杰克逊合影2.jpeg",
-  "人画紫花瓣-未.jpeg",
-  "克莱因蓝1.jpeg",
-  "克莱因蓝2.jpeg",
-  "克莱因蓝3.jpeg",
-  "克莱因蓝4.jpeg",
-  "冰封天使脸.jpeg",
-  "冰封折翼天使1.jpeg",
-  "冰封折翼天使2.jpeg",
-  "半跪折翼男天使.jpeg",
-  "恶魔小猫1.jpeg",
-  "恶魔小猫2.jpeg",
-  "恶魔小猫3.jpeg",
-  "恶魔小猫4.jpeg",
-  "折翼天使蜷缩.jpeg",
-  "时光之翼.jpeg",
-  "星芒破晓.jpeg",
-  "机械少女.jpeg",
-  "机械少女2.jpeg",
-  "炭笔剑士1.jpeg",
-  "炭笔剑士2.jpeg",
-  "炭笔剑士3.jpeg",
-  "炭笔剑士4.jpeg",
-  "狼人嚎叫.jpeg",
-  "睡梦公式1.jpeg",
-  "睡梦公式2.jpeg",
-  "神秘人.jpeg",
-  "科技巨兽1.jpeg",
-  "科技巨兽2.jpeg",
-  "科技巨兽3.jpeg",
-  "科技巨兽4.jpeg",
-  "血色残阳.jpeg",
-  "详云字体1.jpeg",
-  "详云字体2.jpeg",
-  "风中少年1.jpeg",
-  "风中少年2.jpeg",
-  "风中少年3.jpeg",
-  "风中少年4.jpeg",
-  "风中少年5.jpeg",
-  "风中少年6.jpeg",
-  "鲛人公主1.jpeg",
-  "鲛人公主2.jpeg",
-  "鲛人公主3.jpeg",
-  "鲛人公主4.jpeg",
-  "鲛人公主5.jpeg",
-  "鲛人公主6.jpeg",
-  "鲛人公主7.jpeg"
+  {
+    "filename": "Jk服御姐1.jpeg",
+    "path": "static/wallpapers/Jk服御姐1.jpeg",
+    "name": "Jk服御姐1"
+  },
+  {
+    "filename": "JK服御姐2.jpeg",
+    "path": "static/wallpapers/JK服御姐2.jpeg",
+    "name": "JK服御姐2"
+  },
+  {
+    "filename": "与克杰逊合影1.jpeg",
+    "path": "static/wallpapers/与克杰逊合影1.jpeg",
+    "name": "与克杰逊合影1"
+  },
+  {
+    "filename": "与杰克逊合影2.jpeg",
+    "path": "static/wallpapers/与杰克逊合影2.jpeg",
+    "name": "与杰克逊合影2"
+  },
+  {
+    "filename": "人画紫花瓣-未.jpeg",
+    "path": "static/wallpapers/人画紫花瓣-未.jpeg",
+    "name": "人画紫花瓣-未"
+  },
+  {
+    "filename": "克莱因蓝1.jpeg",
+    "path": "static/wallpapers/克莱因蓝1.jpeg",
+    "name": "克莱因蓝1"
+  },
+  {
+    "filename": "克莱因蓝2.jpeg",
+    "path": "static/wallpapers/克莱因蓝2.jpeg",
+    "name": "克莱因蓝2"
+  },
+  {
+    "filename": "克莱因蓝3.jpeg",
+    "path": "static/wallpapers/克莱因蓝3.jpeg",
+    "name": "克莱因蓝3"
+  },
+  {
+    "filename": "克莱因蓝4.jpeg",
+    "path": "static/wallpapers/克莱因蓝4.jpeg",
+    "name": "克莱因蓝4"
+  },
+  {
+    "filename": "冰封天使脸.jpeg",
+    "path": "static/wallpapers/冰封天使脸.jpeg",
+    "name": "冰封天使脸"
+  },
+  {
+    "filename": "冰封折翼天使1.jpeg",
+    "path": "static/wallpapers/冰封折翼天使1.jpeg",
+    "name": "冰封折翼天使1"
+  },
+  {
+    "filename": "冰封折翼天使2.jpeg",
+    "path": "static/wallpapers/冰封折翼天使2.jpeg",
+    "name": "冰封折翼天使2"
+  },
+  {
+    "filename": "半跪折翼男天使.jpeg",
+    "path": "static/wallpapers/半跪折翼男天使.jpeg",
+    "name": "半跪折翼男天使"
+  },
+  {
+    "filename": "恶魔小猫1.jpeg",
+    "path": "static/wallpapers/恶魔小猫1.jpeg",
+    "name": "恶魔小猫1"
+  },
+  {
+    "filename": "恶魔小猫2.jpeg",
+    "path": "static/wallpapers/恶魔小猫2.jpeg",
+    "name": "恶魔小猫2"
+  },
+  {
+    "filename": "恶魔小猫3.jpeg",
+    "path": "static/wallpapers/恶魔小猫3.jpeg",
+    "name": "恶魔小猫3"
+  },
+  {
+    "filename": "恶魔小猫4.jpeg",
+    "path": "static/wallpapers/恶魔小猫4.jpeg",
+    "name": "恶魔小猫4"
+  },
+  {
+    "filename": "折翼天使蜷缩.jpeg",
+    "path": "static/wallpapers/折翼天使蜷缩.jpeg",
+    "name": "折翼天使蜷缩"
+  },
+  {
+    "filename": "时光之翼.jpeg",
+    "path": "static/wallpapers/时光之翼.jpeg",
+    "name": "时光之翼"
+  },
+  {
+    "filename": "星芒破晓.jpeg",
+    "path": "static/wallpapers/星芒破晓.jpeg",
+    "name": "星芒破晓"
+  },
+  {
+    "filename": "机械少女.jpeg",
+    "path": "static/wallpapers/机械少女.jpeg",
+    "name": "机械少女"
+  },
+  {
+    "filename": "机械少女2.jpeg",
+    "path": "static/wallpapers/机械少女2.jpeg",
+    "name": "机械少女2"
+  },
+  {
+    "filename": "炭笔剑士1.jpeg",
+    "path": "static/wallpapers/炭笔剑士1.jpeg",
+    "name": "炭笔剑士1"
+  },
+  {
+    "filename": "炭笔剑士2.jpeg",
+    "path": "static/wallpapers/炭笔剑士2.jpeg",
+    "name": "炭笔剑士2"
+  },
+  {
+    "filename": "炭笔剑士3.jpeg",
+    "path": "static/wallpapers/炭笔剑士3.jpeg",
+    "name": "炭笔剑士3"
+  },
+  {
+    "filename": "炭笔剑士4.jpeg",
+    "path": "static/wallpapers/炭笔剑士4.jpeg",
+    "name": "炭笔剑士4"
+  },
+  {
+    "filename": "狼人嚎叫.jpeg",
+    "path": "static/wallpapers/狼人嚎叫.jpeg",
+    "name": "狼人嚎叫"
+  },
+  {
+    "filename": "睡梦公式1.jpeg",
+    "path": "static/wallpapers/睡梦公式1.jpeg",
+    "name": "睡梦公式1"
+  },
+  {
+    "filename": "睡梦公式2.jpeg",
+    "path": "static/wallpapers/睡梦公式2.jpeg",
+    "name": "睡梦公式2"
+  },
+  {
+    "filename": "神秘人.jpeg",
+    "path": "static/wallpapers/神秘人.jpeg",
+    "name": "神秘人"
+  },
+  {
+    "filename": "科技巨兽1.jpeg",
+    "path": "static/wallpapers/科技巨兽1.jpeg",
+    "name": "科技巨兽1"
+  },
+  {
+    "filename": "科技巨兽2.jpeg",
+    "path": "static/wallpapers/科技巨兽2.jpeg",
+    "name": "科技巨兽2"
+  },
+  {
+    "filename": "科技巨兽3.jpeg",
+    "path": "static/wallpapers/科技巨兽3.jpeg",
+    "name": "科技巨兽3"
+  },
+  {
+    "filename": "科技巨兽4.jpeg",
+    "path": "static/wallpapers/科技巨兽4.jpeg",
+    "name": "科技巨兽4"
+  },
+  {
+    "filename": "血色残阳.jpeg",
+    "path": "static/wallpapers/血色残阳.jpeg",
+    "name": "血色残阳"
+  },
+  {
+    "filename": "详云字体1.jpeg",
+    "path": "static/wallpapers/详云字体1.jpeg",
+    "name": "详云字体1"
+  },
+  {
+    "filename": "详云字体2.jpeg",
+    "path": "static/wallpapers/详云字体2.jpeg",
+    "name": "详云字体2"
+  },
+  {
+    "filename": "风中少年1.jpeg",
+    "path": "static/wallpapers/风中少年1.jpeg",
+    "name": "风中少年1"
+  },
+  {
+    "filename": "风中少年2.jpeg",
+    "path": "static/wallpapers/风中少年2.jpeg",
+    "name": "风中少年2"
+  },
+  {
+    "filename": "风中少年3.jpeg",
+    "path": "static/wallpapers/风中少年3.jpeg",
+    "name": "风中少年3"
+  },
+  {
+    "filename": "风中少年4.jpeg",
+    "path": "static/wallpapers/风中少年4.jpeg",
+    "name": "风中少年4"
+  },
+  {
+    "filename": "风中少年5.jpeg",
+    "path": "static/wallpapers/风中少年5.jpeg",
+    "name": "风中少年5"
+  },
+  {
+    "filename": "风中少年6.jpeg",
+    "path": "static/wallpapers/风中少年6.jpeg",
+    "name": "风中少年6"
+  },
+  {
+    "filename": "鲛人公主1.jpeg",
+    "path": "static/wallpapers/鲛人公主1.jpeg",
+    "name": "鲛人公主1"
+  },
+  {
+    "filename": "鲛人公主2.jpeg",
+    "path": "static/wallpapers/鲛人公主2.jpeg",
+    "name": "鲛人公主2"
+  },
+  {
+    "filename": "鲛人公主3.jpeg",
+    "path": "static/wallpapers/鲛人公主3.jpeg",
+    "name": "鲛人公主3"
+  },
+  {
+    "filename": "鲛人公主4.jpeg",
+    "path": "static/wallpapers/鲛人公主4.jpeg",
+    "name": "鲛人公主4"
+  },
+  {
+    "filename": "鲛人公主5.jpeg",
+    "path": "static/wallpapers/鲛人公主5.jpeg",
+    "name": "鲛人公主5"
+  },
+  {
+    "filename": "鲛人公主6.jpeg",
+    "path": "static/wallpapers/鲛人公主6.jpeg",
+    "name": "鲛人公主6"
+  },
+  {
+    "filename": "鲛人公主7.jpeg",
+    "path": "static/wallpapers/鲛人公主7.jpeg",
+    "name": "鲛人公主7"
+  }
 ]
