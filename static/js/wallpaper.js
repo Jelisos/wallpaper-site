@@ -11,6 +11,24 @@ const WallpaperManager = {
     },
 
     /**
+     * 获取壁纸列表URL
+     * @returns {string} 壁纸列表URL
+     */
+    getWallpaperListUrl() {
+        // 获取当前页面的完整URL
+        const currentUrl = window.location.href;
+        
+        // 判断是否是GitHub Pages环境
+        if (currentUrl.includes('github.io')) {
+            // 如果是GitHub Pages，使用完整的URL
+            return 'https://jelisos.github.io/wallpaper-site/static/wallpapers/list.json';
+        } else {
+            // 本地开发环境，使用相对路径
+            return '/static/wallpapers/list.json';
+        }
+    },
+
+    /**
      * 初始化壁纸管理
      */
     async init() {
@@ -24,7 +42,10 @@ const WallpaperManager = {
      */
     async loadWallpaperList() {
         try {
-            const response = await fetch('/static/wallpapers/list.json');
+            const url = this.getWallpaperListUrl();
+            console.log('正在加载壁纸列表:', url);
+            
+            const response = await fetch(url);
             if (!response.ok) {
                 throw new Error('无法加载壁纸列表');
             }
