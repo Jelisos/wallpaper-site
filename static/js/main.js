@@ -40,7 +40,7 @@ function initBackToTop() {
 }
 
 /**
- * 初始化导航栏滚动效果
+ * 初始化导航栏滚动效果。
  */
 function initHeaderScroll() {
     const header = document.querySelector('header');

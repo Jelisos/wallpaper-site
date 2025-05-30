@@ -145,7 +145,7 @@ const ModalManager = {
     },
 
     /**
-     * 初始化二维码模态框
+     * 初始化二维码模态框。
      */
     initQRCodeModal() {
         const qrcodeModal = document.getElementById('qrcode-modal');

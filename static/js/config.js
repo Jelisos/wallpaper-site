@@ -2,7 +2,7 @@
  * 全局配置项
  */
 const CONFIG = {
-    // 分页配置
+    // 分页配置。 
     PAGINATION: {
         ITEMS_PER_PAGE: 12
     },

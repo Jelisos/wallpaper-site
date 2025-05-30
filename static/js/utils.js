@@ -46,7 +46,7 @@ const Utils = {
 
     /**
      * 图片压缩
-     * @param {File} file - 图片文件
+     * @param {File} file - 图片文件。
      * @param {Object} options - 压缩选项
      * @returns {Promise<Blob>} - 压缩后的图片Blob
      */

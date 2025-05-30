@@ -237,7 +237,7 @@ const WallpaperManager = {
     },
 
     /**
-     * 渲染壁纸卡片
+     * 渲染壁纸卡片。
      */
     async renderWallpaperCards(wallpapers) {
         const wallpaperContainer = document.getElementById('wallpaper-container');
