@@ -12,7 +12,13 @@ const CONFIG = {
         MAX_WIDTH: 1920,
         MAX_HEIGHT: 1080,
         QUALITY: 0.85,
-        TYPE: 'image/jpeg'
+        TYPE: 'image/jpeg',
+        // 移动端图片配置
+        MOBILE: {
+            MAX_WIDTH: 800,
+            MAX_HEIGHT: 600,
+            QUALITY: 0.8
+        }
     },
     
     // 动画配置

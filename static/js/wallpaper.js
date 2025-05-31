@@ -15,10 +15,6 @@ const WallpaperManager = {
      * 获取壁纸列表URL
      * @returns {string} 壁纸列表URL
      */
-    /**
-     * 获取壁纸列表URL
-     * @returns {string} 壁纸列表URL
-     */
     getWallpaperListUrl() {
         // 获取当前页面的完整URL
         const currentUrl = window.location.href;
@@ -28,7 +24,7 @@ const WallpaperManager = {
             // 如果是GitHub Pages，使用完整的URL
             return 'https://jelisos.github.io/wallpaper-site/static/data/list.json';
         } else {
-            // 本地开发环境，使用相对路径（不使用绝对路径，避免移动端问题）
+            // 本地开发环境，使用相对路径
             return './static/data/list.json';
         }
     },
@@ -287,24 +283,23 @@ const WallpaperManager = {
                 const blob = await response.blob();
                 let imageUrl;
                 
-                // 移动端跳过压缩步骤，直接使用原图
-                if (isMobile) {
+                // 移动端和桌面端都使用压缩后的图片
+                try {
+                    const compressedBlob = await Utils.compressImage(blob, {
+                        maxWidth: isMobile ? 800 : CONFIG.IMAGE.MAX_WIDTH,
+                        maxHeight: isMobile ? 600 : CONFIG.IMAGE.MAX_HEIGHT,
+                        quality: isMobile ? 0.8 : CONFIG.IMAGE.QUALITY
+                    });
+                    imageUrl = URL.createObjectURL(compressedBlob);
+                } catch (compressError) {
+                    console.warn('图片压缩失败，使用原图:', compressError);
                     imageUrl = URL.createObjectURL(blob);
-                } else {
-                    try {
-                        // 桌面端尝试压缩
-                        const compressedBlob = await Utils.compressImage(blob);
-                        imageUrl = URL.createObjectURL(compressedBlob);
-                    } catch (compressError) {
-                        console.warn('图片压缩失败，使用原图:', compressError);
-                        imageUrl = URL.createObjectURL(blob);
-                    }
                 }
                 
                 // 更新卡片内容，替换加载指示器为图片
                 const cardContent = card.querySelector('.relative');
                 cardContent.innerHTML = `
-                    <img src="${imageUrl}" alt="${wallpaper.name}" class="w-full object-cover cursor-pointer hover:opacity-90 transition-opacity wallpaper-thumb" data-original-path="${wallpaper.path}">
+                    <img src="${imageUrl}" alt="${wallpaper.name}" class="w-full h-48 object-cover cursor-pointer hover:opacity-90 transition-opacity wallpaper-thumb" data-original-path="${wallpaper.path}">
                 `;
                 
                 // 图片加载完成后更新尺寸信息
@@ -312,13 +307,6 @@ const WallpaperManager = {
                 img.onload = function() {
                     const sizeSpan = card.querySelector('.size-info');
                     sizeSpan.textContent = `${img.naturalWidth} × ${img.naturalHeight}`;
-                    
-                    // 移除这段代码，不再在移动端提前释放 Blob URL
-                    // if (isMobile) {
-                    //     setTimeout(() => {
-                    //         URL.revokeObjectURL(imageUrl);
-                    //     }, 1000); // 给一点时间确保图片完全加载
-                    // }
                 };
                 
                 img.onerror = function() {
