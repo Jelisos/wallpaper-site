@@ -13,6 +13,21 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+update_list.py丨单纯更新 list.json
+generate_list.bat丨是执行 完整提示词.txt 转化为 prompts.json 后与 list.json合并成wallpaper.json丨可删除
 ===========================================================
 f:
 cd F:\Jelis-doubao\壁纸站点

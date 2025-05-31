@@ -1,6 +1,3 @@
-/**
- * 主入口文件
- */
 document.addEventListener('DOMContentLoaded', async () => {
     // 初始化模态框
     ModalManager.init();
@@ -13,6 +10,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // 初始化导航栏滚动效果
     initHeaderScroll();
+    
+    // 初始化移动端菜单
+    initMobileMenu();
     
     // 初始化未实现功能提示
     initNotImplementedFeatures();
@@ -57,6 +57,20 @@ function initHeaderScroll() {
 }
 
 /**
+ * 初始化移动端菜单
+ */
+function initMobileMenu() {
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+}
+
+/**
  * 初始化未实现功能提示
  */
 function initNotImplementedFeatures() {
@@ -66,4 +80,4 @@ function initNotImplementedFeatures() {
             alert('该功能尚未实现');
         });
     });
-} 
+}

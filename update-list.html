@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>更新壁纸列表</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background: #dff0d8;
+            color: #3c763d;
+        }
+        .error {
+            background: #f2dede;
+            color: #a94442;
+        }
+    </style>
+</head>
+<body>
+    <h1>更新壁纸列表</h1>
+    <div class="container">
+        <p>点击下面的按钮来更新壁纸列表。这将扫描 static/wallpapers 目录并更新 list.json 文件。</p>
+        <button onclick="updateList()">更新列表</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function updateList() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = '';
+            resultDiv.textContent = '正在更新...';
+
+            try {
+                // 获取壁纸列表
+                const response = await fetch('/static/wallpapers/');
+                if (!response.ok) {
+                    throw new Error('无法访问壁纸目录');
+                }
+
+                const text = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                
+                // 获取所有图片文件
+                const files = Array.from(doc.querySelectorAll('a'))
+                    .map(a => a.href)
+                    .filter(href => href.match(/\.(jpeg|jpg|png|gif)$/i))
+                    .map(href => {
+                        const filename = href.split('/').pop();
+                        return {
+                            filename: filename,
+                            path: `static/wallpapers/${filename}`,
+                            name: filename.replace(/\.[^/.]+$/, '')
+                        };
+                    });
+
+                // 更新list.json
+                const updateResponse = await fetch('/static/data/list.json', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(files, null, 2)
+                });
+
+                if (!updateResponse.ok) {
+                    throw new Error('更新list.json失败');
+                }
+
+                resultDiv.className = 'success';
+                resultDiv.textContent = `更新成功！共找到 ${files.length} 个图片文件。`;
+            } catch (error) {
+                resultDiv.className = 'error';
+                resultDiv.textContent = `更新失败：${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

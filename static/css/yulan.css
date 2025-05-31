@@ -91,4 +91,29 @@
 /* 画布容器样式 */
 .canvas-container {
     perspective: 1000px;
-} 
+}
+
+
+/* 移动端适配样式 */
+@media (max-width: 768px) {
+    .device-tabs {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .device-tab {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    .apple-notch {
+        width: 120px;
+        height: 30px;
+    }
+    
+    .phone-rotate,
+    .tablet-rotate,
+    .laptop-rotate {
+        transform: none;
+    }
+}

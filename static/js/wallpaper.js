@@ -7,9 +7,14 @@ const WallpaperManager = {
         allWallpapers: [],
         filteredWallpapers: [],
         displayedWallpapers: new Set(),
-        currentPage: 0
+        currentPage: 0,
+        isLoading: false
     },
 
+    /**
+     * 获取壁纸列表URL
+     * @returns {string} 壁纸列表URL
+     */
     /**
      * 获取壁纸列表URL
      * @returns {string} 壁纸列表URL
@@ -21,10 +26,10 @@ const WallpaperManager = {
         // 判断是否是GitHub Pages环境
         if (currentUrl.includes('github.io')) {
             // 如果是GitHub Pages，使用完整的URL
-            return 'https://jelisos.github.io/wallpaper-site/static/wallpapers/list.json';
+            return 'https://jelisos.github.io/wallpaper-site/static/data/list.json';
         } else {
-            // 本地开发环境，使用相对路径
-            return '/static/wallpapers/list.json';
+            // 本地开发环境，使用相对路径（不使用绝对路径，避免移动端问题）
+            return './static/data/list.json';
         }
     },
 
@@ -169,6 +174,7 @@ const WallpaperManager = {
             return null;
         }
 
+        // 随机打乱顺序，但确保不重复
         const pageWallpapers = Utils.shuffleArray(availableWallpapers).slice(0, CONFIG.PAGINATION.ITEMS_PER_PAGE);
         pageWallpapers.forEach(w => this.state.displayedWallpapers.add(w.path));
         this.state.currentPage++;
@@ -233,6 +239,9 @@ const WallpaperManager = {
      * 渲染壁纸卡片
      */
     async renderWallpaperCards(wallpapers) {
+        if (this.state.isLoading) return;
+        this.state.isLoading = true;
+
         const wallpaperContainer = document.getElementById('wallpaper-container');
         
         for (const wallpaper of wallpapers) {
@@ -271,5 +280,7 @@ const WallpaperManager = {
                 console.error('图片处理失败:', error);
             }
         }
+
+        this.state.isLoading = false;
     }
-}; 
+};
