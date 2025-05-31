@@ -157,9 +157,9 @@
                     </div>
 
                      <!-- 调试控制区域 -->
-                     <div class="mt-6 pt-4 border-t border-gray-200">
+                     <div class="mt-6 pt-4 border-t border-gray-200" id="positionControls">
                         <h4 class="font-semibold text-sm mb-2 flex items-center">
-                            <i class="fa-solid fa-sliders text-secondary mr-2"></i> 壁纸位置调整（电脑实时预览）
+                            <i class="fa-solid fa-sliders text-secondary mr-2"></i> 壁纸位置调整
                         </h4>
                         <div class="flex items-center gap-2">
                             <button id="moveUpBtn" class="px-3 py-1 bg-gray-200 rounded-lg text-sm hover:bg-gray-300">
@@ -170,7 +170,8 @@
                             </button>
                             <span id="offsetValue" class="text-xs text-gray-500">偏移: 0px</span>
                         </div>
-                    </div>                   
+                    </div>
+                 
 
                 </div>
 
@@ -602,10 +603,10 @@
                 
                 // 绘制屏幕内容（如果有壁纸则显示壁纸）
                 if (wallpaper) {
-                    // 计算壁纸缩放比例以适应屏幕并应用圆角
+                    // 计算壁纸缩放比例以适应屏幕并应用圆角，同时应用yOffset
                     drawRoundedImage(phoneCtx, wallpaper, phoneBezelWidth * 1.5, phoneBezelWidth * 1.5, 
                                     phoneWidth - 3 * phoneBezelWidth, phoneHeight - 3 * phoneBezelWidth, 
-                                    phoneCornerRadius - 10);
+                                    phoneCornerRadius - 10, yOffset); // 传入 yOffset
                 } else {
                     // 没有壁纸时显示默认背景
                     phoneCtx.fillStyle = '#F9F9F9';
@@ -631,10 +632,10 @@
                 
                 // 绘制屏幕内容（如果有壁纸则显示壁纸）
                 if (wallpaper) {
-                    // 计算壁纸缩放比例以适应屏幕并应用圆角
+                    // 计算壁纸缩放比例以适应屏幕并应用圆角，同时应用yOffset
                     drawRoundedImage(tabletCtx, wallpaper, tabletBezelWidth * 1.5, tabletBezelWidth * 1.5, 
                                     tabletWidth - 3 * tabletBezelWidth, tabletHeight - 3 * tabletBezelWidth, 
-                                    tabletCornerRadius - 8);
+                                    tabletCornerRadius - 8, yOffset); // 传入 yOffset
                 } else {
                     // 没有壁纸时显示默认背景
                     tabletCtx.fillStyle = '#F9F9F9';
@@ -664,6 +665,7 @@
                     const screenHeight = laptopScreenHeight - 3 * laptopBezelWidth;
                     const screenX = laptopBezelWidth * 1.5;
                     const screenY = laptopBezelWidth * 1.5;
+                    // 电脑壁纸位置调整已经在 drawWallpaperContentArea 中处理了 yOffset，这里保持不变
                     drawWallpaperContentArea(laptopCtx, wallpaper, screenX, screenY, screenWidth, screenHeight, yOffset);
                 } else {
                     // 没有壁纸时显示默认背景
@@ -687,7 +689,18 @@
             }
             
             // 绘制带圆角的图像
-            function drawRoundedImage(ctx, img, x, y, width, height, radius) {
+            /**
+             * 绘制带圆角的图像
+             * @param {CanvasRenderingContext2D} ctx - Canvas上下文
+             * @param {HTMLImageElement} img - 图片元素
+             * @param {number} x - 绘制起始x坐标
+             * @param {number} y - 绘制起始y坐标
+             * @param {number} width - 绘制宽度
+             * @param {number} height - 绘制高度
+             * @param {number} radius - 圆角半径
+             * @param {number} [yOffset=0] - 壁纸上下偏移量 (新增参数)
+             */
+            function drawRoundedImage(ctx, img, x, y, width, height, radius, yOffset = 0) {
                 ctx.save();
                 ctx.beginPath();
                 ctx.moveTo(x + radius, y);
@@ -713,14 +726,14 @@
                     drawHeight = height;
                     drawWidth = drawHeight * imageRatio;
                     drawX = x - (drawWidth - width) / 2;
-                    drawY = y;
+                    drawY = y + yOffset; // 应用 yOffset
                 } else {
                     // 图片比屏幕高，等比例缩放宽度
                     drawWidth = width;
                     drawHeight = drawWidth / imageRatio;
-                    // 居中显示图片
+                    // 居中显示图片并应用 yOffset
                     drawX = x;
-                    drawY = y - (drawHeight - height) / 2;
+                    drawY = y - (drawHeight - height) / 2 + yOffset; // 应用 yOffset
                 }
                 
                 ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
@@ -938,11 +951,11 @@
              * 导出canvas为图片文件
              * @param {HTMLCanvasElement} canvas - 要导出的Canvas元素
              * @param {string} filename - 下载文件的名称
-             * @param {string} [format='image/jpeg'] - 输出的图片格式 (e.g., 'image/jpeg', 'image/png')，默认为 image/jpeg
-             * @param {number} [quality=0.95] - 输出图片的质量 (仅适用于支持有损压缩的格式如 JPEG, 0.0 到 1.0)，默认为 0.95
+             * @param {string} [format='image/png'] - 输出的图片格式 (e.g., 'image/jpeg', 'image/png')，默认为 image/png
+             * @param {number} [quality=1.0] - 输出图片的质量 (仅适用于支持有损压缩的格式如 JPEG, 0.0 到 1.0)，默认为 1.0
              * @returns {Promise<boolean>} - 返回一个Promise，表示导出是否成功
              */
-            async function exportCanvasAsImage(canvas, filename, format = 'image/jpeg', quality = 0.95) {
+            async function exportCanvasAsImage(canvas, filename, format = 'image/png', quality = 1.0) {
                 console.log(`尝试导出文件: ${filename}, 格式: ${format}, 质量: ${quality}`);
                 return new Promise((resolve) => {
                     canvas.toBlob(function(blob) {
@@ -980,31 +993,50 @@
 
             // 添加壁纸位置调整功能
             moveUpBtn.addEventListener('click', function() {
-                if (yOffset > 0) {
+                if (yOffset > -currentWallpaper.naturalHeight / 2) { // 避免过度上移
                     yOffset -= 10;
                     updateOffsetDisplay();
-                    if (currentWallpaper) {
-                        // 更新电脑壁纸位置
-                        drawLaptop(currentWallpaper);
-                        // 更新预览图位置
-                        previewImage.style.objectPosition = `center -${yOffset}px`;
-                    }
+                    redrawAllPreviews(); // 重绘所有预览
                 }
             });
             
             moveDownBtn.addEventListener('click', function() {
-                yOffset += 10;
-                updateOffsetDisplay();
-                if (currentWallpaper) {
-                    // 更新电脑壁纸位置
-                    drawLaptop(currentWallpaper);
-                    // 更新预览图位置
-                    previewImage.style.objectPosition = `center -${yOffset}px`;
+                 if (yOffset < currentWallpaper.naturalHeight / 2) { // 避免过度下移
+                    yOffset += 10;
+                    updateOffsetDisplay();
+                    redrawAllPreviews(); // 重绘所有预览
                 }
             });
             
             function updateOffsetDisplay() {
                 offsetValue.textContent = `偏移: ${yOffset}px`;
+            }
+
+            // 新增函数：重绘所有当前可见的设备预览
+            function redrawAllPreviews() {
+                if (!currentWallpaper) return; // 没有壁纸则不重绘
+
+                // 找到当前处于活动状态的设备预览
+                const activeTab = document.querySelector('.device-tab.active');
+                if (activeTab) {
+                    const device = activeTab.getAttribute('data-device');
+                    switch(device) {
+                        case 'phone':
+                            drawPhone(currentWallpaper); // 重绘手机预览
+                            break;
+                        case 'tablet':
+                            drawTablet(currentWallpaper); // 重绘平板预览
+                            break;
+                        case 'laptop':
+                            drawLaptop(currentWallpaper); // 重绘电脑预览
+                            break;
+                        case 'moment':
+                             drawMomentPreview(currentWallpaper, currentWallpaper || momentAvatarImg, yOffset); // 重绘朋友圈预览，传入yOffset
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
 
             // 绘制微信头像
@@ -1013,7 +1045,7 @@
              * @param {CanvasRenderingContext2D} ctx - Canvas上下文
              * @param {HTMLImageElement} img - 壁纸图片
              * @param {boolean} [isRound=true] - 是否绘制圆形头像
-             * @param {number} [yOffset=0] - 壁纸上下偏移量
+             * @param {number} [yOffset=0] - 壁纸上下偏移量 (仅用于计算壁纸绘制位置，头像本身不偏移)
              * @param {number} [compensationOffset=0] - 额外的上下偏移补偿
              */
             function drawAvatar(ctx, img, isRound = true, yOffset = 0, compensationOffset = 0) {
@@ -1040,14 +1072,15 @@
                     ctx.clip();
                 }
                 
-                // 计算图片缩放和位置，使其居中填充整个Canvas区域
+                // 计算图片缩放和位置，使其居中填充整个Canvas区域，并应用 yOffset 和补偿偏移量
                 const scale = Math.max(
                     canvasWidth / img.width,
                     canvasHeight / img.height
                 );
                 
                 const x = (canvasWidth - img.width * scale) / 2;
-                const y = (canvasHeight - img.height * scale) / 2 + yOffset + compensationOffset; // 应用yOffset和补偿偏移量
+                // 在这里应用 yOffset 和 compensationOffset
+                const y = (canvasHeight - img.height * scale) / 2 + yOffset + compensationOffset; 
                 
                 ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
                 
@@ -1183,7 +1216,8 @@
                     if (currentWallpaper && currentWallpaper.complete) {
                         const scale = Math.max(momentAvatarSize / currentWallpaper.width, momentAvatarSize / currentWallpaper.height);
                         const ax = avatarX + (momentAvatarSize - currentWallpaper.width * scale) / 2;
-                        const ay = avatarY + (momentAvatarSize - currentWallpaper.height * scale) / 2; // 移除yOffset应用，头像固定在右下角
+                        // 应用 yOffset 和补偿偏移量绘制头像在封面 canvas 上
+                        const ay = avatarY + (momentAvatarSize - currentWallpaper.height * scale) / 2 + yOffset; 
                         tempCtx.drawImage(currentWallpaper, ax, ay, currentWallpaper.width * scale, currentWallpaper.height * scale);
                     } else {
                         tempCtx.fillStyle = '#CCC';
@@ -1453,10 +1487,11 @@
                 momentCtx.beginPath();
                 roundRect(momentCtx, avatarX, avatarY, momentAvatarSize, momentAvatarSize, momentAvatarRadius);
                 momentCtx.clip();
-                if (avatarImg && avatarImg.complete) {
+                 if (avatarImg && avatarImg.complete) { // 使用wallpaper作为头像图片
                     const scale = Math.max(momentAvatarSize / avatarImg.width, momentAvatarSize / avatarImg.height);
                     const ax = avatarX + (momentAvatarSize - avatarImg.width * scale) / 2;
-                    const ay = avatarY + (momentAvatarSize - avatarImg.height * scale) / 2; // 移除yOffset应用，头像固定在右下角
+                    // 在预览 canvas 上，头像的位置也需要考虑 yOffset
+                    const ay = avatarY + (momentAvatarSize - avatarImg.height * scale) / 2 + yOffset; 
                     momentCtx.drawImage(avatarImg, ax, ay, avatarImg.width * scale, avatarImg.height * scale);
                 } else {
                     momentCtx.fillStyle = '#CCC';
@@ -1550,11 +1585,12 @@
                 momentFullCtx.beginPath();
                 roundRect(momentFullCtx, avatarX, avatarY, momentAvatarSize, momentAvatarSize, momentAvatarRadius);
                 momentFullCtx.clip();
-                if (avatarImg && avatarImg.complete) {
-                    const scale = Math.max(momentAvatarSize / avatarImg.width, momentAvatarSize / avatarImg.height);
-                    const ax = avatarX + (momentAvatarSize - avatarImg.width * scale) / 2;
-                    const ay = avatarY + (momentAvatarSize - avatarImg.height * scale) / 2; // 移除yOffset应用，头像固定在右下角
-                    momentFullCtx.drawImage(avatarImg, ax, ay, avatarImg.width * scale, avatarImg.height * scale);
+                 if (wallpaper && wallpaper.complete) { // 使用wallpaper作为头像图片
+                    const scale = Math.max(momentAvatarSize / wallpaper.width, momentAvatarSize / wallpaper.height);
+                    const ax = avatarX + (momentAvatarSize - wallpaper.width * scale) / 2;
+                    // 在完整预览 canvas 上，头像的位置也需要考虑 yOffset
+                    const ay = avatarY + (momentAvatarSize - wallpaper.height * scale) / 2 + yOffset; 
+                    momentFullCtx.drawImage(wallpaper, ax, ay, wallpaper.width * scale, wallpaper.height * scale);
                 } else {
                     momentFullCtx.fillStyle = '#CCC';
                     momentFullCtx.fillRect(avatarX, avatarY, momentAvatarSize, momentAvatarSize);
