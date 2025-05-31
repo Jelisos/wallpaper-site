@@ -30,7 +30,7 @@
         }
     </script>
 </head>
-<body class="bg-gradient-to-br from-light to-gray-100 min-h-screen font-inter text-dark">
+<body class="bg-gradient-to-br from-light to-gray-100 min-h-screen font-inter text-dark overflow-x-hidden">
     <div class="container mx-auto px-4 py-8 max-w-6xl">
         <!-- 头部 -->
         <header class="text-center mb-12">
@@ -62,7 +62,7 @@
                 </div>
 
                 <!-- 设备预览容器 -->
-                <div class="relative">
+                <div class="relative w-full">
                     <!-- 手机预览 -->
                     <div class="device-preview" id="phonePreview">
                         <div class="relative phone-rotate">
@@ -75,21 +75,36 @@
                     <!-- 平板预览 -->
                     <div class="device-preview hidden" id="tabletPreview">
                         <div class="relative tablet-rotate">
-                            <canvas id="tabletCanvas" class="mx-auto phone-shadow rounded-[25px] phone-bezel"></canvas>
+                            <canvas id="tabletCanvas" class="mx-auto phone-shadow rounded-[25px] phone-bezel max-w-full h-auto"></canvas>
                         </div>
                     </div>
 
                     <!-- 电脑预览 -->
                     <div class="device-preview hidden" id="laptopPreview">
                         <div class="relative laptop-rotate">
-                            <canvas id="laptopCanvas" class="mx-auto"></canvas>
+                            <canvas id="laptopCanvas" class="mx-auto max-w-full h-auto"></canvas>
                         </div>
+                     <!-- 调试控制区域 -->
+                     <div class="mt-6 pt-4 border-t border-gray-200">
+                        <h4 class="font-semibold text-sm mb-2 flex items-center">
+                            <i class="fa-solid fa-sliders text-secondary mr-2"></i> 壁纸位置调整（电脑实时预览）
+                        </h4>
+                        <div class="flex items-center gap-2">
+                            <button id="moveUpBtn" class="px-3 py-1 bg-gray-200 rounded-lg text-sm hover:bg-gray-300 active:bg-gray-400 touch-manipulation">
+                                <i class="fa-solid fa-arrow-up"></i> 上移
+                            </button>
+                            <button id="moveDownBtn" class="px-3 py-1 bg-gray-200 rounded-lg text-sm hover:bg-gray-300 active:bg-gray-400 touch-manipulation">
+                                <i class="fa-solid fa-arrow-down"></i> 下移
+                            </button>
+                            <span id="offsetValue" class="text-xs text-gray-500">偏移: 0px</span>
+                        </div>
+                    </div>   
                     </div>
 
                     <!-- 朋友圈预览 -->
                     <div class="device-preview hidden" id="momentPreview">
                         <div class="relative flex justify-center">
-                            <canvas id="momentCanvas" class="mx-auto rounded-2xl shadow-lg" style="max-width:720px;width:100%;height:auto;display:block;"></canvas>
+                            <canvas id="momentCanvas" class="mx-auto rounded-2xl shadow-lg max-w-full h-auto" style="width:100%;height:auto;display:block;"></canvas>
                         </div>
                     </div>
                 </div>
@@ -156,22 +171,7 @@
                         </button>
                     </div>
 
-                     <!-- 调试控制区域 -->
-                     <div class="mt-6 pt-4 border-t border-gray-200" id="positionControls">
-                        <h4 class="font-semibold text-sm mb-2 flex items-center">
-                            <i class="fa-solid fa-sliders text-secondary mr-2"></i> 壁纸位置调整
-                        </h4>
-                        <div class="flex items-center gap-2">
-                            <button id="moveUpBtn" class="px-3 py-1 bg-gray-200 rounded-lg text-sm hover:bg-gray-300">
-                                <i class="fa-solid fa-arrow-up"></i> 上移
-                            </button>
-                            <button id="moveDownBtn" class="px-3 py-1 bg-gray-200 rounded-lg text-sm hover:bg-gray-300">
-                                <i class="fa-solid fa-arrow-down"></i> 下移
-                            </button>
-                            <span id="offsetValue" class="text-xs text-gray-500">偏移: 0px</span>
-                        </div>
-                    </div>
-                 
+                
 
                 </div>
 
@@ -430,34 +430,34 @@
 
                 // 高清导出函数，直接使用 currentWallpaper 对象
                 const performHDExport = async (img) => { // 修改为异步函数
-                     // 手机 - 提高分辨率到2K
+                    // 手机 - 提高分辨率到2K
                      const phoneSuccess = await exportHDWallpaper(img, 1440, 3200, '手机高清壁纸.jpg');
-                     // 平板 - 提高分辨率到4K
+                    // 平板 - 提高分辨率到4K
                      const tabletSuccess = await exportHDWallpaper(img, 2560, 3840, '平板高清壁纸.jpg');
-                     // 电脑 - 提高分辨率到4K，内容区yOffset等比例缩放（与预览一致，无补偿）
-                     /**
-                      * 电脑壁纸导出时，yOffset等比例缩放，保证与预览一致
-                      * 预览内容区高度为：laptopScreenHeight - 3 * laptopBezelWidth
-                      * 导出内容区高度为：2160
-                      */
-                     const previewContentHeight = laptopScreenHeight - 3 * laptopBezelWidth; // 296
-                     const exportContentHeight = 2160;
-                     const scaledYOffset = yOffset * (exportContentHeight / previewContentHeight); // 仅等比例缩放
+                    // 电脑 - 提高分辨率到4K，内容区yOffset等比例缩放（与预览一致，无补偿）
+                    /**
+                     * 电脑壁纸导出时，yOffset等比例缩放，保证与预览一致
+                     * 预览内容区高度为：laptopScreenHeight - 3 * laptopBezelWidth
+                     * 导出内容区高度为：2160
+                     */
+                    const previewContentHeight = laptopScreenHeight - 3 * laptopBezelWidth; // 296
+                    const exportContentHeight = 2160;
+                    const scaledYOffset = yOffset * (exportContentHeight / previewContentHeight); // 仅等比例缩放
                      const laptopSuccess = await exportHDWallpaper(img, 3840, 2160, '电脑高清壁纸.jpg', scaledYOffset);
 
                      // 检查所有导出是否成功
                      if (phoneSuccess && tabletSuccess && laptopSuccess) {
-                          // 标记导出完成，更新按钮状态
-                          downloadHDAllButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
-                          downloadHDAllButton.classList.remove('bg-gradient-to-r', 'from-blue-500', 'to-green-400', 'hover:from-blue-600', 'hover:to-green-500');
-                          downloadHDAllButton.classList.add('bg-green-500');
-                          exportComplete = true;
-                          // 延迟恢复按钮状态
-                          setTimeout(() => {
-                              downloadHDAllButton.classList.remove('bg-green-500');
-                              downloadHDAllButton.classList.add('bg-gradient-to-r', 'from-blue-500', 'to-green-400', 'hover:from-blue-600', 'hover:to-green-500');
-                              downloadHDAllButton.disabled = false;
-                         }, 2000);
+                    // 标记导出完成，更新按钮状态
+                    downloadHDAllButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
+                    downloadHDAllButton.classList.remove('bg-gradient-to-r', 'from-blue-500', 'to-green-400', 'hover:from-blue-600', 'hover:to-green-500');
+                    downloadHDAllButton.classList.add('bg-green-500');
+                    exportComplete = true;
+                    // 延迟恢复按钮状态
+                     setTimeout(() => {
+                         downloadHDAllButton.classList.remove('bg-green-500');
+                         downloadHDAllButton.classList.add('bg-gradient-to-r', 'from-blue-500', 'to-green-400', 'hover:from-blue-600', 'hover:to-green-500');
+                         downloadHDAllButton.disabled = false;
+                    }, 2000);
                      } else {
                           // 任何一个导出失败，显示失败状态
                            downloadHDAllButton.innerHTML = '<i class="fa-solid fa-times mr-2"></i> 导出失败';
@@ -469,9 +469,9 @@
                               downloadHDAllButton.disabled = false;
                          }, 2000);
                      }
-                 };
+                };
 
-                 // 直接使用 currentWallpaper 进行导出
+                // 直接使用 currentWallpaper 进行导出
                  performHDExport(currentWallpaper).then(() => {
                       // Promise resolved，操作完成，按钮状态已在 performHDExport 中处理
                  }).catch((error) => {
@@ -555,12 +555,12 @@
 
                          console.log(`成功创建高清Blob，大小: ${blob.size} 字节，类型: ${blob.type}`);
                          const url = URL.createObjectURL(blob);
-                         const link = document.createElement('a');
-                         link.download = filename;
+                const link = document.createElement('a');
+                link.download = filename;
                          link.href = url;
-                         document.body.appendChild(link);
-                         link.click();
-                         document.body.removeChild(link);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
 
                          // 延迟释放URL对象
                          setTimeout(() => {
@@ -603,10 +603,10 @@
                 
                 // 绘制屏幕内容（如果有壁纸则显示壁纸）
                 if (wallpaper) {
-                    // 计算壁纸缩放比例以适应屏幕并应用圆角，同时应用yOffset
+                    // 计算壁纸缩放比例以适应屏幕并应用圆角
                     drawRoundedImage(phoneCtx, wallpaper, phoneBezelWidth * 1.5, phoneBezelWidth * 1.5, 
                                     phoneWidth - 3 * phoneBezelWidth, phoneHeight - 3 * phoneBezelWidth, 
-                                    phoneCornerRadius - 10, yOffset); // 传入 yOffset
+                                    phoneCornerRadius - 10);
                 } else {
                     // 没有壁纸时显示默认背景
                     phoneCtx.fillStyle = '#F9F9F9';
@@ -632,10 +632,10 @@
                 
                 // 绘制屏幕内容（如果有壁纸则显示壁纸）
                 if (wallpaper) {
-                    // 计算壁纸缩放比例以适应屏幕并应用圆角，同时应用yOffset
+                    // 计算壁纸缩放比例以适应屏幕并应用圆角
                     drawRoundedImage(tabletCtx, wallpaper, tabletBezelWidth * 1.5, tabletBezelWidth * 1.5, 
                                     tabletWidth - 3 * tabletBezelWidth, tabletHeight - 3 * tabletBezelWidth, 
-                                    tabletCornerRadius - 8, yOffset); // 传入 yOffset
+                                    tabletCornerRadius - 8);
                 } else {
                     // 没有壁纸时显示默认背景
                     tabletCtx.fillStyle = '#F9F9F9';
@@ -665,7 +665,6 @@
                     const screenHeight = laptopScreenHeight - 3 * laptopBezelWidth;
                     const screenX = laptopBezelWidth * 1.5;
                     const screenY = laptopBezelWidth * 1.5;
-                    // 电脑壁纸位置调整已经在 drawWallpaperContentArea 中处理了 yOffset，这里保持不变
                     drawWallpaperContentArea(laptopCtx, wallpaper, screenX, screenY, screenWidth, screenHeight, yOffset);
                 } else {
                     // 没有壁纸时显示默认背景
@@ -689,18 +688,7 @@
             }
             
             // 绘制带圆角的图像
-            /**
-             * 绘制带圆角的图像
-             * @param {CanvasRenderingContext2D} ctx - Canvas上下文
-             * @param {HTMLImageElement} img - 图片元素
-             * @param {number} x - 绘制起始x坐标
-             * @param {number} y - 绘制起始y坐标
-             * @param {number} width - 绘制宽度
-             * @param {number} height - 绘制高度
-             * @param {number} radius - 圆角半径
-             * @param {number} [yOffset=0] - 壁纸上下偏移量 (新增参数)
-             */
-            function drawRoundedImage(ctx, img, x, y, width, height, radius, yOffset = 0) {
+            function drawRoundedImage(ctx, img, x, y, width, height, radius) {
                 ctx.save();
                 ctx.beginPath();
                 ctx.moveTo(x + radius, y);
@@ -726,14 +714,14 @@
                     drawHeight = height;
                     drawWidth = drawHeight * imageRatio;
                     drawX = x - (drawWidth - width) / 2;
-                    drawY = y + yOffset; // 应用 yOffset
+                    drawY = y;
                 } else {
                     // 图片比屏幕高，等比例缩放宽度
                     drawWidth = width;
                     drawHeight = drawWidth / imageRatio;
-                    // 居中显示图片并应用 yOffset
+                    // 居中显示图片
                     drawX = x;
-                    drawY = y - (drawHeight - height) / 2 + yOffset; // 应用 yOffset
+                    drawY = y - (drawHeight - height) / 2;
                 }
                 
                 ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
@@ -909,20 +897,20 @@
                     } else {
                         // 更新按钮状态为下载失败
                          button.innerHTML = '<i class="fa-solid fa-times mr-2"></i> 下载失败';
-                         button.classList.remove('bg-accent', 'bg-secondary', 'bg-primary');
+                    button.classList.remove('bg-accent', 'bg-secondary', 'bg-primary');
                          button.classList.add('bg-red-500');
-                         setTimeout(() => {
-                             button.innerHTML = originalText;
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
                              button.classList.remove('bg-red-500');
-                             if (filename === '手机') {
-                                 button.classList.add('bg-accent');
-                             } else if (filename === '平板') {
-                                 button.classList.add('bg-secondary');
-                             } else {
-                                 button.classList.add('bg-primary');
-                             }
-                             button.disabled = false;
-                         }, 2000);
+                        if (filename === '手机') {
+                            button.classList.add('bg-accent');
+                        } else if (filename === '平板') {
+                            button.classList.add('bg-secondary');
+                        } else {
+                            button.classList.add('bg-primary');
+                        }
+                        button.disabled = false;
+                    }, 2000);
                     }
 
                 } catch (error) {
@@ -963,21 +951,21 @@
                             console.error('Canvas导出失败: 无法创建Blob或Blob为空。', blob);
                             alert('导出失败：无法创建图片数据或数据为空。');
                             resolve(false); // 导出失败
-                            return;
-                        }
-                        
+                    return;
+                }
+               
                         console.log(`成功创建Blob，大小: ${blob.size} 字节，类型: ${blob.type}`);
 
                         const url = URL.createObjectURL(blob);
                         console.log('创建Blob URL:', url);
                         const link = document.createElement('a');
-                        link.download = filename;
+                link.download = filename;
                         link.href = url;
                         
                         // 尝试触发下载
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
 
                         // 延迟释放URL对象，给浏览器一点时间处理下载
                         setTimeout(() => {
@@ -992,51 +980,69 @@
             }
 
             // 添加壁纸位置调整功能
-            moveUpBtn.addEventListener('click', function() {
-                if (yOffset > -currentWallpaper.naturalHeight / 2) { // 避免过度上移
+            moveUpBtn.addEventListener('click', function(e) {
+                e.preventDefault(); // 阻止默认行为
+                if (yOffset > 0) {
                     yOffset -= 10;
                     updateOffsetDisplay();
-                    redrawAllPreviews(); // 重绘所有预览
+                    if (currentWallpaper) {
+                        // 更新电脑壁纸位置
+                        drawLaptop(currentWallpaper);
+                        // 更新预览图位置
+                        previewImage.style.objectPosition = `center -${yOffset}px`;
+                        // 更新朋友圈预览
+                        drawMomentPreview(currentWallpaper, currentWallpaper || momentAvatarImg, yOffset);
+                    }
                 }
             });
             
-            moveDownBtn.addEventListener('click', function() {
-                 if (yOffset < currentWallpaper.naturalHeight / 2) { // 避免过度下移
-                    yOffset += 10;
-                    updateOffsetDisplay();
-                    redrawAllPreviews(); // 重绘所有预览
+            moveDownBtn.addEventListener('click', function(e) {
+                e.preventDefault(); // 阻止默认行为
+                yOffset += 10;
+                updateOffsetDisplay();
+                if (currentWallpaper) {
+                    // 更新电脑壁纸位置
+                    drawLaptop(currentWallpaper);
+                    // 更新预览图位置
+                    previewImage.style.objectPosition = `center -${yOffset}px`;
+                    // 更新朋友圈预览
+                    drawMomentPreview(currentWallpaper, currentWallpaper || momentAvatarImg, yOffset);
                 }
             });
+
+            // 添加触摸事件支持
+            moveUpBtn.addEventListener('touchstart', function(e) {
+                e.preventDefault(); // 阻止默认行为
+                if (yOffset > 0) {
+                    yOffset -= 10;
+                    updateOffsetDisplay();
+                    if (currentWallpaper) {
+                        // 更新电脑壁纸位置
+                        drawLaptop(currentWallpaper);
+                        // 更新预览图位置
+                        previewImage.style.objectPosition = `center -${yOffset}px`;
+                        // 更新朋友圈预览
+                        drawMomentPreview(currentWallpaper, currentWallpaper || momentAvatarImg, yOffset);
+                    }
+                }
+            }, { passive: false });
+            
+            moveDownBtn.addEventListener('touchstart', function(e) {
+                e.preventDefault(); // 阻止默认行为
+                yOffset += 10;
+                updateOffsetDisplay();
+                if (currentWallpaper) {
+                    // 更新电脑壁纸位置
+                    drawLaptop(currentWallpaper);
+                    // 更新预览图位置
+                    previewImage.style.objectPosition = `center -${yOffset}px`;
+                    // 更新朋友圈预览
+                    drawMomentPreview(currentWallpaper, currentWallpaper || momentAvatarImg, yOffset);
+                }
+            }, { passive: false });
             
             function updateOffsetDisplay() {
                 offsetValue.textContent = `偏移: ${yOffset}px`;
-            }
-
-            // 新增函数：重绘所有当前可见的设备预览
-            function redrawAllPreviews() {
-                if (!currentWallpaper) return; // 没有壁纸则不重绘
-
-                // 找到当前处于活动状态的设备预览
-                const activeTab = document.querySelector('.device-tab.active');
-                if (activeTab) {
-                    const device = activeTab.getAttribute('data-device');
-                    switch(device) {
-                        case 'phone':
-                            drawPhone(currentWallpaper); // 重绘手机预览
-                            break;
-                        case 'tablet':
-                            drawTablet(currentWallpaper); // 重绘平板预览
-                            break;
-                        case 'laptop':
-                            drawLaptop(currentWallpaper); // 重绘电脑预览
-                            break;
-                        case 'moment':
-                             drawMomentPreview(currentWallpaper, currentWallpaper || momentAvatarImg, yOffset); // 重绘朋友圈预览，传入yOffset
-                            break;
-                        default:
-                            break;
-                    }
-                }
             }
 
             // 绘制微信头像
@@ -1045,7 +1051,7 @@
              * @param {CanvasRenderingContext2D} ctx - Canvas上下文
              * @param {HTMLImageElement} img - 壁纸图片
              * @param {boolean} [isRound=true] - 是否绘制圆形头像
-             * @param {number} [yOffset=0] - 壁纸上下偏移量 (仅用于计算壁纸绘制位置，头像本身不偏移)
+             * @param {number} [yOffset=0] - 壁纸上下偏移量
              * @param {number} [compensationOffset=0] - 额外的上下偏移补偿
              */
             function drawAvatar(ctx, img, isRound = true, yOffset = 0, compensationOffset = 0) {
@@ -1072,15 +1078,14 @@
                     ctx.clip();
                 }
                 
-                // 计算图片缩放和位置，使其居中填充整个Canvas区域，并应用 yOffset 和补偿偏移量
+                // 计算图片缩放和位置，使其居中填充整个Canvas区域
                 const scale = Math.max(
                     canvasWidth / img.width,
                     canvasHeight / img.height
                 );
                 
                 const x = (canvasWidth - img.width * scale) / 2;
-                // 在这里应用 yOffset 和 compensationOffset
-                const y = (canvasHeight - img.height * scale) / 2 + yOffset + compensationOffset; 
+                const y = (canvasHeight - img.height * scale) / 2 + yOffset + compensationOffset; // 应用yOffset和补偿偏移量
                 
                 ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
                 
@@ -1120,15 +1125,15 @@
                     const squareSuccess = await exportCanvasAsImage(squareCanvas, '方形头像.png', 'image/png'); // 指定 PNG 格式
 
                     if (roundSuccess && squareSuccess) {
-                         downloadAvatarButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
-                         downloadAvatarButton.classList.remove('bg-green-500');
-                         downloadAvatarButton.classList.add('bg-green-600');
-                         setTimeout(() => {
-                             downloadAvatarButton.innerHTML = originalText;
-                             downloadAvatarButton.classList.remove('bg-green-600');
-                             downloadAvatarButton.classList.add('bg-green-500');
-                             downloadAvatarButton.disabled = false;
-                         }, 2000);
+                    downloadAvatarButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
+                    downloadAvatarButton.classList.remove('bg-green-500');
+                    downloadAvatarButton.classList.add('bg-green-600');
+                    setTimeout(() => {
+                        downloadAvatarButton.innerHTML = originalText;
+                        downloadAvatarButton.classList.remove('bg-green-600');
+                        downloadAvatarButton.classList.add('bg-green-500');
+                        downloadAvatarButton.disabled = false;
+                    }, 2000);
                     } else {
                          downloadAvatarButton.innerHTML = '<i class="fa-solid fa-times mr-2"></i> 下载失败';
                          downloadAvatarButton.classList.remove('bg-green-500');
@@ -1216,8 +1221,7 @@
                     if (currentWallpaper && currentWallpaper.complete) {
                         const scale = Math.max(momentAvatarSize / currentWallpaper.width, momentAvatarSize / currentWallpaper.height);
                         const ax = avatarX + (momentAvatarSize - currentWallpaper.width * scale) / 2;
-                        // 应用 yOffset 和补偿偏移量绘制头像在封面 canvas 上
-                        const ay = avatarY + (momentAvatarSize - currentWallpaper.height * scale) / 2 + yOffset; 
+                        const ay = avatarY + (momentAvatarSize - currentWallpaper.height * scale) / 2; // 移除yOffset应用，头像固定在右下角
                         tempCtx.drawImage(currentWallpaper, ax, ay, currentWallpaper.width * scale, currentWallpaper.height * scale);
                     } else {
                         tempCtx.fillStyle = '#CCC';
@@ -1247,15 +1251,15 @@
                     const coverSuccess = await exportCanvasAsImage(tempCanvas, '朋友圈预览.png');
 
                     if (coverSuccess) {
-                         downloadCoverButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
-                         downloadCoverButton.classList.remove('bg-blue-500');
-                         downloadCoverButton.classList.add('bg-blue-600');
-                         setTimeout(() => {
-                             downloadCoverButton.innerHTML = originalText;
-                             downloadCoverButton.classList.remove('bg-blue-600');
-                             downloadCoverButton.classList.add('bg-blue-500');
-                             downloadCoverButton.disabled = false;
-                         }, 2000);
+                    downloadCoverButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
+                    downloadCoverButton.classList.remove('bg-blue-500');
+                    downloadCoverButton.classList.add('bg-blue-600');
+                    setTimeout(() => {
+                        downloadCoverButton.innerHTML = originalText;
+                        downloadCoverButton.classList.remove('bg-blue-600');
+                        downloadCoverButton.classList.add('bg-blue-500');
+                        downloadCoverButton.disabled = false;
+                    }, 2000);
                     } else {
                          downloadCoverButton.innerHTML = '<i class="fa-solid fa-times mr-2"></i> 下载失败';
                          downloadCoverButton.classList.remove('bg-blue-500');
@@ -1396,16 +1400,16 @@
                     const coverSuccess = await exportCanvasAsImage(tempCanvas, '朋友圈预览.png');
 
                     if (roundSuccess && squareSuccess && coverSuccess) {
-                         // 所有下载完成后更新按钮状态
-                         downloadBothButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
-                         downloadBothButton.classList.remove('bg-purple-500');
-                         downloadBothButton.classList.add('bg-purple-600');
-                         setTimeout(() => {
-                             downloadBothButton.innerHTML = originalText;
-                             downloadBothButton.classList.remove('bg-purple-600');
-                             downloadBothButton.classList.add('bg-purple-500');
-                             downloadBothButton.disabled = false;
-                         }, 2000);
+                    // 所有下载完成后更新按钮状态
+                    downloadBothButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
+                    downloadBothButton.classList.remove('bg-purple-500');
+                    downloadBothButton.classList.add('bg-purple-600');
+                    setTimeout(() => {
+                        downloadBothButton.innerHTML = originalText;
+                        downloadBothButton.classList.remove('bg-purple-600');
+                        downloadBothButton.classList.add('bg-purple-500');
+                        downloadBothButton.disabled = false;
+                    }, 2000);
                     } else {
                          downloadBothButton.innerHTML = '<i class="fa-solid fa-times mr-2"></i> 下载失败';
                          downloadBothButton.classList.remove('bg-purple-500');
@@ -1487,11 +1491,10 @@
                 momentCtx.beginPath();
                 roundRect(momentCtx, avatarX, avatarY, momentAvatarSize, momentAvatarSize, momentAvatarRadius);
                 momentCtx.clip();
-                 if (avatarImg && avatarImg.complete) { // 使用wallpaper作为头像图片
+                if (avatarImg && avatarImg.complete) {
                     const scale = Math.max(momentAvatarSize / avatarImg.width, momentAvatarSize / avatarImg.height);
                     const ax = avatarX + (momentAvatarSize - avatarImg.width * scale) / 2;
-                    // 在预览 canvas 上，头像的位置也需要考虑 yOffset
-                    const ay = avatarY + (momentAvatarSize - avatarImg.height * scale) / 2 + yOffset; 
+                    const ay = avatarY + (momentAvatarSize - avatarImg.height * scale) / 2; // 移除yOffset应用，头像固定在右下角
                     momentCtx.drawImage(avatarImg, ax, ay, avatarImg.width * scale, avatarImg.height * scale);
                 } else {
                     momentCtx.fillStyle = '#CCC';
@@ -1585,12 +1588,11 @@
                 momentFullCtx.beginPath();
                 roundRect(momentFullCtx, avatarX, avatarY, momentAvatarSize, momentAvatarSize, momentAvatarRadius);
                 momentFullCtx.clip();
-                 if (wallpaper && wallpaper.complete) { // 使用wallpaper作为头像图片
-                    const scale = Math.max(momentAvatarSize / wallpaper.width, momentAvatarSize / wallpaper.height);
-                    const ax = avatarX + (momentAvatarSize - wallpaper.width * scale) / 2;
-                    // 在完整预览 canvas 上，头像的位置也需要考虑 yOffset
-                    const ay = avatarY + (momentAvatarSize - wallpaper.height * scale) / 2 + yOffset; 
-                    momentFullCtx.drawImage(wallpaper, ax, ay, wallpaper.width * scale, wallpaper.height * scale);
+                if (avatarImg && avatarImg.complete) {
+                    const scale = Math.max(momentAvatarSize / avatarImg.width, momentAvatarSize / avatarImg.height);
+                    const ax = avatarX + (momentAvatarSize - avatarImg.width * scale) / 2;
+                    const ay = avatarY + (momentAvatarSize - avatarImg.height * scale) / 2; // 移除yOffset应用，头像固定在右下角
+                    momentFullCtx.drawImage(avatarImg, ax, ay, avatarImg.width * scale, avatarImg.height * scale);
                 } else {
                     momentFullCtx.fillStyle = '#CCC';
                     momentFullCtx.fillRect(avatarX, avatarY, momentAvatarSize, momentAvatarSize);
@@ -1711,6 +1713,63 @@
                 };
                 img.src = url;
             }
+
+            // 添加移动端自适应样式
+            function updateCanvasSize() {
+                const isMobile = window.innerWidth < 768; // 768px是Tailwind的md断点
+                const container = document.querySelector('.container');
+                const containerWidth = container.clientWidth;
+                
+                if (isMobile) {
+                    // 移动端自适应缩放
+                    const scale = Math.min(1, containerWidth / laptopWidth);
+                    
+                    // 设置canvas容器的最大宽度
+                    const devicePreviews = document.querySelectorAll('.device-preview');
+                    devicePreviews.forEach(preview => {
+                        preview.style.maxWidth = '100%';
+                        preview.style.margin = '0 auto';
+                        preview.style.overflow = 'hidden'; // 防止内容溢出
+                    });
+                    
+                    // 设置canvas的样式
+                    [tabletCanvas, laptopCanvas, momentCanvas].forEach(canvas => {
+                        canvas.style.width = '100%';
+                        canvas.style.height = 'auto';
+                        canvas.style.maxWidth = `${canvas.width * scale}px`;
+                        canvas.style.transform = 'translateX(0)'; // 确保没有水平偏移
+                    });
+
+                    // 调整设备旋转容器的样式
+                    const rotateContainers = document.querySelectorAll('.tablet-rotate, .laptop-rotate');
+                    rotateContainers.forEach(container => {
+                        container.style.transform = 'none'; // 移动端取消旋转效果
+                        container.style.width = '100%';
+                        container.style.overflow = 'hidden';
+                    });
+                } else {
+                    // PC端恢复原始尺寸
+                    [tabletCanvas, laptopCanvas, momentCanvas].forEach(canvas => {
+                        canvas.style.width = '';
+                        canvas.style.height = '';
+                        canvas.style.maxWidth = '';
+                        canvas.style.transform = '';
+                    });
+
+                    // 恢复设备旋转容器的样式
+                    const rotateContainers = document.querySelectorAll('.tablet-rotate, .laptop-rotate');
+                    rotateContainers.forEach(container => {
+                        container.style.transform = '';
+                        container.style.width = '';
+                        container.style.overflow = '';
+                    });
+                }
+            }
+
+            // 监听窗口大小变化
+            window.addEventListener('resize', updateCanvasSize);
+            // 初始化时执行一次
+            updateCanvasSize();
         });
     </script>
 </body>
