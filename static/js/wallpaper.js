@@ -171,8 +171,11 @@ const WallpaperManager = {
      * 获取下一页壁纸
      */
     getNextPageWallpapers() {
-        const start = this.state.currentPage * CONFIG.PAGINATION.ITEMS_PER_PAGE;
-        const end = start + CONFIG.PAGINATION.ITEMS_PER_PAGE;
+        const isMobile = window.innerWidth < 768;
+        const itemsPerPage = isMobile ? CONFIG.PAGINATION.MOBILE.ITEMS_PER_PAGE : CONFIG.PAGINATION.ITEMS_PER_PAGE;
+        
+        const start = this.state.currentPage * itemsPerPage;
+        const end = start + itemsPerPage;
         const availableWallpapers = this.state.filteredWallpapers.filter(w => !this.state.displayedWallpapers.has(w.path));
         
         if (availableWallpapers.length === 0) {
@@ -180,7 +183,7 @@ const WallpaperManager = {
         }
 
         // 随机打乱顺序，但确保不重复
-        const pageWallpapers = Utils.shuffleArray(availableWallpapers).slice(0, CONFIG.PAGINATION.ITEMS_PER_PAGE);
+        const pageWallpapers = Utils.shuffleArray(availableWallpapers).slice(0, itemsPerPage);
         pageWallpapers.forEach(w => this.state.displayedWallpapers.add(w.path));
         this.state.currentPage++;
         
@@ -231,7 +234,10 @@ const WallpaperManager = {
         }
         
         const loadMoreBtn = document.getElementById('load-more-btn');
-        if (this.state.filteredWallpapers.length <= CONFIG.PAGINATION.ITEMS_PER_PAGE) {
+        const isMobile = window.innerWidth < 768;
+        const itemsPerPage = isMobile ? CONFIG.PAGINATION.MOBILE.ITEMS_PER_PAGE : CONFIG.PAGINATION.ITEMS_PER_PAGE;
+        
+        if (this.state.filteredWallpapers.length <= itemsPerPage) {
             loadMoreBtn.innerHTML = '<span>已加载全部内容</span>';
             loadMoreBtn.disabled = true;
         } else {
@@ -286,9 +292,9 @@ const WallpaperManager = {
                 // 移动端和桌面端都使用压缩后的图片
                 try {
                     const compressedBlob = await Utils.compressImage(blob, {
-                        maxWidth: isMobile ? 800 : CONFIG.IMAGE.MAX_WIDTH,
-                        maxHeight: isMobile ? 600 : CONFIG.IMAGE.MAX_HEIGHT,
-                        quality: isMobile ? 0.8 : CONFIG.IMAGE.QUALITY
+                        maxWidth: isMobile ? CONFIG.IMAGE.MOBILE.MAX_WIDTH : CONFIG.IMAGE.MAX_WIDTH,
+                        maxHeight: isMobile ? CONFIG.IMAGE.MOBILE.MAX_HEIGHT : CONFIG.IMAGE.MAX_HEIGHT,
+                        quality: isMobile ? CONFIG.IMAGE.MOBILE.QUALITY : CONFIG.IMAGE.QUALITY
                     });
                     imageUrl = URL.createObjectURL(compressedBlob);
                 } catch (compressError) {
