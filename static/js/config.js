@@ -4,7 +4,7 @@
 const CONFIG = {
     // 分页配置。 
     PAGINATION: {
-        ITEMS_PER_PAGE: 6
+        ITEMS_PER_PAGE: 12
     },
     
     // 图片处理配置

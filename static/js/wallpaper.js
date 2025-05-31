@@ -163,13 +163,33 @@ const WallpaperManager = {
                         window.open(`yulan.html?image=${encodeURIComponent(wallpaper.path)}#previewControls`, '_blank');
                     };
                     
-                    document.getElementById('download-original').onclick = function() {
-                        const link = document.createElement('a');
-                        link.href = wallpaper.path;
-                        link.download = wallpaper.filename;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
+                    document.getElementById('download-original').onclick = async function() {
+                        try {
+                            // 获取原始图片
+                            const response = await fetch(wallpaper.path);
+                            const blob = await response.blob();
+                            const file = new File([blob], wallpaper.filename, { type: blob.type });
+                            
+                            // 压缩图片
+                            const compressedBlob = await Utils.compressImage(file, {
+                                maxWidth: 1920,  // 最大宽度
+                                maxHeight: 1080, // 最大高度
+                                quality: 0.8,    // 压缩质量
+                                type: 'image/jpeg' // 输出格式
+                            });
+                            
+                            // 创建下载链接
+                            const link = document.createElement('a');
+                            link.href = URL.createObjectURL(compressedBlob);
+                            link.download = wallpaper.filename.replace(/\.[^/.]+$/, '') + '_compressed.jpg';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            URL.revokeObjectURL(link.href);
+                        } catch (error) {
+                            console.error('下载失败:', error);
+                            alert('下载失败，请重试');
+                        }
                     };
                     
                     // 打开模态框
