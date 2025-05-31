@@ -822,17 +822,18 @@
                     if (canvas === phoneCanvas) drawPhone(currentWallpaper);
                     if (canvas === tabletCanvas) drawTablet(currentWallpaper);
                     if (canvas === laptopCanvas) drawLaptop(currentWallpaper);
-                    let dataURL = '';
-                    try {
-                        dataURL = canvas.toDataURL('image/png');
-                    } catch (err) {
-                        alert('下载失败：图片跨域或canvas被污染，无法导出。请确保上传的是本地图片或同源图片。\n详细信息：' + err.message);
-                        button.innerHTML = '<i class="fa-solid fa-times mr-2"></i> 下载失败';
+                    
+                    // 调用 exportCanvasAsImage 并检查返回值
+                    const downloadSuccess = exportCanvasAsImage(canvas, filename + '.png');
+
+                    if (downloadSuccess) {
+                         // 更新按钮状态为下载成功
+                        button.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
                         button.classList.remove('bg-accent', 'bg-secondary', 'bg-primary');
-                        button.classList.add('bg-red-500');
+                        button.classList.add('bg-green-500');
                         setTimeout(() => {
                             button.innerHTML = originalText;
-                            button.classList.remove('bg-red-500');
+                            button.classList.remove('bg-green-500');
                             if (filename === '手机') {
                                 button.classList.add('bg-accent');
                             } else if (filename === '平板') {
@@ -842,28 +843,28 @@
                             }
                             button.disabled = false;
                         }, 2000);
-                        return;
+                    } else {
+                        // 更新按钮状态为下载失败
+                         button.innerHTML = '<i class="fa-solid fa-times mr-2"></i> 下载失败';
+                         button.classList.remove('bg-accent', 'bg-secondary', 'bg-primary');
+                         button.classList.add('bg-red-500');
+                         setTimeout(() => {
+                             button.innerHTML = originalText;
+                             button.classList.remove('bg-red-500');
+                             if (filename === '手机') {
+                                 button.classList.add('bg-accent');
+                             } else if (filename === '平板') {
+                                 button.classList.add('bg-secondary');
+                             } else {
+                                 button.classList.add('bg-primary');
+                             }
+                             button.disabled = false;
+                         }, 2000);
                     }
-                    exportCanvasAsImage(canvas, filename + '.png');
 
-                    // 更新按钮状态
-                    button.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
-                    button.classList.remove('bg-accent', 'bg-secondary', 'bg-primary');
-                    button.classList.add('bg-green-500');
-                    setTimeout(() => {
-                        button.innerHTML = originalText;
-                        button.classList.remove('bg-green-500');
-                        if (filename === '手机') {
-                            button.classList.add('bg-accent');
-                        } else if (filename === '平板') {
-                            button.classList.add('bg-secondary');
-                        } else {
-                            button.classList.add('bg-primary');
-                        }
-                        button.disabled = false;
-                    }, 2000);
                 } catch (error) {
                     console.error('下载失败:', error);
+                    // 更新按钮状态为下载失败
                     button.innerHTML = '<i class="fa-solid fa-times mr-2"></i> 下载失败';
                     button.classList.remove('bg-accent', 'bg-secondary', 'bg-primary');
                     button.classList.add('bg-red-500');
@@ -901,15 +902,24 @@
                 } catch (err) {
                     alert('导出失败：' + err.message + '\n请确保图片不是跨域加载且Canvas未被污染。');
                     console.error('Canvas导出失败:', err);
-                    return;
+                    return false; // 导出失败返回 false
                 }
                
+                // 检查数据URL是否有效
+                if (!dataURL || dataURL === 'data:,') {
+                     alert('导出失败：无法获取图片数据。');
+                     console.error('Canvas导出失败: 获取到无效的数据URL');
+                     return false; // 导出失败返回 false
+                }
+
                 let link = document.createElement('a');
                 link.download = filename;
                 link.href = dataURL;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
+
+                return true; // 导出成功返回 true
             }
 
             // 添加壁纸位置调整功能
