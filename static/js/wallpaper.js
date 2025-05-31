@@ -131,33 +131,42 @@ const WallpaperManager = {
                     return;
                 }
                 
-                // 更新详情模态框内容
-                document.getElementById('detail-image').src = wallpaper.path;
-                document.getElementById('detail-title').textContent = wallpaper.name;
-                document.getElementById('detail-category').textContent = '未分类';
+                // 检测是否为移动设备
+                const isMobile = window.innerWidth < 768;
                 
-                // 更新标签
-                const tagContainer = document.getElementById('detail-tags');
-                tagContainer.innerHTML = '';
-                
-                // 预览和下载按钮
-                document.getElementById('preview-wallpaper').onclick = function() {
-                    window.open(`yulan.html?image=${encodeURIComponent(wallpaper.path)}#previewControls`, '_blank');
-                };
-                
-                document.getElementById('download-original').onclick = function() {
-                    const link = document.createElement('a');
-                    link.href = wallpaper.path;
-                    link.download = wallpaper.filename;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                };
-                
-                // 打开模态框
-                const detailModal = document.getElementById('wallpaper-detail-modal');
-                const detailModalContent = document.getElementById('wallpaper-detail-modal-content');
-                ModalManager.effects.open(detailModal, detailModalContent);
+                if (isMobile) {
+                    // 移动端：跳转到详情页面
+                    window.location.href = `detail-mobile.html?path=${encodeURIComponent(wallpaper.path)}&name=${encodeURIComponent(wallpaper.name)}`;
+                } else {
+                    // 桌面端：使用模态框
+                    // 更新详情模态框内容
+                    document.getElementById('detail-image').src = wallpaper.path;
+                    document.getElementById('detail-title').textContent = wallpaper.name;
+                    document.getElementById('detail-category').textContent = '未分类';
+                    
+                    // 更新标签
+                    const tagContainer = document.getElementById('detail-tags');
+                    tagContainer.innerHTML = '';
+                    
+                    // 预览和下载按钮
+                    document.getElementById('preview-wallpaper').onclick = function() {
+                        window.open(`yulan.html?image=${encodeURIComponent(wallpaper.path)}#previewControls`, '_blank');
+                    };
+                    
+                    document.getElementById('download-original').onclick = function() {
+                        const link = document.createElement('a');
+                        link.href = wallpaper.path;
+                        link.download = wallpaper.filename;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    };
+                    
+                    // 打开模态框
+                    const detailModal = document.getElementById('wallpaper-detail-modal');
+                    const detailModalContent = document.getElementById('wallpaper-detail-modal-content');
+                    ModalManager.effects.open(detailModal, detailModalContent);
+                }
             }
         });
     },

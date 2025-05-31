@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>壁纸详情 - Wallpaper Haven</title>
+    <!-- 引入Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 引入自定义CSS -->
+    <link href="static/css/main.css" rel="stylesheet">
+    <!-- 配置Tailwind自定义主题 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'var(--color-primary)',
+                        secondary: 'var(--color-secondary)',
+                        accent: 'var(--color-accent)',
+                        neutral: 'var(--color-neutral)',
+                        'neutral-dark': 'var(--color-neutral-dark)',
+                        dark: 'var(--color-dark)'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'card': 'var(--card-shadow)',
+                        'card-hover': 'var(--card-shadow-hover)',
+                    }
+                },
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-neutral text-dark min-h-screen flex flex-col">
+    <!-- 导航栏 -->
+    <header class="sticky top-0 z-50 bg-white/80 bg-blur border-b border-gray-200 transition-all duration-300">
+        <div class="container mx-auto px-4">
+            <nav class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <i class="fa fa-arrow-left text-primary text-xl"></i>
+                        <span class="text-xl font-bold text-primary">返回首页</span>
+                    </a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="share-btn" class="text-gray-500 hover:text-primary">
+                        <i class="fa fa-share-alt text-xl"></i>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="flex-1 container mx-auto px-4 py-6">
+        <div class="bg-white rounded-lg overflow-hidden shadow-lg">
+            <!-- 图片区域 -->
+            <div class="flex items-center justify-center bg-black min-h-[320px] p-4">
+                <img id="detail-image" src="" alt="壁纸详情" class="max-h-[80vh] max-w-full object-contain rounded-2xl shadow-lg transition-all duration-300">
+            </div>
+            
+            <!-- 详情区域 -->
+            <div class="p-6">
+                <h2 id="detail-title" class="text-2xl font-bold mb-2">加载中...</h2>
+                <div class="flex items-center space-x-2 mb-4">
+                    <img src="https://picsum.photos/id/64/40/40" alt="用户头像" class="w-8 h-8 rounded-full">
+                    <span class="text-gray-600">摄影师</span>
+                    <span class="text-gray-400">•</span>
+                    <span class="text-gray-500 text-sm">2023-05-20</span>
+                </div>
+                
+                <div class="mb-4">
+                    <h3 class="font-medium mb-2">分类</h3>
+                    <span id="detail-category" class="px-3 py-1 bg-neutral rounded-full text-sm">加载中...</span>
+                </div>
+                
+                <div class="mb-4">
+                    <h3 class="font-medium mb-2">标签</h3>
+                    <div id="detail-tags" class="flex flex-wrap gap-2">
+                        <!-- 标签将通过JS动态添加 -->
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="font-medium mb-2">尺寸</h3>
+                    <span id="detail-size" class="text-gray-600">加载中...</span>
+                </div>
+                
+                <div class="flex flex-wrap gap-3 mb-6">
+                    <button class="flex-1 py-3 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors flex items-center justify-center space-x-2" id="download-original">
+                        <i class="fa fa-download"></i>
+                        <span>下载图片</span>
+                    </button>
+                    <button class="flex-1 py-3 preview-btn text-white rounded-lg transition-colors flex items-center justify-center space-x-2" id="preview-wallpaper">
+                        <i class="fa fa-eye"></i>
+                        <span>多平台预览</span>
+                    </button>
+                </div>
+                
+                <div class="border-t border-gray-200 pt-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center space-x-1">
+                                <i class="fa fa-eye text-gray-400"></i>
+                                <span id="detail-views" class="text-gray-600">1.2k</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <i class="fa fa-heart text-red-400"></i>
+                                <span id="detail-likes" class="text-gray-600">156</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-white border-t border-gray-200 py-6">
+        <div class="container mx-auto px-4 text-center text-gray-500 text-sm">
+            <p>© 2025 Wallpaper Haven. 保留所有权利。</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="static/js/config.js"></script>
+    <script src="static/js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 从URL获取壁纸路径
+            const urlParams = new URLSearchParams(window.location.search);
+            const wallpaperPath = urlParams.get('path');
+            const wallpaperName = urlParams.get('name');
+            
+            if (!wallpaperPath) {
+                alert('未找到壁纸信息');
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // 更新页面内容
+            const detailImage = document.getElementById('detail-image');
+            const detailTitle = document.getElementById('detail-title');
+            const detailCategory = document.getElementById('detail-category');
+            const detailSize = document.getElementById('detail-size');
+            
+            // 设置图片和标题
+            detailImage.src = decodeURIComponent(wallpaperPath);
+            detailTitle.textContent = wallpaperName || '未命名壁纸';
+            detailCategory.textContent = '未分类';
+            
+            // 图片加载完成后更新尺寸信息
+            detailImage.onload = function() {
+                detailSize.textContent = `${detailImage.naturalWidth} × ${detailImage.naturalHeight} 像素`;
+            };
+            
+            // 预览按钮点击事件
+            document.getElementById('preview-wallpaper').onclick = function() {
+                window.open(`yulan.html?image=${encodeURIComponent(wallpaperPath)}#previewControls`, '_blank');
+            };
+            
+            // 下载按钮点击事件
+            document.getElementById('download-original').onclick = function() {
+                const link = document.createElement('a');
+                link.href = decodeURIComponent(wallpaperPath);
+                link.download = wallpaperName || 'wallpaper';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+        });
+    </script>
+</body>
+</html>
