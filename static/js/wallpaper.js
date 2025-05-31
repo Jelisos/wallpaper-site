@@ -287,7 +287,7 @@ const WallpaperManager = {
                 let imageUrl;
                 
                 try {
-                    // 统一使用压缩方法，不再区分移动端和PC端
+                    // 统一使用压缩方法
                     const compressedBlob = await Utils.compressImage(blob);
                     imageUrl = URL.createObjectURL(compressedBlob);
                 } catch (compressError) {
@@ -295,10 +295,10 @@ const WallpaperManager = {
                     imageUrl = URL.createObjectURL(blob);
                 }
                 
-                // 更新卡片内容，替换加载指示器为图片
+                // 更新卡片内容，替换加载指示器为图片，并重新添加 object-cover 类
                 const cardContent = card.querySelector('.relative');
                 cardContent.innerHTML = `
-                    <img src="${imageUrl}" alt="${wallpaper.name}" class="w-full cursor-pointer hover:opacity-90 transition-opacity wallpaper-thumb" data-original-path="${wallpaper.path}">
+                    <img src="${imageUrl}" alt="${wallpaper.name}" class="w-full object-cover cursor-pointer hover:opacity-90 transition-opacity wallpaper-thumb" data-original-path="${wallpaper.path}">
                 `;
                 
                 // 图片加载完成后更新尺寸信息
