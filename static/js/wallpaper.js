@@ -313,12 +313,12 @@ const WallpaperManager = {
                     const sizeSpan = card.querySelector('.size-info');
                     sizeSpan.textContent = `${img.naturalWidth} × ${img.naturalHeight}`;
                     
-                    // 释放blob URL以节省内存
-                    if (isMobile) {
-                        setTimeout(() => {
-                            URL.revokeObjectURL(imageUrl);
-                        }, 1000); // 给一点时间确保图片完全加载
-                    }
+                    // 移除这段代码，不再在移动端提前释放 Blob URL
+                    // if (isMobile) {
+                    //     setTimeout(() => {
+                    //         URL.revokeObjectURL(imageUrl);
+                    //     }, 1000); // 给一点时间确保图片完全加载
+                    // }
                 };
                 
                 img.onerror = function() {
