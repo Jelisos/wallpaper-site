@@ -794,7 +794,7 @@
             }
             
             // 下载预览图
-            function downloadPreview(canvas, filename, deviceType) {
+            async function downloadPreview(canvas, filename, deviceType) {
                 // 检查壁纸是否加载完成
                 if (!currentWallpaper || !currentWallpaper.complete || currentWallpaper.naturalWidth === 0) {
                     alert('壁纸未加载完成，无法下载！');
@@ -823,8 +823,8 @@
                     if (canvas === tabletCanvas) drawTablet(currentWallpaper);
                     if (canvas === laptopCanvas) drawLaptop(currentWallpaper);
                     
-                    // 调用 exportCanvasAsImage 并检查返回值
-                    const downloadSuccess = exportCanvasAsImage(canvas, filename + '.png');
+                    // 调用 exportCanvasAsImage 并等待结果
+                    const downloadSuccess = await exportCanvasAsImage(canvas, filename + '.png');
 
                     if (downloadSuccess) {
                          // 更新按钮状态为下载成功
@@ -890,36 +890,32 @@
              * @param {string} filename - 下载文件的名称
              * @param {string} [format='image/png'] - 输出的图片格式 (e.g., 'image/jpeg', 'image/png')
              * @param {number} [quality=1.0] - 输出图片的质量 (仅适用于支持有损压缩的格式如 JPEG, 0.0 到 1.0)
+             * @returns {Promise<boolean>} - 返回一个Promise，表示导出是否成功
              */
-            function exportCanvasAsImage(canvas, filename, format = 'image/png', quality = 1.0) {
-                let dataURL;
-                try {
-                    if (format === 'image/jpeg') {
-                         dataURL = canvas.toDataURL(format, quality); // JPEG格式支持质量参数
-                    } else {
-                         dataURL = canvas.toDataURL(format); // 其他格式（如PNG）通常不支持质量参数或质量参数无效
-                    }
-                } catch (err) {
-                    alert('导出失败：' + err.message + '\n请确保图片不是跨域加载且Canvas未被污染。');
-                    console.error('Canvas导出失败:', err);
-                    return false; // 导出失败返回 false
-                }
-               
-                // 检查数据URL是否有效
-                if (!dataURL || dataURL === 'data:,') {
-                     alert('导出失败：无法获取图片数据。');
-                     console.error('Canvas导出失败: 获取到无效的数据URL');
-                     return false; // 导出失败返回 false
-                }
+            async function exportCanvasAsImage(canvas, filename, format = 'image/png', quality = 1.0) {
+                return new Promise((resolve, reject) => {
+                    canvas.toBlob(function(blob) {
+                        if (!blob) {
+                            console.error('Canvas导出失败: 无法创建Blob。');
+                            alert('导出失败：无法创建图片数据。');
+                            resolve(false); // 导出失败
+                            return;
+                        }
 
-                let link = document.createElement('a');
-                link.download = filename;
-                link.href = dataURL;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.download = filename;
+                        link.href = url;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
 
-                return true; // 导出成功返回 true
+                        // 释放URL对象
+                        URL.revokeObjectURL(url);
+
+                        resolve(true); // 导出成功
+                    }, format, quality);
+                });
             }
 
             // 添加壁纸位置调整功能
@@ -991,7 +987,7 @@
                 );
                 
                 const x = (canvasWidth - img.width * scale) / 2;
-                const y = (canvasHeight - img.height * scale) / 2 + yOffset + compensationOffset;
+                const y = (canvasHeight - img.height * scale) / 2 + yOffset + compensationOffset; // 应用yOffset和补偿偏移量
                 
                 ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
                 
@@ -999,7 +995,7 @@
             }
             
             // 下载微信头像
-            function downloadAvatar() {
+            async function downloadAvatar() {
                 if (!currentWallpaper || !currentWallpaper.complete || currentWallpaper.naturalWidth === 0) {
                     alert('壁纸未加载完成，无法下载！');
                     return;
@@ -1015,9 +1011,9 @@
                     roundCanvas.height = avatarSize.height * 2;
                     const roundCtx = roundCanvas.getContext('2d');
                     // 在提升分辨率的Canvas上绘制头像，传入yOffset和补偿偏移量
-                    drawAvatar(roundCtx, currentWallpaper, true, yOffset, -70);
+                    drawAvatar(roundCtx, currentWallpaper, true, yOffset, -70); // 应用偏移补偿
                     // 导出为PNG格式以保留透明背景
-                    exportCanvasAsImage(roundCanvas, '圆形头像.png'); // 移除格式和质量参数，使用默认的PNG
+                    const roundSuccess = await exportCanvasAsImage(roundCanvas, '圆形头像.png');
 
                     // 下载圆角方形头像，使用PNG格式以保留透明背景
                     const squareCanvas = document.createElement('canvas');
@@ -1026,19 +1022,32 @@
                     squareCanvas.height = avatarSize.height * 2;
                     const squareCtx = squareCanvas.getContext('2d');
                      // 在提升分辨率的Canvas上绘制头像，传入yOffset和补偿偏移量
-                    drawAvatar(squareCtx, currentWallpaper, false, yOffset, -70);
+                    drawAvatar(squareCtx, currentWallpaper, false, yOffset, -70); // 应用偏移补偿
                     // 导出为PNG格式以保留透明背景
-                    exportCanvasAsImage(squareCanvas, '方形头像.png'); // 移除格式和质量参数，使用默认的PNG
+                    const squareSuccess = await exportCanvasAsImage(squareCanvas, '方形头像.png');
 
-                    downloadAvatarButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
-                    downloadAvatarButton.classList.remove('bg-green-500');
-                    downloadAvatarButton.classList.add('bg-green-600');
-                    setTimeout(() => {
-                        downloadAvatarButton.innerHTML = originalText;
-                        downloadAvatarButton.classList.remove('bg-green-600');
-                        downloadAvatarButton.classList.add('bg-green-500');
-                        downloadAvatarButton.disabled = false;
-                    }, 2000);
+                    if (roundSuccess && squareSuccess) {
+                         downloadAvatarButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
+                         downloadAvatarButton.classList.remove('bg-green-500');
+                         downloadAvatarButton.classList.add('bg-green-600');
+                         setTimeout(() => {
+                             downloadAvatarButton.innerHTML = originalText;
+                             downloadAvatarButton.classList.remove('bg-green-600');
+                             downloadAvatarButton.classList.add('bg-green-500');
+                             downloadAvatarButton.disabled = false;
+                         }, 2000);
+                    } else {
+                         downloadAvatarButton.innerHTML = '<i class="fa-solid fa-times mr-2"></i> 下载失败';
+                         downloadAvatarButton.classList.remove('bg-green-500');
+                         downloadAvatarButton.classList.add('bg-red-500');
+                         setTimeout(() => {
+                             downloadAvatarButton.innerHTML = originalText;
+                             downloadAvatarButton.classList.remove('bg-red-500');
+                             downloadAvatarButton.classList.add('bg-green-500');
+                             downloadAvatarButton.disabled = false;
+                         }, 2000);
+                    }
+
                 } catch (error) {
                     console.error('下载失败:', error);
                     downloadAvatarButton.innerHTML = '<i class="fa-solid fa-times mr-2"></i> 下载失败';
@@ -1054,7 +1063,7 @@
             }
             
             // 下载朋友圈封面
-            function downloadCover() {
+            async function downloadCover() {
                 if (!currentWallpaper || !currentWallpaper.complete || currentWallpaper.naturalWidth === 0) {
                     alert('壁纸未加载完成，无法下载！');
                     return;
@@ -1114,7 +1123,7 @@
                     if (currentWallpaper && currentWallpaper.complete) {
                         const scale = Math.max(momentAvatarSize / currentWallpaper.width, momentAvatarSize / currentWallpaper.height);
                         const ax = avatarX + (momentAvatarSize - currentWallpaper.width * scale) / 2;
-                        const ay = avatarY + (momentAvatarSize - currentWallpaper.height * scale) / 2;
+                        const ay = avatarY + (momentAvatarSize - currentWallpaper.height * scale) / 2; // 移除yOffset应用，头像固定在右下角
                         tempCtx.drawImage(currentWallpaper, ax, ay, currentWallpaper.width * scale, currentWallpaper.height * scale);
                     } else {
                         tempCtx.fillStyle = '#CCC';
@@ -1141,16 +1150,30 @@
                     tempCtx.stroke();
                     tempCtx.restore();
                     // 导出图片
-                    exportCanvasAsImage(tempCanvas, '朋友圈预览.png');
-                    downloadCoverButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
-                    downloadCoverButton.classList.remove('bg-blue-500');
-                    downloadCoverButton.classList.add('bg-blue-600');
-                    setTimeout(() => {
-                        downloadCoverButton.innerHTML = originalText;
-                        downloadCoverButton.classList.remove('bg-blue-600');
-                        downloadCoverButton.classList.add('bg-blue-500');
-                        downloadCoverButton.disabled = false;
-                    }, 2000);
+                    const coverSuccess = await exportCanvasAsImage(tempCanvas, '朋友圈预览.png');
+
+                    if (coverSuccess) {
+                         downloadCoverButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
+                         downloadCoverButton.classList.remove('bg-blue-500');
+                         downloadCoverButton.classList.add('bg-blue-600');
+                         setTimeout(() => {
+                             downloadCoverButton.innerHTML = originalText;
+                             downloadCoverButton.classList.remove('bg-blue-600');
+                             downloadCoverButton.classList.add('bg-blue-500');
+                             downloadCoverButton.disabled = false;
+                         }, 2000);
+                    } else {
+                         downloadCoverButton.innerHTML = '<i class="fa-solid fa-times mr-2"></i> 下载失败';
+                         downloadCoverButton.classList.remove('bg-blue-500');
+                         downloadCoverButton.classList.add('bg-red-500');
+                         setTimeout(() => {
+                             downloadCoverButton.innerHTML = originalText;
+                             downloadCoverButton.classList.remove('bg-red-500');
+                             downloadCoverButton.classList.add('bg-blue-500');
+                             downloadCoverButton.disabled = false;
+                         }, 2000);
+                    }
+
                 } catch (error) {
                     console.error('下载失败:', error);
                     alert('下载失败：' + error.message);
@@ -1167,7 +1190,7 @@
             }
             
             // 组合下载
-            function downloadBoth() {
+            async function downloadBoth() {
                 if (!currentWallpaper || !currentWallpaper.complete || currentWallpaper.naturalWidth === 0) {
                     alert('壁纸未加载完成，无法下载！');
                     return;
@@ -1184,7 +1207,7 @@
                     // 在提升分辨率的Canvas上绘制头像，传入yOffset和补偿偏移量
                     drawAvatar(avatarRoundCtx, currentWallpaper, true, yOffset, -70); // 应用偏移补偿
                     // 导出为PNG格式以保留透明背景
-                    exportCanvasAsImage(avatarRoundCanvas, '圆形头像.png');
+                    const roundSuccess = await exportCanvasAsImage(avatarRoundCanvas, '圆形头像.png');
 
                     // === 下载圆角方形头像 (尺寸 600x600) ===
                     const avatarSquareCanvas = document.createElement('canvas');
@@ -1195,21 +1218,112 @@
                     // 在提升分辨率的Canvas上绘制头像，传入yOffset和补偿偏移量
                     drawAvatar(avatarSquareCtx, currentWallpaper, false, yOffset, -70); // 应用偏移补偿
                     // 导出为PNG格式以保留透明背景
-                    exportCanvasAsImage(avatarSquareCanvas, '方形头像.png');
+                    const squareSuccess = await exportCanvasAsImage(avatarSquareCanvas, '方形头像.png');
 
                     // === 下载朋友圈完整预览 (封面，已支持yOffset) ===
-                    downloadCover();
+                    // 新建临时canvas，宽高用最新momentWidth和momentHeight
+                    const tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = momentWidth;
+                    tempCanvas.height = momentHeight;
+                    const tempCtx = tempCanvas.getContext('2d');
+                    tempCtx.save();
+                    roundRect(tempCtx, 0, 0, momentWidth, momentHeight, 20);
+                    tempCtx.clip();
+                    // 绘制壁纸
+                    if (currentWallpaper) {
+                        const imageRatio = currentWallpaper.width / currentWallpaper.height;
+                        const screenRatio = momentWidth / momentHeight;
+                        let drawWidth, drawHeight, drawX, drawY;
+                        if (imageRatio > screenRatio) {
+                            drawHeight = momentHeight;
+                            drawWidth = drawHeight * imageRatio;
+                            drawX = -(drawWidth - momentWidth) / 2;
+                            drawY = yOffset; // 使用yOffset
+                        } else {
+                            drawWidth = momentWidth;
+                            drawHeight = drawWidth / imageRatio;
+                            drawX = 0;
+                            drawY = -(drawHeight - momentHeight) / 2 + yOffset; // 使用yOffset
+                        }
+                        tempCtx.drawImage(currentWallpaper, drawX, drawY, drawWidth, drawHeight);
+                    } else {
+                        tempCtx.fillStyle = '#EEE';
+                        tempCtx.fillRect(0, 0, momentWidth, momentHeight);
+                    }
+                    // 底部白色栏
+                    tempCtx.fillStyle = '#fff';
+                    tempCtx.fillRect(0, momentHeight - momentBarHeight, momentWidth, momentBarHeight);
+                    // 底部白色栏左侧说明文字
+                    tempCtx.save();
+                    tempCtx.font = 'bold 16px sans-serif'; // 避免自定义字体导致异常
+                    tempCtx.fillStyle = 'rgba(120,120,120,0.85)';
+                    tempCtx.textAlign = 'left';
+                    tempCtx.textBaseline = 'middle';
+                    tempCtx.shadowColor = 'rgba(255,255,255,0.7)';
+                    tempCtx.shadowBlur = 4;
+                    tempCtx.fillText('朋友圈封面预览+头像', 24, momentHeight - momentBarHeight/2);
+                    tempCtx.restore();
+                    // 右下角头像框
+                    const avatarX = momentWidth - momentAvatarSize - momentAvatarMargin;
+                    const avatarY = momentHeight - momentBarHeight/2 - momentAvatarSize/2;
+                    tempCtx.save();
+                    roundRect(tempCtx, avatarX, avatarY, momentAvatarSize, momentAvatarSize, momentAvatarRadius);
+                    tempCtx.clip();
+                    if (currentWallpaper && currentWallpaper.complete) {
+                        const scale = Math.max(momentAvatarSize / currentWallpaper.width, momentAvatarSize / currentWallpaper.height);
+                        const ax = avatarX + (momentAvatarSize - currentWallpaper.width * scale) / 2;
+                        const ay = avatarY + (momentAvatarSize - currentWallpaper.height * scale) / 2; // 移除yOffset应用，头像固定在右下角
+                        tempCtx.drawImage(currentWallpaper, ax, ay, currentWallpaper.width * scale, currentWallpaper.height * scale);
+                    } else {
+                        tempCtx.fillStyle = '#CCC';
+                        tempCtx.fillRect(avatarX, avatarY, momentAvatarSize, momentAvatarSize);
+                    }
+                    tempCtx.restore();
+                    // 昵称
+                    tempCtx.font = 'bold 36px sans-serif'; // 避免自定义字体导致异常
+                    tempCtx.fillStyle = '#222';
+                    tempCtx.textAlign = 'right';
+                    tempCtx.textBaseline = 'middle';
+                    tempCtx.fillText(momentName, avatarX - 20, momentHeight - momentBarHeight/2);
+                    // 相机icon（右上角）
+                    tempCtx.save();
+                    if (typeof cameraIconImg !== 'undefined' && cameraIconImg.complete && cameraIconImg.naturalWidth > 0) {
+                        tempCtx.drawImage(cameraIconImg, momentWidth - 40 - 16, 40 - 16, 32, 32);
+                    }
+                    tempCtx.restore();
+                    // 边框
+                    tempCtx.save();
+                    roundRect(tempCtx, 0.5, 0.5, momentWidth-1, momentHeight-1, 20);
+                    tempCtx.strokeStyle = '#e5e7eb';
+                    tempCtx.lineWidth = 4;
+                    tempCtx.stroke();
+                    tempCtx.restore();
+                    // 导出图片
+                    const coverSuccess = await exportCanvasAsImage(tempCanvas, '朋友圈预览.png');
 
-                    // 所有下载完成后更新按钮状态
-                    downloadBothButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
-                    downloadBothButton.classList.remove('bg-purple-500');
-                    downloadBothButton.classList.add('bg-purple-600');
-                    setTimeout(() => {
-                        downloadBothButton.innerHTML = originalText;
-                        downloadBothButton.classList.remove('bg-purple-600');
-                        downloadBothButton.classList.add('bg-purple-500');
-                        downloadBothButton.disabled = false;
-                    }, 2000);
+                    if (roundSuccess && squareSuccess && coverSuccess) {
+                         // 所有下载完成后更新按钮状态
+                         downloadBothButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
+                         downloadBothButton.classList.remove('bg-purple-500');
+                         downloadBothButton.classList.add('bg-purple-600');
+                         setTimeout(() => {
+                             downloadBothButton.innerHTML = originalText;
+                             downloadBothButton.classList.remove('bg-purple-600');
+                             downloadBothButton.classList.add('bg-purple-500');
+                             downloadBothButton.disabled = false;
+                         }, 2000);
+                    } else {
+                         downloadBothButton.innerHTML = '<i class="fa-solid fa-times mr-2"></i> 下载失败';
+                         downloadBothButton.classList.remove('bg-purple-500');
+                         downloadBothButton.classList.add('bg-red-500');
+                         setTimeout(() => {
+                             downloadBothButton.innerHTML = originalText;
+                             downloadBothButton.classList.remove('bg-red-500');
+                             downloadBothButton.classList.add('bg-purple-500');
+                             downloadBothButton.disabled = false;
+                         }, 2000);
+                    }
+
                 } catch (error) {
                     console.error('下载失败:', error);
                     downloadBothButton.innerHTML = '<i class="fa-solid fa-times mr-2"></i> 下载失败';
@@ -1295,11 +1409,14 @@
                 momentCtx.textAlign = 'right';
                 momentCtx.textBaseline = 'middle';
                 momentCtx.fillText(momentName, avatarX - 20, momentHeight - momentBarHeight/2);
-                // 相机icon（右上角）
+                // 相机icon
                 momentCtx.save();
                 // 只绘制透明PNG，不绘制背景
                 if (cameraIconImg.complete && cameraIconImg.naturalWidth > 0) {
                     momentCtx.drawImage(cameraIconImg, momentWidth - 40 - 16, 40 - 16, 32, 32);
+                } else {
+                     console.warn('Camera icon image not loaded or invalid for full preview.'); // 添加警告
+                     // 可以选择在这里绘制一个占位符或文字提示
                 }
                 momentCtx.restore();
                 // 最后画一圈圆角边框
@@ -1394,6 +1511,9 @@
                 // 只绘制透明PNG，不绘制背景
                 if (cameraIconImg.complete && cameraIconImg.naturalWidth > 0) {
                     momentFullCtx.drawImage(cameraIconImg, momentWidth - 40 - 16, 40 - 16, 32, 32);
+                } else {
+                     console.warn('Camera icon image not loaded or invalid for full preview.'); // 添加警告
+                     // 可以选择在这里绘制一个占位符或文字提示
                 }
                 momentFullCtx.restore();
                 // 边框
