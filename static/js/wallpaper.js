@@ -289,11 +289,11 @@ const WallpaperManager = {
                 const blob = await response.blob();
                 let imageUrl;
                 
-                // 移动端和桌面端都使用压缩后的图片
+                // 移动端和桌面端都使用压缩后的图片，但保持原始尺寸
                 try {
                     const compressedBlob = await Utils.compressImage(blob, {
-                        maxWidth: isMobile ? CONFIG.IMAGE.MOBILE.MAX_WIDTH : CONFIG.IMAGE.MAX_WIDTH,
-                        maxHeight: isMobile ? CONFIG.IMAGE.MOBILE.MAX_HEIGHT : CONFIG.IMAGE.MAX_HEIGHT,
+                        maxWidth: CONFIG.IMAGE.MAX_WIDTH,
+                        maxHeight: CONFIG.IMAGE.MAX_HEIGHT,
                         quality: isMobile ? CONFIG.IMAGE.MOBILE.QUALITY : CONFIG.IMAGE.QUALITY
                     });
                     imageUrl = URL.createObjectURL(compressedBlob);
@@ -305,7 +305,7 @@ const WallpaperManager = {
                 // 更新卡片内容，替换加载指示器为图片
                 const cardContent = card.querySelector('.relative');
                 cardContent.innerHTML = `
-                    <img src="${imageUrl}" alt="${wallpaper.name}" class="w-full h-48 object-cover cursor-pointer hover:opacity-90 transition-opacity wallpaper-thumb" data-original-path="${wallpaper.path}">
+                    <img src="${imageUrl}" alt="${wallpaper.name}" class="w-full h-48 object-contain cursor-pointer hover:opacity-90 transition-opacity wallpaper-thumb" data-original-path="${wallpaper.path}">
                 `;
                 
                 // 图片加载完成后更新尺寸信息

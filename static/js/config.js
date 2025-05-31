@@ -19,9 +19,7 @@ const CONFIG = {
         TYPE: 'image/jpeg',
         // 移动端图片配置
         MOBILE: {
-            MAX_WIDTH: 800,
-            MAX_HEIGHT: 600,
-            QUALITY: 0.85  // 提高移动端图片质量
+            QUALITY: 0.85  // 保持与PC端相同的图片质量
         }
     },
     
