@@ -74,9 +74,19 @@ const WallpaperManager = {
     initEventListeners() {
         // 搜索框事件
         const searchInput = document.getElementById('search-input');
-        searchInput.addEventListener('input', Utils.debounce((e) => {
+        const mobileSearchInput = document.getElementById('mobile-search-input'); // 获取移动端搜索框
+
+        const handleSearchDebounced = Utils.debounce((e) => {
             this.handleSearch(e.target.value.trim());
-        }, CONFIG.SEARCH.DEBOUNCE_DELAY));
+        }, CONFIG.SEARCH.DEBOUNCE_DELAY);
+
+        if (searchInput) {
+            searchInput.addEventListener('input', handleSearchDebounced);
+        }
+
+        if (mobileSearchInput) {
+            mobileSearchInput.addEventListener('input', handleSearchDebounced);
+        }
 
         // 加载更多按钮事件
         const loadMoreBtn = document.getElementById('load-more-btn');

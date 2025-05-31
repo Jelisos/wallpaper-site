@@ -104,6 +104,15 @@
                     </button>
                 </div>
                 
+                <!-- 移动端搜索框 -->
+                <div class="md:hidden pb-3">
+                    <div class="relative w-full">
+                        <input type="text" id="mobile-search-input" placeholder="搜索壁纸..." 
+                            class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+                        <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                </div>
+                
                 <div class="flex items-center space-x-4">
                     <button id="upload-btn" class="hidden md:flex items-center space-x-2 bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-full transition-all not-implemented">
                         <i class="fa fa-cloud-upload"></i>
@@ -130,15 +139,6 @@
                     </button>
                 </div>
             </nav>
-            
-            <!-- 移动端搜索框 -->
-            <div class="md:hidden pb-3">
-                <div class="relative w-full">
-                    <input type="text" id="search-input" placeholder="搜索壁纸..." 
-                        class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
-                    <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                </div>
-            </div>
             
             <!-- 移动端菜单 -->
             <div id="mobile-menu" class="hidden md:hidden pb-4">
