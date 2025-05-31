@@ -15,6 +15,10 @@ const WallpaperManager = {
      * 获取壁纸列表URL
      * @returns {string} 壁纸列表URL
      */
+    /**
+     * 获取壁纸列表URL
+     * @returns {string} 壁纸列表URL
+     */
     getWallpaperListUrl() {
         // 获取当前页面的完整URL
         const currentUrl = window.location.href;
@@ -24,7 +28,7 @@ const WallpaperManager = {
             // 如果是GitHub Pages，使用完整的URL
             return 'https://jelisos.github.io/wallpaper-site/static/data/list.json';
         } else {
-            // 本地开发环境，使用相对路径
+            // 本地开发环境，使用相对路径（不使用绝对路径，避免移动端问题）
             return './static/data/list.json';
         }
     },
@@ -171,11 +175,8 @@ const WallpaperManager = {
      * 获取下一页壁纸
      */
     getNextPageWallpapers() {
-        const isMobile = window.innerWidth < 768;
-        const itemsPerPage = isMobile ? CONFIG.PAGINATION.MOBILE.ITEMS_PER_PAGE : CONFIG.PAGINATION.ITEMS_PER_PAGE;
-        
-        const start = this.state.currentPage * itemsPerPage;
-        const end = start + itemsPerPage;
+        const start = this.state.currentPage * CONFIG.PAGINATION.ITEMS_PER_PAGE;
+        const end = start + CONFIG.PAGINATION.ITEMS_PER_PAGE;
         const availableWallpapers = this.state.filteredWallpapers.filter(w => !this.state.displayedWallpapers.has(w.path));
         
         if (availableWallpapers.length === 0) {
@@ -183,7 +184,7 @@ const WallpaperManager = {
         }
 
         // 随机打乱顺序，但确保不重复
-        const pageWallpapers = Utils.shuffleArray(availableWallpapers).slice(0, itemsPerPage);
+        const pageWallpapers = Utils.shuffleArray(availableWallpapers).slice(0, CONFIG.PAGINATION.ITEMS_PER_PAGE);
         pageWallpapers.forEach(w => this.state.displayedWallpapers.add(w.path));
         this.state.currentPage++;
         
@@ -234,10 +235,7 @@ const WallpaperManager = {
         }
         
         const loadMoreBtn = document.getElementById('load-more-btn');
-        const isMobile = window.innerWidth < 768;
-        const itemsPerPage = isMobile ? CONFIG.PAGINATION.MOBILE.ITEMS_PER_PAGE : CONFIG.PAGINATION.ITEMS_PER_PAGE;
-        
-        if (this.state.filteredWallpapers.length <= itemsPerPage) {
+        if (this.state.filteredWallpapers.length <= CONFIG.PAGINATION.ITEMS_PER_PAGE) {
             loadMoreBtn.innerHTML = '<span>已加载全部内容</span>';
             loadMoreBtn.disabled = true;
         } else {
@@ -254,7 +252,6 @@ const WallpaperManager = {
         this.state.isLoading = true;
 
         const wallpaperContainer = document.getElementById('wallpaper-container');
-        const isMobile = window.innerWidth < 768; // 检测是否为移动设备
         
         for (const wallpaper of wallpapers) {
             try {
@@ -289,13 +286,9 @@ const WallpaperManager = {
                 const blob = await response.blob();
                 let imageUrl;
                 
-                // 移动端和桌面端都使用压缩后的图片，但保持原始尺寸
                 try {
-                    const compressedBlob = await Utils.compressImage(blob, {
-                        maxWidth: CONFIG.IMAGE.MAX_WIDTH,
-                        maxHeight: CONFIG.IMAGE.MAX_HEIGHT,
-                        quality: isMobile ? CONFIG.IMAGE.MOBILE.QUALITY : CONFIG.IMAGE.QUALITY
-                    });
+                    // 统一使用压缩方法，不再区分移动端和PC端
+                    const compressedBlob = await Utils.compressImage(blob);
                     imageUrl = URL.createObjectURL(compressedBlob);
                 } catch (compressError) {
                     console.warn('图片压缩失败，使用原图:', compressError);
@@ -305,7 +298,7 @@ const WallpaperManager = {
                 // 更新卡片内容，替换加载指示器为图片
                 const cardContent = card.querySelector('.relative');
                 cardContent.innerHTML = `
-                    <img src="${imageUrl}" alt="${wallpaper.name}" class="w-full h-48 object-contain cursor-pointer hover:opacity-90 transition-opacity wallpaper-thumb" data-original-path="${wallpaper.path}">
+                    <img src="${imageUrl}" alt="${wallpaper.name}" class="w-full object-cover cursor-pointer hover:opacity-90 transition-opacity wallpaper-thumb" data-original-path="${wallpaper.path}">
                 `;
                 
                 // 图片加载完成后更新尺寸信息

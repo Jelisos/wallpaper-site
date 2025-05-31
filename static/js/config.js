@@ -2,13 +2,9 @@
  * 全局配置项
  */
 const CONFIG = {
-    // 分页配置
+    // 分页配置。 
     PAGINATION: {
-        ITEMS_PER_PAGE: 12,
-        // 移动端分页配置
-        MOBILE: {
-            ITEMS_PER_PAGE: 6
-        }
+        ITEMS_PER_PAGE: 6
     },
     
     // 图片处理配置
@@ -16,11 +12,7 @@ const CONFIG = {
         MAX_WIDTH: 1920,
         MAX_HEIGHT: 1080,
         QUALITY: 0.85,
-        TYPE: 'image/jpeg',
-        // 移动端图片配置
-        MOBILE: {
-            QUALITY: 0.85  // 保持与PC端相同的图片质量
-        }
+        TYPE: 'image/jpeg'
     },
     
     // 动画配置
