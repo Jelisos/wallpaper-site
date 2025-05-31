@@ -428,37 +428,63 @@
                 let exportComplete = false; // 标记导出是否完成
 
                 // 高清导出函数，直接使用 currentWallpaper 对象
-                const performHDExport = (img) => {
-                    // 手机 - 提高分辨率到2K
-                    exportHDWallpaper(img, 1440, 3200, '手机高清壁纸.jpg');
-                    // 平板 - 提高分辨率到4K
-                    exportHDWallpaper(img, 2560, 3840, '平板高清壁纸.jpg');
-                    // 电脑 - 提高分辨率到4K，内容区yOffset等比例缩放（与预览一致，无补偿）
-                    /**
-                     * 电脑壁纸导出时，yOffset等比例缩放，保证与预览一致
-                     * 预览内容区高度为：laptopScreenHeight - 3 * laptopBezelWidth
-                     * 导出内容区高度为：2160
-                     */
-                    const previewContentHeight = laptopScreenHeight - 3 * laptopBezelWidth; // 296
-                    const exportContentHeight = 2160;
-                    const scaledYOffset = yOffset * (exportContentHeight / previewContentHeight); // 仅等比例缩放
-                    exportHDWallpaper(img, 3840, 2160, '电脑高清壁纸.jpg', scaledYOffset);
+                const performHDExport = async (img) => { // 修改为异步函数
+                     // 手机 - 提高分辨率到2K
+                     const phoneSuccess = await exportHDWallpaper(img, 1440, 3200, '手机高清壁纸.jpg');
+                     // 平板 - 提高分辨率到4K
+                     const tabletSuccess = await exportHDWallpaper(img, 2560, 3840, '平板高清壁纸.jpg');
+                     // 电脑 - 提高分辨率到4K，内容区yOffset等比例缩放（与预览一致，无补偿）
+                     /**
+                      * 电脑壁纸导出时，yOffset等比例缩放，保证与预览一致
+                      * 预览内容区高度为：laptopScreenHeight - 3 * laptopBezelWidth
+                      * 导出内容区高度为：2160
+                      */
+                     const previewContentHeight = laptopScreenHeight - 3 * laptopBezelWidth; // 296
+                     const exportContentHeight = 2160;
+                     const scaledYOffset = yOffset * (exportContentHeight / previewContentHeight); // 仅等比例缩放
+                     const laptopSuccess = await exportHDWallpaper(img, 3840, 2160, '电脑高清壁纸.jpg', scaledYOffset);
 
-                    // 标记导出完成，更新按钮状态
-                    downloadHDAllButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
-                    downloadHDAllButton.classList.remove('bg-gradient-to-r', 'from-blue-500', 'to-green-400', 'hover:from-blue-600', 'hover:to-green-500');
-                    downloadHDAllButton.classList.add('bg-green-500');
-                    exportComplete = true;
-                    // 延迟恢复按钮状态
-                     setTimeout(() => {
-                         downloadHDAllButton.classList.remove('bg-green-500');
-                         downloadHDAllButton.classList.add('bg-gradient-to-r', 'from-blue-500', 'to-green-400', 'hover:from-blue-600', 'hover:to-green-500');
-                         downloadHDAllButton.disabled = false;
-                    }, 2000);
-                };
+                     // 检查所有导出是否成功
+                     if (phoneSuccess && tabletSuccess && laptopSuccess) {
+                          // 标记导出完成，更新按钮状态
+                          downloadHDAllButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
+                          downloadHDAllButton.classList.remove('bg-gradient-to-r', 'from-blue-500', 'to-green-400', 'hover:from-blue-600', 'hover:to-green-500');
+                          downloadHDAllButton.classList.add('bg-green-500');
+                          exportComplete = true;
+                          // 延迟恢复按钮状态
+                          setTimeout(() => {
+                              downloadHDAllButton.classList.remove('bg-green-500');
+                              downloadHDAllButton.classList.add('bg-gradient-to-r', 'from-blue-500', 'to-green-400', 'hover:from-blue-600', 'hover:to-green-500');
+                              downloadHDAllButton.disabled = false;
+                         }, 2000);
+                     } else {
+                          // 任何一个导出失败，显示失败状态
+                           downloadHDAllButton.innerHTML = '<i class="fa-solid fa-times mr-2"></i> 导出失败';
+                          downloadHDAllButton.classList.remove('bg-gradient-to-r', 'from-blue-500', 'to-green-400', 'hover:from-blue-600', 'hover:to-green-500');
+                          downloadHDAllButton.classList.add('bg-red-500');
+                          setTimeout(() => {
+                              downloadHDAllButton.classList.remove('bg-red-500');
+                              downloadHDAllButton.classList.add('bg-gradient-to-r', 'from-blue-500', 'to-green-400', 'hover:from-blue-600', 'hover:to-green-500');
+                              downloadHDAllButton.disabled = false;
+                         }, 2000);
+                     }
+                 };
 
-                // 直接使用 currentWallpaper 进行导出
-                performHDExport(currentWallpaper);
+                 // 直接使用 currentWallpaper 进行导出
+                 performHDExport(currentWallpaper).then(() => {
+                      // Promise resolved，操作完成，按钮状态已在 performHDExport 中处理
+                 }).catch((error) => {
+                      console.error('一键下载高清壁纸过程中发生错误:', error);
+                      // 确保在发生未捕获的错误时也更新按钮状态
+                       downloadHDAllButton.innerHTML = '<i class="fa-solid fa-times mr-2"></i> 导出失败';
+                       downloadHDAllButton.classList.remove('bg-gradient-to-r', 'from-blue-500', 'to-green-400', 'hover:from-blue-600', 'hover:to-green-500');
+                       downloadHDAllButton.classList.add('bg-red-500');
+                       setTimeout(() => {
+                           downloadHDAllButton.classList.remove('bg-red-500');
+                           downloadHDAllButton.classList.add('bg-gradient-to-r', 'from-blue-500', 'to-green-400', 'hover:from-blue-600', 'hover:to-green-500');
+                           downloadHDAllButton.disabled = false;
+                      }, 2000);
+                 });
             });
 
             /**
@@ -467,9 +493,11 @@
              * @param {number} targetWidth - 导出宽度
              * @param {number} targetHeight - 导出高度
              * @param {string} filename - 文件名
-             * @param {number} yOffset - 仅电脑壁纸用，壁纸上下偏移
+             * @param {number} [yOffset=0] - 仅电脑壁纸用，壁纸上下偏移
+             * @returns {Promise<boolean>} - 返回一个Promise，表示导出是否成功
              */
-            function exportHDWallpaper(img, targetWidth, targetHeight, filename, yOffset = 0) {
+            async function exportHDWallpaper(img, targetWidth, targetHeight, filename, yOffset = 0) {
+                 console.log(`尝试导出高清壁纸: ${filename}`);
                 const canvas = document.createElement('canvas');
                 canvas.width = targetWidth;
                 canvas.height = targetHeight;
@@ -492,7 +520,7 @@
                         drawWidth = targetWidth;
                         drawHeight = drawWidth / imageRatio;
                         drawX = 0;
-                        drawY = - (drawHeight - targetHeight) / 2 + yOffset;
+                        drawY = -(drawHeight - targetHeight) / 2 + yOffset;
                     }
                     ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
                 } else {
@@ -513,14 +541,36 @@
                     }
                     ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
                 }
-                // 导出JPG格式，提高质量到0.95
-                const dataURL = canvas.toDataURL('image/jpeg', 0.95);
-                const link = document.createElement('a');
-                link.download = filename;
-                link.href = dataURL;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+
+                // 改用 canvas.toBlob 导出
+                return new Promise((resolve) => {
+                     canvas.toBlob(function(blob) {
+                         if (!blob || blob.size === 0) {
+                             console.error('高清壁纸导出失败: 无法创建Blob或Blob为空。', blob);
+                             alert(`导出高清壁纸失败: ${filename} 无法创建图片数据或数据为空。`);
+                             resolve(false);
+                             return;
+                         }
+
+                         console.log(`成功创建高清Blob，大小: ${blob.size} 字节，类型: ${blob.type}`);
+                         const url = URL.createObjectURL(blob);
+                         const link = document.createElement('a');
+                         link.download = filename;
+                         link.href = url;
+                         document.body.appendChild(link);
+                         link.click();
+                         document.body.removeChild(link);
+
+                         // 延迟释放URL对象
+                         setTimeout(() => {
+                             URL.revokeObjectURL(url);
+                              console.log('释放高清Blob URL:', url);
+                         }, 100);
+
+                         resolve(true);
+
+                     }, 'image/jpeg', 0.95); // 高清导出默认使用JPEG，质量0.95
+                });
             }
             
             // 处理文件上传
@@ -1023,7 +1073,7 @@
                     // 在提升分辨率的Canvas上绘制头像，传入yOffset和补偿偏移量
                     drawAvatar(roundCtx, currentWallpaper, true, yOffset, -70); // 应用偏移补偿
                     // 导出为PNG格式以保留透明背景
-                    const roundSuccess = await exportCanvasAsImage(roundCanvas, '圆形头像.png');
+                    const roundSuccess = await exportCanvasAsImage(roundCanvas, '圆形头像.png', 'image/png'); // 指定 PNG 格式
 
                     // 下载圆角方形头像，使用PNG格式以保留透明背景
                     const squareCanvas = document.createElement('canvas');
@@ -1034,7 +1084,7 @@
                      // 在提升分辨率的Canvas上绘制头像，传入yOffset和补偿偏移量
                     drawAvatar(squareCtx, currentWallpaper, false, yOffset, -70); // 应用偏移补偿
                     // 导出为PNG格式以保留透明背景
-                    const squareSuccess = await exportCanvasAsImage(squareCanvas, '方形头像.png');
+                    const squareSuccess = await exportCanvasAsImage(squareCanvas, '方形头像.png', 'image/png'); // 指定 PNG 格式
 
                     if (roundSuccess && squareSuccess) {
                          downloadAvatarButton.innerHTML = '<i class="fa-solid fa-check mr-2"></i> 下载成功';
