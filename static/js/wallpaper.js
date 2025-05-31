@@ -262,7 +262,7 @@ const WallpaperManager = {
                 card.innerHTML = `
                     <div class="bg-white rounded-lg overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 transform hover:-translate-y-1">
                         <div class="relative">
-                            <div class="w-full h-48 flex items-center justify-center bg-neutral">
+                            <div class="w-full flex items-center justify-center bg-neutral">
                                 <i class="fa fa-spinner fa-spin text-2xl text-gray-400"></i>
                             </div>
                         </div>
@@ -298,7 +298,7 @@ const WallpaperManager = {
                 // 更新卡片内容，替换加载指示器为图片
                 const cardContent = card.querySelector('.relative');
                 cardContent.innerHTML = `
-                    <img src="${imageUrl}" alt="${wallpaper.name}" class="w-full object-cover cursor-pointer hover:opacity-90 transition-opacity wallpaper-thumb" data-original-path="${wallpaper.path}">
+                    <img src="${imageUrl}" alt="${wallpaper.name}" class="w-full cursor-pointer hover:opacity-90 transition-opacity wallpaper-thumb" data-original-path="${wallpaper.path}">
                 `;
                 
                 // 图片加载完成后更新尺寸信息
@@ -311,7 +311,7 @@ const WallpaperManager = {
                 img.onerror = function() {
                     // 图片加载失败时显示错误提示
                     cardContent.innerHTML = `
-                        <div class="w-full h-48 flex items-center justify-center bg-neutral">
+                        <div class="w-full flex items-center justify-center bg-neutral">
                             <i class="fa fa-exclamation-circle text-2xl text-red-500"></i>
                         </div>
                     `;
@@ -326,7 +326,7 @@ const WallpaperManager = {
                 errorCard.innerHTML = `
                     <div class="bg-white rounded-lg overflow-hidden shadow-card">
                         <div class="relative">
-                            <div class="w-full h-48 flex items-center justify-center bg-neutral">
+                            <div class="w-full flex items-center justify-center bg-neutral">
                                 <i class="fa fa-exclamation-circle text-2xl text-red-500"></i>
                             </div>
                         </div>
