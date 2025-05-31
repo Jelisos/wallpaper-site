@@ -888,32 +888,42 @@
              * 导出canvas为图片文件
              * @param {HTMLCanvasElement} canvas - 要导出的Canvas元素
              * @param {string} filename - 下载文件的名称
-             * @param {string} [format='image/png'] - 输出的图片格式 (e.g., 'image/jpeg', 'image/png')
-             * @param {number} [quality=1.0] - 输出图片的质量 (仅适用于支持有损压缩的格式如 JPEG, 0.0 到 1.0)
+             * @param {string} [format='image/jpeg'] - 输出的图片格式 (e.g., 'image/jpeg', 'image/png')，默认为 image/jpeg
+             * @param {number} [quality=0.95] - 输出图片的质量 (仅适用于支持有损压缩的格式如 JPEG, 0.0 到 1.0)，默认为 0.95
              * @returns {Promise<boolean>} - 返回一个Promise，表示导出是否成功
              */
-            async function exportCanvasAsImage(canvas, filename, format = 'image/png', quality = 1.0) {
-                return new Promise((resolve, reject) => {
+            async function exportCanvasAsImage(canvas, filename, format = 'image/jpeg', quality = 0.95) {
+                console.log(`尝试导出文件: ${filename}, 格式: ${format}, 质量: ${quality}`);
+                return new Promise((resolve) => {
                     canvas.toBlob(function(blob) {
-                        if (!blob) {
-                            console.error('Canvas导出失败: 无法创建Blob。');
-                            alert('导出失败：无法创建图片数据。');
+                        if (!blob || blob.size === 0) {
+                            console.error('Canvas导出失败: 无法创建Blob或Blob为空。', blob);
+                            alert('导出失败：无法创建图片数据或数据为空。');
                             resolve(false); // 导出失败
                             return;
                         }
+                        
+                        console.log(`成功创建Blob，大小: ${blob.size} 字节，类型: ${blob.type}`);
 
                         const url = URL.createObjectURL(blob);
+                        console.log('创建Blob URL:', url);
                         const link = document.createElement('a');
                         link.download = filename;
                         link.href = url;
+                        
+                        // 尝试触发下载
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
 
-                        // 释放URL对象
-                        URL.revokeObjectURL(url);
+                        // 延迟释放URL对象，给浏览器一点时间处理下载
+                        setTimeout(() => {
+                            URL.revokeObjectURL(url);
+                            console.log('释放Blob URL:', url);
+                        }, 100); // 延迟100ms释放
 
-                        resolve(true); // 导出成功
+                        resolve(true); // 假定点击链接会触发下载，标记导出成功
+
                     }, format, quality);
                 });
             }
