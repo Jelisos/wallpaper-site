@@ -252,20 +252,20 @@ const WallpaperManager = {
         this.state.isLoading = true;
 
         const wallpaperContainer = document.getElementById('wallpaper-container');
+        const isMobile = window.innerWidth < 768; // 检测是否为移动设备
         
         for (const wallpaper of wallpapers) {
             try {
-                const response = await fetch(wallpaper.path);
-                const blob = await response.blob();
-                const compressedBlob = await Utils.compressImage(blob);
-                const compressedUrl = URL.createObjectURL(compressedBlob);
-                
                 const card = document.createElement('div');
                 card.className = 'masonry-item';
+                
+                // 先创建卡片并添加到容器，显示加载状态
                 card.innerHTML = `
                     <div class="bg-white rounded-lg overflow-hidden shadow-card hover:shadow-card-hover transition-all duration-300 transform hover:-translate-y-1">
                         <div class="relative">
-                            <img src="${compressedUrl}" alt="${wallpaper.name}" class="w-full object-cover cursor-pointer hover:opacity-90 transition-opacity wallpaper-thumb" data-original-path="${wallpaper.path}">
+                            <div class="w-full h-48 flex items-center justify-center bg-neutral">
+                                <i class="fa fa-spinner fa-spin text-2xl text-gray-400"></i>
+                            </div>
                         </div>
                         <div class="p-4">
                             <div class="flex justify-between items-center">
@@ -280,13 +280,78 @@ const WallpaperManager = {
                 `;
                 wallpaperContainer.appendChild(card);
                 
-                const img = card.querySelector('img');
+                // 加载图片
+                const response = await fetch(wallpaper.path);
+                if (!response.ok) throw new Error('图片加载失败');
+                
+                const blob = await response.blob();
+                let imageUrl;
+                
+                // 移动端跳过压缩步骤，直接使用原图
+                if (isMobile) {
+                    imageUrl = URL.createObjectURL(blob);
+                } else {
+                    try {
+                        // 桌面端尝试压缩
+                        const compressedBlob = await Utils.compressImage(blob);
+                        imageUrl = URL.createObjectURL(compressedBlob);
+                    } catch (compressError) {
+                        console.warn('图片压缩失败，使用原图:', compressError);
+                        imageUrl = URL.createObjectURL(blob);
+                    }
+                }
+                
+                // 更新卡片内容，替换加载指示器为图片
+                const cardContent = card.querySelector('.relative');
+                cardContent.innerHTML = `
+                    <img src="${imageUrl}" alt="${wallpaper.name}" class="w-full object-cover cursor-pointer hover:opacity-90 transition-opacity wallpaper-thumb" data-original-path="${wallpaper.path}">
+                `;
+                
+                // 图片加载完成后更新尺寸信息
+                const img = cardContent.querySelector('img');
                 img.onload = function() {
                     const sizeSpan = card.querySelector('.size-info');
                     sizeSpan.textContent = `${img.naturalWidth} × ${img.naturalHeight}`;
+                    
+                    // 释放blob URL以节省内存
+                    if (isMobile) {
+                        setTimeout(() => {
+                            URL.revokeObjectURL(imageUrl);
+                        }, 1000); // 给一点时间确保图片完全加载
+                    }
+                };
+                
+                img.onerror = function() {
+                    // 图片加载失败时显示错误提示
+                    cardContent.innerHTML = `
+                        <div class="w-full h-48 flex items-center justify-center bg-neutral">
+                            <i class="fa fa-exclamation-circle text-2xl text-red-500"></i>
+                        </div>
+                    `;
+                    const sizeSpan = card.querySelector('.size-info');
+                    sizeSpan.textContent = '加载失败';
                 };
             } catch (error) {
                 console.error('图片处理失败:', error);
+                // 错误处理：在容器中添加错误提示卡片
+                const errorCard = document.createElement('div');
+                errorCard.className = 'masonry-item';
+                errorCard.innerHTML = `
+                    <div class="bg-white rounded-lg overflow-hidden shadow-card">
+                        <div class="relative">
+                            <div class="w-full h-48 flex items-center justify-center bg-neutral">
+                                <i class="fa fa-exclamation-circle text-2xl text-red-500"></i>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex justify-between items-center">
+                                <h3 class="font-medium">${wallpaper.name}</h3>
+                                <span class="text-sm text-gray-500">加载失败</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                wallpaperContainer.appendChild(errorCard);
             }
         }
 
