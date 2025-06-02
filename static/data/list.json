@@ -1,5 +1,25 @@
 [
   {
+    "filename": "4K标志图 (1).jpeg",
+    "path": "static/wallpapers/4K标志图 (1).jpeg",
+    "name": "4K标志图 (1)"
+  },
+  {
+    "filename": "4K标志图 (2).jpeg",
+    "path": "static/wallpapers/4K标志图 (2).jpeg",
+    "name": "4K标志图 (2)"
+  },
+  {
+    "filename": "4K标志图 (3).jpeg",
+    "path": "static/wallpapers/4K标志图 (3).jpeg",
+    "name": "4K标志图 (3)"
+  },
+  {
+    "filename": "4K标志图 (4).jpeg",
+    "path": "static/wallpapers/4K标志图 (4).jpeg",
+    "name": "4K标志图 (4)"
+  },
+  {
     "filename": "JK服御姐2.jpeg",
     "path": "static/wallpapers/JK服御姐2.jpeg",
     "name": "JK服御姐2"
@@ -18,6 +38,11 @@
     "filename": "与杰克逊合影2.jpeg",
     "path": "static/wallpapers/与杰克逊合影2.jpeg",
     "name": "与杰克逊合影2"
+  },
+  {
+    "filename": "东京魔物图.jpeg",
+    "path": "static/wallpapers/东京魔物图.jpeg",
+    "name": "东京魔物图"
   },
   {
     "filename": "人画紫花瓣-未.jpeg",
@@ -170,6 +195,11 @@
     "name": "半跪折翼男天使"
   },
   {
+    "filename": "太空航行女.jpeg",
+    "path": "static/wallpapers/太空航行女.jpeg",
+    "name": "太空航行女"
+  },
+  {
     "filename": "巨兽之眼1.jpeg",
     "path": "static/wallpapers/巨兽之眼1.jpeg",
     "name": "巨兽之眼1"
@@ -190,9 +220,19 @@
     "name": "巨兽之眼4"
   },
   {
-    "filename": "巨大眼睛.jpeg",
-    "path": "static/wallpapers/巨大眼睛.jpeg",
-    "name": "巨大眼睛"
+    "filename": "巨眼迷雾城市.jpeg",
+    "path": "static/wallpapers/巨眼迷雾城市.jpeg",
+    "name": "巨眼迷雾城市"
+  },
+  {
+    "filename": "废土地震巨物.jpeg",
+    "path": "static/wallpapers/废土地震巨物.jpeg",
+    "name": "废土地震巨物"
+  },
+  {
+    "filename": "废土花与手.jpeg",
+    "path": "static/wallpapers/废土花与手.jpeg",
+    "name": "废土花与手"
   },
   {
     "filename": "恶魔小猫1.jpeg",
@@ -230,6 +270,31 @@
     "name": "星芒破晓"
   },
   {
+    "filename": "查尔斯国王 (1).jpeg",
+    "path": "static/wallpapers/查尔斯国王 (1).jpeg",
+    "name": "查尔斯国王 (1)"
+  },
+  {
+    "filename": "查尔斯国王 (2).jpeg",
+    "path": "static/wallpapers/查尔斯国王 (2).jpeg",
+    "name": "查尔斯国王 (2)"
+  },
+  {
+    "filename": "查尔斯国王 (3).jpeg",
+    "path": "static/wallpapers/查尔斯国王 (3).jpeg",
+    "name": "查尔斯国王 (3)"
+  },
+  {
+    "filename": "查尔斯国王 (4).jpeg",
+    "path": "static/wallpapers/查尔斯国王 (4).jpeg",
+    "name": "查尔斯国王 (4)"
+  },
+  {
+    "filename": "查尔斯国王 (5).jpeg",
+    "path": "static/wallpapers/查尔斯国王 (5).jpeg",
+    "name": "查尔斯国王 (5)"
+  },
+  {
     "filename": "炭笔剑士1.jpeg",
     "path": "static/wallpapers/炭笔剑士1.jpeg",
     "name": "炭笔剑士1"
@@ -255,6 +320,11 @@
     "name": "狼人嚎叫"
   },
   {
+    "filename": "电子集市景.jpeg",
+    "path": "static/wallpapers/电子集市景.jpeg",
+    "name": "电子集市景"
+  },
+  {
     "filename": "睡梦公式1.jpeg",
     "path": "static/wallpapers/睡梦公式1.jpeg",
     "name": "睡梦公式1"
@@ -270,6 +340,36 @@
     "name": "神秘人"
   },
   {
+    "filename": "竹编下司犬 (1).jpeg",
+    "path": "static/wallpapers/竹编下司犬 (1).jpeg",
+    "name": "竹编下司犬 (1)"
+  },
+  {
+    "filename": "竹编下司犬 (2).jpeg",
+    "path": "static/wallpapers/竹编下司犬 (2).jpeg",
+    "name": "竹编下司犬 (2)"
+  },
+  {
+    "filename": "竹编八戒 (1).jpeg",
+    "path": "static/wallpapers/竹编八戒 (1).jpeg",
+    "name": "竹编八戒 (1)"
+  },
+  {
+    "filename": "竹编八戒 (2).jpeg",
+    "path": "static/wallpapers/竹编八戒 (2).jpeg",
+    "name": "竹编八戒 (2)"
+  },
+  {
+    "filename": "竹编小鹿.jpeg",
+    "path": "static/wallpapers/竹编小鹿.jpeg",
+    "name": "竹编小鹿"
+  },
+  {
+    "filename": "竹编狐狸图.jpeg",
+    "path": "static/wallpapers/竹编狐狸图.jpeg",
+    "name": "竹编狐狸图"
+  },
+  {
     "filename": "血色残阳.jpeg",
     "path": "static/wallpapers/血色残阳.jpeg",
     "name": "血色残阳"
@@ -283,6 +383,31 @@
     "filename": "详云字体2.jpeg",
     "path": "static/wallpapers/详云字体2.jpeg",
     "name": "详云字体2"
+  },
+  {
+    "filename": "赛博人机女.jpeg",
+    "path": "static/wallpapers/赛博人机女.jpeg",
+    "name": "赛博人机女"
+  },
+  {
+    "filename": "雨夜撑伞女 (1).jpeg",
+    "path": "static/wallpapers/雨夜撑伞女 (1).jpeg",
+    "name": "雨夜撑伞女 (1)"
+  },
+  {
+    "filename": "雨夜撑伞女 (2).jpeg",
+    "path": "static/wallpapers/雨夜撑伞女 (2).jpeg",
+    "name": "雨夜撑伞女 (2)"
+  },
+  {
+    "filename": "雨夜撑伞女 (3).jpeg",
+    "path": "static/wallpapers/雨夜撑伞女 (3).jpeg",
+    "name": "雨夜撑伞女 (3)"
+  },
+  {
+    "filename": "雨夜撑伞女 (4).jpeg",
+    "path": "static/wallpapers/雨夜撑伞女 (4).jpeg",
+    "name": "雨夜撑伞女 (4)"
   },
   {
     "filename": "风中少年1.jpeg",

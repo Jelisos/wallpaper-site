@@ -62,6 +62,13 @@
                 break-inside: avoid;
                 margin-bottom: 1rem;
             }
+            /* 新增：列表视图布局 */
+            .list-view-grid {
+                display: grid;
+                /* 修改为三列布局 */
+                grid-template-columns: repeat(auto-fit, minmax(calc(33.33% - 0.67rem), 1fr)); /* 三列布局，考虑间距 */
+                gap: 1rem;
+            }
             .bg-blur {
                 backdrop-filter: blur(8px);
             }

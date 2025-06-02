@@ -1,6 +1,25 @@
 {
   "wallpapers": [
     {
+      "id": 1,
+      "title": "故事成影",
+      "content": "故事成影，影子里的故事，血色残阳，纯属虚构，断续的扫过的风，流态，渐变弥散颗粒状背景",
+      "tags": [
+        "故事",
+        "艺术",
+        "氛围"
+      ],
+      "images": [
+        {
+          "filename": "血色残阳.jpeg",
+          "path": "static/wallpapers/血色残阳.jpeg",
+          "name": "血色残阳",
+          "size": "未知",
+          "file_size": "2.0MB"
+        }
+      ]
+    },
+    {
       "id": 2,
       "title": "神秘人",
       "content": "一位身披黑色斗篷的神秘人，斗篷边缘被血色残阳染成暗红色，脸部隐藏在兜帽阴影中，只能看到一双散发着幽绿色光芒的眼睛。身体微微前倾，仿佛在回忆着影子里的故事。",
@@ -16,6 +35,13 @@
           "name": "神秘人",
           "size": "未知",
           "file_size": "1.8MB"
+        },
+        {
+          "filename": "血色残阳.jpeg",
+          "path": "static/wallpapers/血色残阳.jpeg",
+          "name": "血色残阳",
+          "size": "未知",
+          "file_size": "2.0MB"
         }
       ]
     },
@@ -110,13 +136,6 @@
       ],
       "images": [
         {
-          "filename": "冰封天使脸.jpeg",
-          "path": "static/wallpapers/冰封天使脸.jpeg",
-          "name": "冰封天使脸",
-          "size": "未知",
-          "file_size": "2.3MB"
-        },
-        {
           "filename": "冰封折翼天使1.jpeg",
           "path": "static/wallpapers/冰封折翼天使1.jpeg",
           "name": "冰封折翼天使1",
@@ -129,65 +148,6 @@
           "name": "冰封折翼天使2",
           "size": "未知",
           "file_size": "2.2MB"
-        },
-        {
-          "filename": "折翼天使蜷缩.jpeg",
-          "path": "static/wallpapers/折翼天使蜷缩.jpeg",
-          "name": "折翼天使蜷缩",
-          "size": "未知",
-          "file_size": "2.7MB"
-        }
-      ]
-    },
-    {
-      "id": 6,
-      "title": "自拍合影",
-      "content": "请你生成张极其平凡无奇的自拍照，没有明确的主体或者构图感，就是随手一拍的快照，照片略带运动模糊，阳光或室内打光不均导致的轻微曝光过度，整体呈现出一种刻意的平庸感，就像是不小心拍到的一张自拍。主角是一个28岁的中国男子，旁边是迈克尔杰克逊，他们在演唱会舞台上合影。",
-      "tags": [
-        "自拍",
-        "合影",
-        "纪实"
-      ],
-      "images": [
-        {
-          "filename": "与克杰逊合影1.jpeg",
-          "path": "static/wallpapers/与克杰逊合影1.jpeg",
-          "name": "与克杰逊合影1",
-          "size": "未知",
-          "file_size": "1.7MB"
-        },
-        {
-          "filename": "与杰克逊合影2.jpeg",
-          "path": "static/wallpapers/与杰克逊合影2.jpeg",
-          "name": "与杰克逊合影2",
-          "size": "未知",
-          "file_size": "2.5MB"
-        }
-      ]
-    },
-    {
-      "id": 8,
-      "title": "化神字体",
-      "content": "字体标志\"化神\"，创意字体设计增加修仙相关元素，线条流畅且富有艺术感，活泼童趣，笔画连接交错变形设计，将字体进行抽象变形，高级感，黑色背景，",
-      "tags": [
-        "字体",
-        "修仙",
-        "创意"
-      ],
-      "images": [
-        {
-          "filename": "详云字体1.jpeg",
-          "path": "static/wallpapers/详云字体1.jpeg",
-          "name": "详云字体1",
-          "size": "未知",
-          "file_size": "1.0MB"
-        },
-        {
-          "filename": "详云字体2.jpeg",
-          "path": "static/wallpapers/详云字体2.jpeg",
-          "name": "详云字体2",
-          "size": "未知",
-          "file_size": "908.9KB"
         }
       ]
     },
@@ -228,46 +188,6 @@
           "name": "恶魔小猫4",
           "size": "未知",
           "file_size": "1.6MB"
-        }
-      ]
-    },
-    {
-      "id": 13,
-      "title": "巨兽之眼",
-      "content": "科幻高清，极度复杂的内容，冲击力很强的构图，意识流，在茫茫黑暗中巨兽之眼的眼注视着浩瀚宇宙星辰，科幻，科技感，体量的对比，压抑，超广角，画面昏暗，神秘，宏大的场景，超现实主义，笔触清晰，抽象，减少细节，许多噪点，朦胧感，梦境，肌理磨砂，景深，光晕",
-      "tags": [
-        "科幻",
-        "巨兽",
-        "宇宙"
-      ],
-      "images": [
-        {
-          "filename": "巨兽之眼1.jpeg",
-          "path": "static/wallpapers/巨兽之眼1.jpeg",
-          "name": "巨兽之眼1",
-          "size": "未知",
-          "file_size": "1.4MB"
-        },
-        {
-          "filename": "巨兽之眼2.jpeg",
-          "path": "static/wallpapers/巨兽之眼2.jpeg",
-          "name": "巨兽之眼2",
-          "size": "未知",
-          "file_size": "1.7MB"
-        },
-        {
-          "filename": "巨兽之眼3.jpeg",
-          "path": "static/wallpapers/巨兽之眼3.jpeg",
-          "name": "巨兽之眼3",
-          "size": "未知",
-          "file_size": "1.5MB"
-        },
-        {
-          "filename": "巨兽之眼4.jpeg",
-          "path": "static/wallpapers/巨兽之眼4.jpeg",
-          "name": "巨兽之眼4",
-          "size": "未知",
-          "file_size": "1.8MB"
         }
       ]
     },
@@ -350,58 +270,7 @@
           "file_size": "1.6MB"
         }
       ]
-    },
-    {
-      "id": 16,
-      "title": "睡梦公式",
-      "content": "数学，公式，方程式，漂浮，画面中只有深蓝色和红色两种颜色，梦核，超现实主义美学，低质量拍摄，怀旧，恐惧，空灵的氛围，睡眠的世界，陌生感，梦核视觉艺术",
-      "tags": [
-        "数学",
-        "艺术",
-        "梦境"
-      ],
-      "images": [
-        {
-          "filename": "睡梦公式1.jpeg",
-          "path": "static/wallpapers/睡梦公式1.jpeg",
-          "name": "睡梦公式1",
-          "size": "未知",
-          "file_size": "1.4MB"
-        },
-        {
-          "filename": "睡梦公式2.jpeg",
-          "path": "static/wallpapers/睡梦公式2.jpeg",
-          "name": "睡梦公式2",
-          "size": "未知",
-          "file_size": "1.5MB"
-        }
-      ]
-    },
-    {
-      "id": 17,
-      "title": "详云字体",
-      "content": "\"青月\"字体创意设计，金属质感，字体以吉祥云纹为笔触，书写出字体笔划，每个字的笔划的起笔和收笔都是大小不同吉祥云纹笔触，笔划躯干则是由云纹元素变换形成，黑色底",
-      "tags": [
-        "字体",
-        "云纹",
-        "金属"
-      ],
-      "images": [
-        {
-          "filename": "详云字体1.jpeg",
-          "path": "static/wallpapers/详云字体1.jpeg",
-          "name": "详云字体1",
-          "size": "未知",
-          "file_size": "1.0MB"
-        },
-        {
-          "filename": "详云字体2.jpeg",
-          "path": "static/wallpapers/详云字体2.jpeg",
-          "name": "详云字体2",
-          "size": "未知",
-          "file_size": "908.9KB"
-        }
-      ]
     }
   ]
 }
+

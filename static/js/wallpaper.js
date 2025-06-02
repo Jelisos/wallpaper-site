@@ -37,9 +37,34 @@ const WallpaperManager = {
      * 初始化壁纸管理
      */
     async init() {
+        // 检查URL参数决定初始视图模式
+        const urlParams = new URLSearchParams(window.location.search);
+        const viewMode = urlParams.get('view');
+        const wallpaperContainer = document.getElementById('wallpaper-container');
+        const gridViewBtn = document.getElementById('grid-view-btn');
+        const listViewBtn = document.getElementById('list-view-btn');
+
+        if (viewMode === 'list') {
+            // 如果URL参数是list，初始化为列表视图
+            wallpaperContainer.classList.remove('masonry-grid');
+            wallpaperContainer.classList.add('list-view-grid');
+            listViewBtn.classList.remove('bg-white', 'hover:bg-neutral-dark');
+            listViewBtn.classList.add('bg-primary', 'text-white');
+            gridViewBtn.classList.remove('bg-primary', 'text-white');
+            gridViewBtn.classList.add('bg-white', 'hover:bg-neutral-dark');
+        } else {
+            // 默认视图
+            wallpaperContainer.classList.remove('list-view-grid');
+            wallpaperContainer.classList.add('masonry-grid');
+            gridViewBtn.classList.remove('bg-white', 'hover:bg-neutral-dark');
+            gridViewBtn.classList.add('bg-primary', 'text-white');
+            listViewBtn.classList.remove('bg-primary', 'text-white');
+            listViewBtn.classList.add('bg-white', 'hover:bg-neutral-dark');
+        }
+
         await this.loadWallpaperList();
         this.initEventListeners();
-        this.handleSearch('');
+        this.handleSearch(''); // 加载初始壁纸，会根据上面设置的视图模式进行过滤
     },
 
     /**
@@ -62,6 +87,22 @@ const WallpaperManager = {
             }
             
             console.log('加载到的壁纸列表:', this.state.allWallpapers);
+
+            // 从 localStorage 加载壁纸状态
+            const savedStates = JSON.parse(localStorage.getItem('wallpaperStates') || '{}');
+            this.state.allWallpapers = this.state.allWallpapers.map(wallpaper => {
+                const savedState = savedStates[wallpaper.path];
+                if (savedState) {
+                    // 如果 localStorage 中有保存的状态，使用它
+                    return { ...wallpaper, ...savedState };
+                } else {
+                    // 否则，初始化状态为正常（未流放）
+                    return { ...wallpaper, isBanned: false, lastModified: 0 };
+                }
+            });
+
+            console.log('应用 localStorage 状态后的壁纸列表:', this.state.allWallpapers);
+
         } catch (error) {
             console.error('加载壁纸列表失败:', error);
             this.state.allWallpapers = [];
@@ -114,24 +155,33 @@ const WallpaperManager = {
         const wallpaperContainer = document.getElementById('wallpaper-container');
 
         gridViewBtn.addEventListener('click', () => {
+            wallpaperContainer.classList.remove('list-view-grid');
             wallpaperContainer.classList.add('masonry-grid');
             gridViewBtn.classList.remove('bg-white', 'hover:bg-neutral-dark');
             gridViewBtn.classList.add('bg-primary', 'text-white');
             listViewBtn.classList.remove('bg-primary', 'text-white');
             listViewBtn.classList.add('bg-white', 'hover:bg-neutral-dark');
+            
+            // 切换回默认视图时重新加载并渲染壁纸
+            this.handleSearch(''); // 重新加载当前搜索关键字（如果存在）的壁纸，按默认视图过滤
+
+            // 移除URL中的view参数
+            const url = new URL(window.location.href);
+            url.searchParams.delete('view');
+            window.history.replaceState({}, '', url.toString());
         });
 
         listViewBtn.addEventListener('click', () => {
-            wallpaperContainer.classList.remove('masonry-grid');
-            listViewBtn.classList.remove('bg-white', 'hover:bg-neutral-dark');
-            listViewBtn.classList.add('bg-primary', 'text-white');
-            gridViewBtn.classList.remove('bg-primary', 'text-white');
-            gridViewBtn.classList.add('bg-white', 'hover:bg-neutral-dark');
+            // 切换到列表视图时，添加URL参数并刷新页面
+            const url = new URL(window.location.href);
+            url.searchParams.set('view', 'list');
+            window.location.href = url.toString();
         });
 
-        // 壁纸详情点击事件
+        // 壁纸详情点击事件 (保留原有的，但需要调整以避免与图标点击冲突)
         document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('wallpaper-thumb')) {
+            // 检查点击的是否是壁纸缩略图本身，并且不是图标
+            if (e.target.classList.contains('wallpaper-thumb') && !e.target.closest('.wallpaper-actions')) {
                 const img = e.target;
                 const card = img.closest('.masonry-item');
                 const wallpaper = this.state.allWallpapers.find(w => w.path === img.dataset.originalPath);
@@ -197,8 +247,62 @@ const WallpaperManager = {
                     const detailModalContent = document.getElementById('wallpaper-detail-modal-content');
                     ModalManager.effects.open(detailModal, detailModalContent);
                 }
+            // 新增：处理图标点击事件
+            } else if (e.target.classList.contains('wallpaper-action-icon')) {
+                const icon = e.target;
+                const wallpaperPath = icon.dataset.wallpaperPath;
+                const action = icon.dataset.action;
+                
+                if (!wallpaperPath || !action) {
+                    console.error('图标缺少必要的 data 属性');
+                    return;
+                }
+                
+                const wallpaper = this.state.allWallpapers.find(w => w.path === wallpaperPath);
+                
+                if (!wallpaper) {
+                    console.error('未找到对应的壁纸信息');
+                    return;
+                }
+                
+                if (action === 'ban') {
+                    // 流放操作
+                    if (confirm('是否确定流放？')) {
+                        wallpaper.isBanned = true;
+                        wallpaper.lastModified = Date.now();
+                        this.saveWallpaperState(wallpaper);
+                        // 从 DOM 中移除卡片 (这里可以添加动画效果)
+                        const card = icon.closest('.masonry-item');
+                        if (card) {
+                            // 简单的移除，无动画
+                            card.remove(); 
+                            // TODO: 添加动画过渡到列表视图（复杂实现）
+                        }
+                    }
+                } else if (action === 'recall') {
+                    // 召回操作
+                    // 暂时不添加确认提示，如果需要再加
+                    wallpaper.isBanned = false;
+                    wallpaper.lastModified = Date.now();
+                    this.saveWallpaperState(wallpaper);
+                    // 从 DOM 中移除卡片
+                    const card = icon.closest('.masonry-item');
+                    if (card) {
+                         // 简单的移除，无动画
+                        card.remove();
+                    }
+                }
             }
         });
+    },
+
+    /**
+     * 保存单个壁纸状态到 localStorage
+     */
+    saveWallpaperState(wallpaper) {
+        const savedStates = JSON.parse(localStorage.getItem('wallpaperStates') || '{}');
+        savedStates[wallpaper.path] = { isBanned: wallpaper.isBanned, lastModified: wallpaper.lastModified };
+        localStorage.setItem('wallpaperStates', JSON.stringify(savedStates));
     },
 
     /**
@@ -246,12 +350,30 @@ const WallpaperManager = {
         }
 
         const lowerKeyword = keyword.toLowerCase();
+
+        // Determine current view mode
+        const isListView = wallpaperContainer.classList.contains('list-view-grid');
+
+        // Filter wallpapers based on view mode and keyword
         this.state.filteredWallpapers = this.state.allWallpapers.filter(wallpaper => {
-            if (!lowerKeyword) return true;
-            return wallpaper.name.toLowerCase().includes(lowerKeyword);
+            const matchesKeyword = !lowerKeyword || wallpaper.name.toLowerCase().includes(lowerKeyword);
+            if (isListView) {
+                // In list view, show only banned wallpapers that match the keyword
+                return wallpaper.isBanned && matchesKeyword;
+            } else {
+                // In default view, show only non-banned wallpapers that match the keyword
+                return !wallpaper.isBanned && matchesKeyword;
+            }
         });
 
-        this.state.filteredWallpapers.sort((a, b) => a.name.localeCompare(b.name));
+        // Sort wallpapers (only in list view, by lastModified descending)
+        if (isListView) {
+            this.state.filteredWallpapers.sort((a, b) => b.lastModified - a.lastModified);
+        } else {
+            // In default view, sort by name (or another default criteria if preferred)
+            this.state.filteredWallpapers.sort((a, b) => a.name.localeCompare(b.name));
+        }
+
         this.resetPagination();
         wallpaperContainer.innerHTML = '';
 
@@ -299,10 +421,28 @@ const WallpaperManager = {
                         <div class="p-4">
                             <div class="flex justify-between items-center">
                                 <h3 class="font-medium">${wallpaper.name}</h3>
+                                <!-- 尺寸信息留在标题旁边 -->
                                 <span class="text-sm text-gray-500 size-info">加载中...</span>
                             </div>
-                            <div class="flex flex-wrap gap-2 mt-2">
+                            <div class="flex flex-wrap gap-2 mt-2 items-center justify-between w-full"> <!-- 添加items-center使其垂直居中 -->
                                 <span class="px-3 py-1 bg-neutral rounded-full text-sm">未分类</span>
+                                <div class="flex items-center space-x-2 wallpaper-actions"> <!-- 新增一个flex容器来包裹图标 -->
+                                    ${(() => {
+                                        const wallpaperContainer = document.getElementById('wallpaper-container');
+                                        const isListView = wallpaperContainer.classList.contains('list-view-grid');
+                                        
+                                        if (wallpaper.isBanned && isListView) {
+                                            // 流放状态在列表视图显示召回图标
+                                            return `<img src="static/icons/zh.png" alt="召回" class="w-5 h-5 cursor-pointer wallpaper-action-icon" data-wallpaper-path="${wallpaper.path}" data-action="recall">`;
+                                        } else if (!wallpaper.isBanned && !isListView) {
+                                            // 正常状态在默认视图显示流放图标
+                                            return `<img src="static/icons/lf.png" alt="流放" class="w-5 h-5 cursor-pointer wallpaper-action-icon" data-wallpaper-path="${wallpaper.path}" data-action="ban">`;
+                                        } else {
+                                            // 其他情况不显示图标
+                                            return '';
+                                        }
+                                    })()}
+                                </div>
                             </div>
                         </div>
                     </div>
