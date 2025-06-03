@@ -1,9 +1,0 @@
-# Web 框架及扩展
-Flask==3.4.2                 # 兼容 Python 3.13 的最新稳定版
-Flask-SQLAlchemy==3.5.0      # 支持 Flask 3.x 的最新版本
-Flask-Bcrypt==1.1.7          # 修复 Python 3.13 兼容性问题
-Flask-Login==0.7.3           # 支持 Flask 3.x 的最新版本
-Werkzeug==3.2.5              # Flask 3.x 依赖的 Werkzeug 版本
-
-# 图像处理
-Pillow==10.2.0               # 支持 Python 3.13 的最新版本

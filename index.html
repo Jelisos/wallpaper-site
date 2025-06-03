@@ -126,17 +126,17 @@
                         <span>上传壁纸</span>
                     </button>
                     
-                    <div id="user-menu" class="hidden md:block relative">
-                        <button id="user-btn" class="flex items-center space-x-2 focus:outline-none">
+                    <div id="user-menu" class="relative">
+                        <button id="user-btn" class="flex items-center space-x-2 focus:outline-none cursor-pointer">
                             <img id="user-avatar" src="https://picsum.photos/id/64/40/40" alt="用户头像" class="w-8 h-8 rounded-full border-2 border-primary">
                             <span id="username" class="font-medium">游客</span>
                             <i class="fa fa-caret-down text-gray-500"></i>
                         </button>
                         <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 z-50">
-                            <a href="#" id="login-link" class="block px-4 py-2 hover:bg-gray-100 not-implemented">登录</a>
-                            <a href="#" id="register-link" class="block px-4 py-2 hover:bg-gray-100 not-implemented">注册</a>
+                            <a href="#" id="login-link" class="block px-4 py-2 hover:bg-gray-100 cursor-pointer">登录</a>
+                            <a href="#" id="register-link" class="block px-4 py-2 hover:bg-gray-100 cursor-pointer">注册</a>
                             <div class="border-t border-gray-100"></div>
-                            <a href="#" id="logout-link" class="hidden block px-4 py-2 hover:bg-gray-100 not-implemented">退出登录</a>
+                            <a href="#" id="logout-link" class="hidden block px-4 py-2 hover:bg-gray-100 cursor-pointer">退出登录</a>
                         </div>
                     </div>
                     
@@ -493,6 +493,7 @@
     <script src="static/js/utils.js"></script>
     <script src="static/js/modals.js"></script>
     <script src="static/js/wallpaper.js"></script>
+    <script src="static/js/user-menu.js"></script>
     <script src="static/js/main.js"></script>
 </body>
 </html>
