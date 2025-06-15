@@ -1,0 +1,96 @@
+/* SVG图标颜色控制 */
+
+/* 设置SVG图标的默认颜色 */
+img[src^="static/icons/fa-"] {
+    filter: brightness(0) saturate(100%);
+}
+
+/* 红色图标 */
+.text-red-400 img[src^="static/icons/fa-"],
+.text-red-500 img[src^="static/icons/fa-"],
+img[src^="static/icons/fa-"].text-red-400,
+img[src^="static/icons/fa-"].text-red-500 {
+    filter: brightness(0) saturate(100%) invert(36%) sepia(74%) saturate(2848%) hue-rotate(334deg) brightness(97%) contrast(98%);
+}
+
+/* 黄色图标 */
+.text-yellow-400 img[src^="static/icons/fa-"],
+img[src^="static/icons/fa-"].text-yellow-400 {
+    filter: brightness(0) saturate(100%) invert(85%) sepia(32%) saturate(4506%) hue-rotate(359deg) brightness(103%) contrast(104%);
+}
+
+/* 灰色图标 */
+.text-gray-400 img[src^="static/icons/fa-"],
+img[src^="static/icons/fa-"].text-gray-400 {
+    filter: brightness(0) saturate(100%) invert(58%) sepia(11%) saturate(0%) hue-rotate(205deg) brightness(90%) contrast(95%);
+}
+
+.text-gray-500 img[src^="static/icons/fa-"],
+img[src^="static/icons/fa-"].text-gray-500 {
+    filter: brightness(0) saturate(100%) invert(48%) sepia(10%) saturate(255%) hue-rotate(182deg) brightness(94%) contrast(92%);
+}
+
+.text-gray-600 img[src^="static/icons/fa-"],
+img[src^="static/icons/fa-"].text-gray-600 {
+    filter: brightness(0) saturate(100%) invert(35%) sepia(11%) saturate(629%) hue-rotate(182deg) brightness(92%) contrast(83%);
+}
+
+.text-gray-700 img[src^="static/icons/fa-"],
+img[src^="static/icons/fa-"].text-gray-700 {
+    filter: brightness(0) saturate(100%) invert(23%) sepia(9%) saturate(1057%) hue-rotate(182deg) brightness(97%) contrast(88%);
+}
+
+/* 白色图标 */
+.text-white img[src^="static/icons/fa-"],
+img[src^="static/icons/fa-"].text-white {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+}
+
+/* 主色调图标 */
+.text-primary img[src^="static/icons/fa-"],
+img[src^="static/icons/fa-"].text-primary {
+    filter: brightness(0) saturate(100%) invert(34%) sepia(90%) saturate(1936%) hue-rotate(199deg) brightness(94%) contrast(94%);
+}
+
+/* 悬停状态颜色变化 */
+.hover\:text-primary:hover img[src^="static/icons/fa-"] {
+    filter: brightness(0) saturate(100%) invert(34%) sepia(90%) saturate(1936%) hue-rotate(199deg) brightness(94%) contrast(94%);
+}
+
+.hover\:text-white:hover img[src^="static/icons/fa-"] {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+}
+
+.hover\:text-gray-700:hover img[src^="static/icons/fa-"] {
+    filter: brightness(0) saturate(100%) invert(23%) sepia(9%) saturate(1057%) hue-rotate(182deg) brightness(97%) contrast(88%);
+}
+
+/* 2024-07-26 新增：点赞后的实心心形图标颜色改为红色 */
+img.liked[src*="static/icons/fa-heart.svg"] {
+    filter: brightness(0) saturate(100%) invert(36%) sepia(74%) saturate(2848%) hue-rotate(334deg) brightness(97%) contrast(98%);
+}
+
+/* 图标大小控制 */
+img[src^="static/icons/fa-"].w-4,
+img[src^="static/icons/fa-"].h-4 {
+    width: 1rem;
+    height: 1rem;
+}
+
+img[src^="static/icons/fa-"].w-5,
+img[src^="static/icons/fa-"].h-5 {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+img[src^="static/icons/fa-"].w-6,
+img[src^="static/icons/fa-"].h-6 {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+img[src^="static/icons/fa-"].w-10,
+img[src^="static/icons/fa-"].h-10 {
+    width: 2.5rem;
+    height: 2.5rem;
+}

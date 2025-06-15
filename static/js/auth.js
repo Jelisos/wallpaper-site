@@ -247,8 +247,32 @@ async function handleRegister() {
 // 更新UI显示
 function updateUIAfterLogin(userData) {
     const usernameElement = document.getElementById('username');
+    const userAvatar = document.getElementById('user-avatar');
+    const logoutLink = document.getElementById('logout-link');
+    const loginLink = document.getElementById('login-link');
+    const registerLink = document.getElementById('register-link');
+    const userDropdown = document.getElementById('user-dropdown');
+    
     if (usernameElement) {
         usernameElement.textContent = userData.username;
+    }
+    if (userAvatar) {
+        userAvatar.src = userData.avatar || 'static/icons/default-avatar.svg';
+        userAvatar.classList.remove('hidden');
+    }
+    if (logoutLink) logoutLink.classList.remove('hidden');
+    if (loginLink) loginLink.classList.add('hidden');
+    if (registerLink) registerLink.classList.add('hidden');
+    
+    // 动态插入个人中心入口
+    let centerLink = document.getElementById('center-link');
+    if (!centerLink && userDropdown) {
+        centerLink = document.createElement('a');
+        centerLink.id = 'center-link';
+        centerLink.href = 'dashboard.html';
+        centerLink.className = 'block px-4 py-2 hover:bg-gray-100 cursor-pointer';
+        centerLink.textContent = '个人中心';
+        userDropdown.insertBefore(centerLink, logoutLink);
     }
 }
 
@@ -502,4 +526,4 @@ async function handlePasswordChange() {
         console.error('修改密码错误:', error);
         alert('密码修改失败，请重试');
     }
-} 
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-button {
+            background-color: #1A73E8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .test-button:hover {
+            background-color: #1557b0;
+        }
+        .status {
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>网站功能测试页面</h1>
+    
+    <div class="status">
+        <h2>问题解决状态</h2>
+        <p>✅ 1. 管理员权限问题 - 已添加is_admin字段和默认管理员账户</p>
+        <p>✅ 2. 数据库查看工具 - mysql_test.py已更新</p>
+        <p>✅ 3. 首页遮盖问题 - 已修复模态框CSS样式</p>
+        <p>✅ 4. 图片点击事件 - 已修复事件监听器</p>
+    </div>
+    
+    <div class="status">
+        <h2>管理员登录信息</h2>
+        <p><strong>用户名:</strong> admin</p>
+        <p><strong>邮箱:</strong> admin@wallpaper.com</p>
+        <p><strong>密码:</strong> admin123</p>
+    </div>
+    
+    <button class="test-button" onclick="window.location.href='index.html'">返回首页</button>
+    <button class="test-button" onclick="testClick()">测试点击功能</button>
+    
+    <script>
+        function testClick() {
+            alert('点击功能正常工作！');
+        }
+        
+        // 页面加载完成后的检查
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('测试页面加载完成');
+            console.log('当前时间:', new Date().toLocaleString());
+        });
+    </script>
+</body>
+</html>

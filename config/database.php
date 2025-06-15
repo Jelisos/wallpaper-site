@@ -8,7 +8,7 @@
 // 数据库连接配置
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_PWD', '');
 define('DB_NAME', 'wallpaper_db');
 
 /**
@@ -16,7 +16,7 @@ define('DB_NAME', 'wallpaper_db');
  * @return mysqli|false 数据库连接对象或false
  */
 function getDBConnection() {
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PWD, DB_NAME);
     
     if ($conn->connect_error) {
         error_log("数据库连接失败: " . $conn->connect_error);

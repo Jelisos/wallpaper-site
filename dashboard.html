@@ -6,6 +6,7 @@
     <title>WallpaperX - 用户中心</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.css" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -80,50 +81,18 @@
                     </a>
                     <a href="#" class="text-xl font-bold text-primary hidden sm:block">WallpaperX</a>
                 </div>
-                
                 <div class="flex items-center space-x-4">
+                    <!-- 搜索框 -->
                     <div class="relative hidden sm:block">
-                        <input type="text" placeholder="搜索壁纸..." class="pl-9 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary w-40 md:w-64">
+                        <input id="dashboard-search-input" type="text" placeholder="搜索壁纸..." class="pl-9 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary w-40 md:w-64">
                         <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                     </div>
-                    
-                    <a href="#" class="hidden sm:block px-4 py-2 bg-primary text-white rounded-full hover:bg-primary/90 transition-colors">
+                    <!-- 上传壁纸按钮 -->
+                    <a href="upload_wallpaper.html" id="dashboard-upload-btn" class="px-4 py-2 bg-primary text-white rounded-full hover:bg-primary/90 transition-colors inline-flex items-center">
                         <i class="fa fa-upload mr-1"></i> 上传壁纸
                     </a>
-                    
-                    <div class="relative">
-                        <button id="user-menu-button" class="flex items-center space-x-2">
-                            <img src="https://picsum.photos/id/64/40/40" alt="用户头像" class="w-8 h-8 rounded-full border-2 border-primary">
-                            <span class="hidden sm:inline font-medium">用户名称</span>
-                            <i class="fa fa-angle-down text-gray-500"></i>
-                        </button>
-                        
-                        <div id="user-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden animate-fade-in">
-                            <a href="#" class="block px-4 py-2 text-sm hover:bg-neutral transition-colors">
-                                <i class="fa fa-user mr-2 text-gray-500"></i> 个人中心
-                            </a>
-                            <a href="#" class="block px-4 py-2 text-sm hover:bg-neutral transition-colors">
-                                <i class="fa fa-heart mr-2 text-gray-500"></i> 我的喜欢
-                            </a>
-                            <a href="#" class="block px-4 py-2 text-sm hover:bg-neutral transition-colors">
-                                <i class="fa fa-bookmark mr-2 text-gray-500"></i> 我的收藏
-                            </a>
-                            <a href="#" class="block px-4 py-2 text-sm hover:bg-neutral transition-colors">
-                                <i class="fa fa-history mr-2 text-gray-500"></i> 浏览历史
-                            </a>
-                            <a href="#" class="block px-4 py-2 text-sm hover:bg-neutral transition-colors">
-                                <i class="fa fa-cog mr-2 text-gray-500"></i> 设置
-                            </a>
-                            <div class="border-t border-gray-100 my-1"></div>
-                            <a href="#" class="block px-4 py-2 text-sm text-danger hover:bg-neutral transition-colors">
-                                <i class="fa fa-sign-out mr-2"></i> 退出登录
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <button id="mobile-menu-button" class="sm:hidden text-gray-500 hover:text-primary">
-                        <i class="fa fa-bars text-xl"></i>
-                    </button>
+                    <!-- 只保留退出登录按钮 -->
+                    <button id="dashboard-logout-btn" class="px-4 py-2 bg-danger text-white rounded-full hover:bg-danger/90 transition-colors">退出登录</button>
                 </div>
             </div>
         </div>
@@ -134,7 +103,7 @@
         <aside id="sidebar" class="w-64 bg-white shadow-md z-30 hidden md:block transition-all duration-300 overflow-y-auto max-h-[calc(100vh-64px)]">
             <div class="p-4">
                 <div class="flex items-center space-x-3 mb-6">
-                    <img src="https://picsum.photos/id/64/80/80" alt="用户头像" class="w-12 h-12 rounded-full border-2 border-primary">
+                    <img src="https://picsum.photos/id/64/80/80" alt="用户头像" class="w-12 h-12 rounded-full border-2 border-primary user-avatar">
                     <div>
                         <h3 class="font-bold">用户名称</h3>
                         <p class="text-sm text-gray-500">普通会员</p>
@@ -190,6 +159,7 @@
                                 <span>账户设置</span>
                             </a>
                         </li>
+
                     </ul>
                 </nav>
                 
@@ -619,3 +589,211 @@
                                     <img src="https://picsum.photos/id/67/32/32" alt="用户头像" class="w-6 h-6 rounded-full mr-2">
                                     <span>naturephotographer</span>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 我的收藏 -->
+            <section id="collections-section" class="hidden animate-fade-in">
+                <!-- JSDoc: 我的收藏区块，后续渲染用户收藏的壁纸列表 -->
+                <div class="mb-6">
+                    <h1 class="text-2xl font-bold mb-2">我的收藏</h1>
+                    <p class="text-gray-500">你收藏的壁纸都会显示在这里</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- 这里后续渲染收藏壁纸卡片 -->
+                </div>
+            </section>
+
+            <!-- 我的下载 -->
+            <section id="downloads-section" class="hidden animate-fade-in">
+                <!-- JSDoc: 我的下载区块，后续渲染用户下载的壁纸列表 -->
+                <div class="mb-6">
+                    <h1 class="text-2xl font-bold mb-2">我的下载</h1>
+                    <p class="text-gray-500">你下载过的壁纸都会显示在这里</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- 这里后续渲染下载壁纸卡片 -->
+                </div>
+            </section>
+
+            <!-- 我的上传 -->
+            <section id="uploads-section" class="hidden animate-fade-in">
+                <!-- JSDoc: 我的上传区块，后续渲染用户上传的壁纸列表 -->
+                <div class="mb-6">
+                    <h1 class="text-2xl font-bold mb-2">我的上传</h1>
+                    <p class="text-gray-500">你上传的壁纸都会显示在这里</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- 这里后续渲染上传壁纸卡片 -->
+                </div>
+            </section>
+
+            <!-- 浏览历史 -->
+            <section id="history-section" class="hidden animate-fade-in">
+                <!-- JSDoc: 浏览历史区块，后续渲染用户浏览过的壁纸列表 -->
+                <div class="mb-6">
+                    <h1 class="text-2xl font-bold mb-2">浏览历史</h1>
+                    <p class="text-gray-500">你最近浏览的壁纸都会显示在这里</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- 这里后续渲染浏览历史壁纸卡片 -->
+                </div>
+            </section>
+
+            <!-- 账户设置 -->
+            <section id="settings-section" class="hidden animate-fade-in">
+                <!-- JSDoc: 账户设置区块，资料修改、密码修改、头像上传 -->
+                <div class="mb-6">
+                    <h1 class="text-2xl font-bold mb-2">账户设置</h1>
+                    <p class="text-gray-500">你可以在这里修改个人资料、密码、头像等</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm p-6 max-w-xl mx-auto">
+                    <!-- 资料修改表单 -->
+                    <form id="profile-form" class="mb-8">
+                        <h2 class="font-bold text-lg mb-4">基本资料</h2>
+                        <div class="mb-4">
+                            <label class="block mb-1">昵称</label>
+                            <input type="text" id="profile-username" class="w-full px-4 py-2 border rounded-lg" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block mb-1">邮箱</label>
+                            <input type="email" id="profile-email" class="w-full px-4 py-2 border rounded-lg" required>
+                        </div>
+                        <div class="mb-4 text-sm text-success hidden" id="profile-success"></div>
+                        <div class="mb-4 text-sm text-danger hidden" id="profile-error"></div>
+                        <button type="submit" class="bg-primary text-white px-6 py-2 rounded-lg">保存资料</button>
+                    </form>
+                    <!-- 密码修改表单 -->
+                    <form id="password-form" class="mb-8">
+                        <h2 class="font-bold text-lg mb-4">修改密码</h2>
+                        <div class="mb-4">
+                            <label class="block mb-1">旧密码</label>
+                            <input type="password" id="old-password" class="w-full px-4 py-2 border rounded-lg" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block mb-1">新密码</label>
+                            <input type="password" id="new-password" class="w-full px-4 py-2 border rounded-lg" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block mb-1">确认新密码</label>
+                            <input type="password" id="confirm-password" class="w-full px-4 py-2 border rounded-lg" required>
+                        </div>
+                        <div class="mb-4 text-sm text-success hidden" id="password-success"></div>
+                        <div class="mb-4 text-sm text-danger hidden" id="password-error"></div>
+                        <button type="submit" class="bg-primary text-white px-6 py-2 rounded-lg">修改密码</button>
+                    </form>
+                    <!-- 头像上传 -->
+                    <form id="avatar-form" enctype="multipart/form-data">
+                        <h2 class="font-bold text-lg mb-4">头像设置</h2>
+                        <div class="flex items-center mb-4">
+                            <img id="avatar-preview" src="https://picsum.photos/id/64/80/80" alt="当前头像" class="w-16 h-16 rounded-full border-2 border-primary mr-4 user-avatar">
+                            <input type="file" id="avatar-input" name="avatar" accept="image/*" class="hidden">
+                            <button type="button" id="choose-avatar" class="bg-neutral-dark px-4 py-2 rounded-lg">选择头像</button>
+                        </div>
+                        <div class="mb-4 text-sm text-success hidden" id="avatar-success"></div>
+                        <div class="mb-4 text-sm text-danger hidden" id="avatar-error"></div>
+                        <button type="submit" class="bg-primary text-white px-6 py-2 rounded-lg">上传头像</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- 头像裁剪弹窗 -->
+            <div id="avatar-cropper-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center">
+                <div class="bg-white rounded-xl p-6 shadow-lg flex flex-col items-center">
+                    <h2 class="text-lg font-bold mb-4">裁剪头像</h2>
+                    <div class="w-64 h-64 mb-4 flex items-center justify-center bg-neutral-dark rounded-lg overflow-hidden">
+                        <img id="cropper-image" src="" alt="裁剪图片" class="max-w-full max-h-full">
+                    </div>
+                    <div class="flex space-x-4">
+                        <button id="cropper-cancel" class="px-6 py-2 border rounded-lg">取消</button>
+                        <button id="cropper-confirm" class="px-6 py-2 bg-primary text-white rounded-lg">确定裁剪</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 上传壁纸模态框（与首页一致） -->
+            <div id="dashboard-upload-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center">
+                <div class="bg-white rounded-xl w-full max-w-2xl mx-4 transform transition-all duration-300 scale-95 opacity-0" id="dashboard-upload-modal-content">
+                    <div class="relative p-6 max-h-[80vh] overflow-y-auto">
+                        <button id="dashboard-close-upload-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                            <i class="fa fa-times text-xl"></i>
+                        </button>
+                        <h2 class="text-2xl font-bold text-center mb-6">上传壁纸</h2>
+                        <form id="dashboard-upload-form">
+                            <div class="mb-6">
+                                <div id="dashboard-drop-area" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-primary transition-colors cursor-pointer">
+                                    <i class="fa fa-cloud-upload text-4xl text-gray-400 mb-4"></i>
+                                    <p class="text-gray-600 mb-2">点击或拖拽文件到此处上传</p>
+                                    <p class="text-sm text-gray-500">支持 JPG, PNG, WebP 格式，最大 10MB</p>
+                                    <input type="file" id="dashboard-file-input" class="hidden" accept="image/*">
+                                    <button type="button" id="dashboard-browse-btn" class="mt-4 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">选择文件</button>
+                                </div>
+                                <div id="dashboard-preview-container" class="hidden mt-4">
+                                    <img id="dashboard-image-preview" src="" alt="预览图" class="max-h-60 mx-auto rounded-lg object-contain">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label for="dashboard-wallpaper-title" class="block text-sm font-medium text-gray-700 mb-1">壁纸标题</label>
+                                    <input type="text" id="dashboard-wallpaper-title" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请输入壁纸标题">
+                                </div>
+                                <div>
+                                    <label for="dashboard-wallpaper-category" class="block text-sm font-medium text-gray-700 mb-1">壁纸分类</label>
+                                    <select id="dashboard-wallpaper-category" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary">
+                                        <option value="">选择分类</option>
+                                        <option value="风景">风景</option>
+                                        <option value="动物">动物</option>
+                                        <option value="动漫">动漫</option>
+                                        <option value="城市">城市</option>
+                                        <option value="抽象">抽象</option>
+                                        <option value="科技">科技</option>
+                                        <option value="创意">创意</option>
+                                        <option value="美食">美食</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label for="dashboard-wallpaper-tags" class="block text-sm font-medium text-gray-700 mb-1">标签（用逗号分隔）</label>
+                                <input type="text" id="dashboard-wallpaper-tags" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="例如：自然,山脉,湖泊">
+                            </div>
+                            <div class="flex justify-end space-x-4 mt-8">
+                                <button type="button" id="dashboard-cancel-upload" class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-neutral-dark transition-colors">关闭</button>
+                                <button type="submit" id="dashboard-submit-upload" class="px-6 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg transition-colors">提交</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </main>
+    </div>
+
+    <!-- JavaScript -->
+    <!-- 本地二维码库 -->
+    <script src="static/js/qrious.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
+    <!-- 引入自定义JS -->
+    <script src="static/js/config.js"></script>
+    <script src="static/js/utils.js"></script>
+    <script src="static/js/modals.js"></script>
+    <script src="static/js/user-menu.js"></script>
+    <script src="static/js/dashboard.js"></script> <!-- 2024-07-29 新增：仪表盘逻辑 -->
+    <script src="static/js/admin-exile.js"></script> <!-- 2024-07-29 新增：管理员流放管理逻辑 -->
+    <script>
+        // 2025-01-27 修复重复初始化问题：统一在此处初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('[Dashboard] 页面加载完成，初始化模块');
+            
+            // 初始化Dashboard相关逻辑
+            if (typeof Dashboard !== 'undefined') {
+                Dashboard.init();
+            }
+
+        });
+    </script>
+</body>
+</html>

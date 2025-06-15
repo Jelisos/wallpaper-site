@@ -1,4 +1,10 @@
 <?php
+session_start(); // 启动会话
+ini_set('session.gc_maxlifetime', 604800); // 设置 Session 垃圾回收最大生命周期为 7 天 (604800 秒)
+ini_set('session.cookie_lifetime', 604800); // 设置 Session Cookie 的生命周期为 7 天 (604800 秒)
+require_once 'utils.php'; // 引入新的日志工具文件
+ini_set('display_errors', 0); // 关闭错误显示
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING); // 仅报告致命错误和解析错误，忽略通知和警告
 /**
  * 用户认证API
  * @author Claude
@@ -53,9 +59,21 @@ switch ($method) {
         break;
         
     case 'GET':
-        // 获取用户信息
-        if (isset($_GET['action']) && $_GET['action'] === 'getUserInfo') {
-            handleGetUserInfo();
+        // 获取用户信息或检查登录状态
+        if (isset($_GET['action'])) {
+            switch ($_GET['action']) {
+                case 'getUserInfo':
+                    handleGetUserInfo();
+                    break;
+                case 'check':
+                    handleCheckLogin();
+                    break;
+                case 'logout':
+                    handleLogout();
+                    break;
+                default:
+                    sendResponse(400, '无效的请求');
+            }
         } else {
             sendResponse(400, '无效的请求');
         }
@@ -147,7 +165,7 @@ function handleLogin($data) {
     }
     
     // 查询用户
-    $stmt = $conn->prepare("SELECT id, username, email, password FROM users WHERE email = ?");
+    $stmt = $conn->prepare("SELECT id, username, email, password, is_admin FROM users WHERE email = ?");
     $stmt->bind_param("s", $data['email']);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -168,23 +186,27 @@ function handleLogin($data) {
         closeDBConnection($conn);
         return;
     }
-    
-    // 生成会话ID
-    $sessionId = bin2hex(random_bytes(32));
-    
-    // 存储会话信息
-    $stmt = $conn->prepare("INSERT INTO sessions (user_id, session_id, created_at) VALUES (?, ?, NOW())");
-    $stmt->bind_param("is", $user['id'], $sessionId);
-    $stmt->execute();
-    
-    // 返回用户信息和会话ID
+
+    // 设置会话变量，用于收藏等功能的用户ID判断
+    $_SESSION['user_id'] = $user['id'];
+
+    // 新增调试日志：记录会话ID和存储的用户ID
+    sendDebugLog([
+        'msg' => '登录成功，会话已设置',
+        'session_id' => session_id(), // 获取当前会话ID
+        'user_id_in_session' => $_SESSION['user_id']
+    ], 'wallpaper_debug_log.txt', 'append', 'auth_login_session_set');
+
+    // 强制设置 PHPSESSID cookie，保证前端能获取到 session
+    setcookie('PHPSESSID', session_id(), time() + 604800, '/'); // 延长 PHPSESSID cookie 的有效期到 7 天
+
+    // 返回用户信息（不再返回自定义 sessionId）
     $response = [
         'id' => $user['id'],
         'username' => $user['username'],
         'email' => $user['email'],
-        'sessionId' => $sessionId
+        'is_admin' => (bool)$user['is_admin']
     ];
-    
     sendResponse(200, '登录成功', $response);
     
     $stmt->close();
@@ -195,30 +217,17 @@ function handleLogin($data) {
  * 处理用户登出
  */
 function handleLogout() {
-    // 获取会话ID
-    $headers = getallheaders();
-    $sessionId = isset($headers['Authorization']) ? str_replace('Bearer ', '', $headers['Authorization']) : null;
-    
-    if (!$sessionId) {
+    // 检查 Session 中是否存在 user_id
+    if (!isset($_SESSION['user_id'])) {
         sendResponse(401, '未登录');
         return;
     }
     
-    $conn = getDBConnection();
-    if (!$conn) {
-        sendResponse(500, '数据库连接失败');
-        return;
-    }
-    
-    // 删除会话
-    $stmt = $conn->prepare("DELETE FROM sessions WHERE session_id = ?");
-    $stmt->bind_param("s", $sessionId);
-    $stmt->execute();
+    // 清除 Session 数据
+    session_unset();
+    session_destroy();
     
     sendResponse(200, '登出成功');
-    
-    $stmt->close();
-    closeDBConnection($conn);
 }
 
 /**
@@ -310,14 +319,16 @@ function handleChangePassword($data) {
  * 获取用户信息
  */
 function handleGetUserInfo() {
-    // 获取会话ID
-    $headers = getallheaders();
-    $sessionId = isset($headers['Authorization']) ? str_replace('Bearer ', '', $headers['Authorization']) : null;
-    
-    if (!$sessionId) {
-        sendResponse(401, '未登录');
+    // 检查 Session 中是否存在 user_id
+    sendDebugLog(['msg' => 'handleGetUserInfo called', 'session_id' => session_id(), 'session_data' => $_SESSION], 'wallpaper_debug_log.txt', 'append', 'auth_getuserinfo_start');
+
+    if (!isset($_SESSION['user_id'])) {
+        sendDebugLog(['msg' => 'handleGetUserInfo: user_id not in session', 'session_data' => $_SESSION], 'wallpaper_debug_log.txt', 'append', 'auth_getuserinfo_no_user_id');
+        sendResponse(401, '未登录或会话已过期');
         return;
     }
+    
+    $userId = $_SESSION['user_id'];
     
     $conn = getDBConnection();
     if (!$conn) {
@@ -327,23 +338,26 @@ function handleGetUserInfo() {
     
     // 查询用户信息
     $stmt = $conn->prepare("
-        SELECT u.id, u.username, u.email, u.created_at 
-        FROM users u 
-        JOIN sessions s ON u.id = s.user_id 
-        WHERE s.session_id = ?
+        SELECT id, username, email, is_admin, created_at 
+        FROM users 
+        WHERE id = ?
     ");
-    $stmt->bind_param("s", $sessionId);
+    $stmt->bind_param("i", $userId);
     $stmt->execute();
     $result = $stmt->get_result();
     
     if ($result->num_rows === 0) {
-        sendResponse(401, '会话已过期');
+        // Session 中有 user_id 但数据库中找不到用户，可能是数据不同步，视为未登录
+        session_unset();
+        session_destroy();
+        sendResponse(401, '用户不存在或会话无效');
         $stmt->close();
         closeDBConnection($conn);
         return;
     }
     
     $user = $result->fetch_assoc();
+    sendDebugLog(['msg' => 'handleGetUserInfo: user found', 'user_data' => $user], 'wallpaper_debug_log.txt', 'append', 'auth_getuserinfo_success');
     sendResponse(200, '获取成功', $user);
     
     $stmt->close();
@@ -410,14 +424,21 @@ function handleUpdateProfile($data) {
 }
 
 /**
- * 发送JSON响应
+ * 检查用户登录状态
  */
-function sendResponse($code, $message, $data = null) {
-    http_response_code($code);
-    echo json_encode([
-        'code' => $code,
-        'message' => $message,
-        'data' => $data
-    ]);
-    exit();
-} 
+function handleCheckLogin() {
+    // 检查session中是否有用户信息
+    if (isset($_SESSION['user']) && isset($_SESSION['user']['id'])) {
+        // 用户已登录，返回成功状态
+        sendResponse(200, '用户已登录', [
+            'user_id' => $_SESSION['user']['id'],
+            'username' => $_SESSION['user']['username'] ?? '',
+            'email' => $_SESSION['user']['email'] ?? ''
+        ]);
+    } else {
+        // 用户未登录
+        sendResponse(401, '用户未登录');
+    }
+}
+
+// sendResponse函数已在utils.php中定义，此处移除重复定义

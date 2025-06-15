@@ -1,0 +1,145 @@
+# XAMPP 系统目录和文件
+apache/
+mysql/
+php/
+perl/
+tomcat/
+phpMyAdmin/
+sendmail/
+MercuryMail/
+FileZillaFTP/
+Jelis-bf/
+webalizer/
+vcredist/
+src/
+install/
+licenses/
+locale/
+contrib/
+cgi-bin/
+anonymous/
+webdav/
+img/
+mailoutput/
+mailtodisk/
+
+# XAMPP 可执行文件和批处理文件
+*.exe
+*.bat
+*.dll
+*.run
+*.ini
+*.cfg
+*.hlp
+*.fff
+*.mer
+*.frm
+*.bmp
+*.pm
+service.exe
+xampp-control.exe
+xampp_start.exe
+xampp_stop.exe
+xampp_shell.bat
+setup_xampp.bat
+test_php.bat
+killprocess.bat
+filezilla_*.bat
+mercury_*.bat
+mysql_*.bat
+apache_*.bat
+catalina_*.bat
+ctlscript.bat
+
+# 日志文件
+logs/
+*.log
+*.pid
+error.log
+httpd.pid
+xampp-control.log
+wallpaper_debug_log.txt
+
+# 临时文件和缓存
+tmp/
+temp/
+cache/
+*.tmp
+*.temp
+*.cache
+
+# 数据库文件（SQLite）
+*.db
+*.sqlite
+*.sqlite3
+instance/
+
+# 压缩文件
+*.zip
+*.7z
+*.rar
+*.tar
+*.gz
+wallpapers.7z
+
+# 系统文件
+*.txt
+readme_*.txt
+passwords.txt
+cookies.txt
+installed.txt
+properties.ini
+
+# 开发相关的临时文件
+.cursor/
+.trae/
+
+# 大型媒体文件目录（壁纸等）
+static/wallpapers/
+static/uploads/
+static/avatar/
+
+# 字体文件
+*.woff
+*.woff2
+*.ttf
+*.otf
+
+# 图标和图片文件
+*.ico
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.bmp
+favicon.ico
+
+# 第三方库和框架
+static/libs/
+static/css/tailwind.min.css
+static/css/font-awesome.min.css
+static/js/qrious.min.js
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 备份文件
+*.bak
+*.backup
+*.old
+
+# 编辑器临时文件
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# 特定的开发文档（可选，根据需要调整）
+# 如果不想索引这些文档，可以取消注释
+# *.md
+# *.txt

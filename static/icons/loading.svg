@@ -1,0 +1,5 @@
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <style>.spinner_ajXg{transform-origin:center;animation:spinner_MRXz .75s infinite linear}@keyframes spinner_MRXz{100%{transform:rotate(360deg)}}</style>
+    <path d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25"/>
+    <path d="M10.14,1.16a11,11,0,0,0-9,8.92A1.5,1.5,0,0,0,2.67,11.66,1.53,1.53,0,0,0,4.16,10.14,8,8,0,0,1,11.23,3c.92,0,1.75.21,2.4.56A1.5,1.5,0,0,0,14.09,2.05,1.5,1.5,0,0,0,12.72,1.21,11,11,0,0,0,10.14,1.16Z" class="spinner_ajXg"/>
+</svg> 

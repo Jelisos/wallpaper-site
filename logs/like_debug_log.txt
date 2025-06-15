@@ -1,0 +1,3287 @@
+# 壁纸系统调试日志
+
+## 日志格式说明
+- 每条日志包含时间戳、IP地址、操作类型、请求参数和响应结果
+- 按照操作类型和时间顺序组织，便于问题定位
+- 错误日志会特别标记，方便快速识别
+
+## API请求日志
+
+### 点赞操作日志
+
+```
+[2025-06-15 13:31:02] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061414
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-15 12:26:23] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061333
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-15 06:42:42] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061332
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-15 06:09:54] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061331
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 12:03:58] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=20250613104
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 12:03:55] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=20250613104
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 12:03:54] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=20250613104
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 11:45:32] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061361
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 11:45:30] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061361
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 11:45:28] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061361
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 11:45:27] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061361
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 11:31:55] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061368
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 11:31:54] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061368
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 11:03:30] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061419
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 10:46:23] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=202506142
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 10:44:11] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=20250613114
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 10:44:09] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=20250613114
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 10:27:20] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061420
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 10:27:16] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061420
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 09:42:26] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061412
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 09:42:21] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061412
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 09:42:17] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061412
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 09:14:54] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=202506144
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 09:14:53] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=202506144
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 09:14:52] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=202506144
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 09:14:49] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=202506144
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 09:10:44] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061410
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 09:10:42] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061410
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:55:33] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061322
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:55:32] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061322
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:44:24] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061367
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:44:22] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061367
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:38:38] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061391
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:38:16] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061416
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:27:56] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061423
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:27:53] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061423
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:27:50] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061423
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:27:43] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=20250613101
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:27:36] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061337
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:27:36] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061337
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:20:25] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061415
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:19:44] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061336
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:19:43] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061336
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:19:20] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=202506138
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:19:16] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=202506138
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:13:12] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061419
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 08:13:04] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061388
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 07:23:30] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061325
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 07:15:59] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061382
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 07:15:57] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061382
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 05:08:36] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061420
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 05:07:28] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=20250613103
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 05:07:25] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=20250613103
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 04:54:57] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061421
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-14 03:34:13] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=202506143
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 18:57:04] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=202506147
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 18:39:41] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=202506144
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 18:39:39] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=202506144
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 18:37:51] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=202506144
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 16:45:32] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061399
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 16:45:31] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061399
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 16:45:26] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061394
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 16:45:23] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061362
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 16:45:21] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061362
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 14:08:02] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=202506138
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 14:08:00] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=202506138
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 14:07:15] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061387
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 14:07:12] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061374
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 14:04:45] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=20250613113
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 14:04:43] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=20250613113
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 14:04:42] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=20250613113
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 14:04:40] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=20250613113
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 14:03:50] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061385
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 13:51:33] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=20250613105
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 13:51:32] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=20250613105
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 13:51:25] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=20250613105
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 13:50:16] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061346
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 13:50:16] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061346
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 13:49:37] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061346
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 13:49:37] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061346
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 13:49:01] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=202506138
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 13:49:01] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=202506138
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 13:48:55] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061393
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 13:48:55] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061393
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 13:37:20] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061317
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 12:45:58] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061383
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 12:31:59] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=20250613116
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 12:24:41] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061349
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 11:45:43] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061385
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 11:44:56] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061318
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 11:44:54] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061319
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 10:53:55] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061352
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 07:43:59] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061377
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 07:43:37] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061362
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 07:43:36] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061362
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 07:36:30] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061317
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 07:36:29] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061317
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 07:13:27] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=202506135
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 07:13:27] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=202506135
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 07:00:08] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061353
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 06:59:53] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061370
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 06:59:51] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061370
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 06:41:15] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061380
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 06:41:14] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061380
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 06:29:01] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061326
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 06:26:05] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061359
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 06:19:19] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061384
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 06:18:54] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061384
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 06:18:51] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061384
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 06:09:35] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061369
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 06:09:33] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061369
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 05:28:30] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061316
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 05:28:29] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061316
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 05:28:28] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061316
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 05:28:27] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061316
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 05:23:20] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061347
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 05:23:18] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061347
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 05:19:16] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061399
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 05:19:13] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061399
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 04:50:35] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061359
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 04:50:33] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061359
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 04:50:09] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061349
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 04:50:06] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061349
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 04:24:01] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061367
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 04:23:59] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061367
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 04:23:56] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061367
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 04:23:54] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061367
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 04:23:52] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061367
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 04:23:50] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061367
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 04:23:49] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=202506134
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-13 04:23:48] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=202506134
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 18:39:37] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061344
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 18:39:36] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061344
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 17:58:19] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=2025061222
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 17:58:17] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=2025061222
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 16:08:31] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17497192620040
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 16:08:30] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17497192620040
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 16:01:46] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17497192620099
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 16:01:44] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17497192620099
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 16:01:42] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17497192620099
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 16:01:40] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17497192620099
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 16:01:39] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17497192620099
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 16:01:36] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17497192620099
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 16:01:35] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17497192620099
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 16:01:32] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17497192620099
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 15:56:42] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17497192620085
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 15:56:41] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17497192620085
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 15:36:53] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17497192620006
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 15:32:08] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17497192620088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 15:30:14] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17497192620022
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 15:30:04] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17497192620023
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 14:52:04] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17497192620056
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 14:52:02] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17497192620056
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 11:52:42] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17497192620087
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 11:52:39] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17497192620087
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 11:52:38] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17497192620087
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 11:52:36] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17497192620087
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 11:52:34] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17497192620087
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 11:52:32] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17497192620087
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 06:50:02] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560107
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 06:49:58] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560107
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 06:44:42] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560068
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 06:44:40] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560068
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:58:55] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560041
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:34:17] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560056
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:34:15] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560056
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:34:12] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560056
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:34:12] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560056
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:29:16] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560083
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:29:13] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560083
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:29:12] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560083
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:29:11] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560083
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:20:45] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560083
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:20:43] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560083
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:20:42] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560083
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:17:43] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560095
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:17:41] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560095
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:17:39] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560095
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:17:37] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560095
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:17:34] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560095
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:17:32] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560095
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:17:29] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560095
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:17:10] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:17:06] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:17:03] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:17:00] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:16:57] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:16:54] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:16:51] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:16:49] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:16:08] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:16:07] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:16:04] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:16:02] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:15:59] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:15:56] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:15:52] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:15:51] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:15:46] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560015
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:15:43] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560015
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:15:41] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560015
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:15:39] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560015
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:15:36] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560015
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:14:45] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:14:43] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:14:38] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:14:13] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560056
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:14:11] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560056
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:14:09] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560056
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:13:02] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560004
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:12:59] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560004
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:12:55] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560004
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:07:55] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560086
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:07:53] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560086
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:07:50] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560086
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:07:45] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560086
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:04:56] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560099
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:04:36] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:04:23] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:04:21] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:04:18] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:04:15] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 05:04:11] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560088
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:58:22] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560109
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:58:15] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560030
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:58:12] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560030
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:58:09] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560030
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:58:06] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560030
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:55:20] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560086
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:55:15] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560086
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:55:11] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560102
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:55:08] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560102
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:54:29] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560061
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:54:25] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560089
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:53:44] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560085
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:53:41] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560085
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:53:38] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560085
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:53:36] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560085
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:53:32] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560085
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:52:41] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560021
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:52:39] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560021
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:52:34] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560043
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:52:33] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560043
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:50:27] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560035
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:50:05] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560035
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:50:01] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560035
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:49:56] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560035
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:49:44] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560035
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:49:41] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560035
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:49:39] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560035
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:49:36] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560035
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:32:59] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560055
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:32:54] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560055
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-12 04:32:52] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560055
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:15:27] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560098
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:15:22] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560017
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:15:18] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560028
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:03:49] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560009
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:03:46] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560009
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:03:15] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560008
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:03:12] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560008
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:03:06] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560008
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:02:59] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560008
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:02:41] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560008
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:02:38] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560008
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:02:31] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560008
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:02:04] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560008
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:02:01] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560008
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:01:55] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560008
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:01:52] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560008
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:01:48] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560008
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:01:45] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560008
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:01:34] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560008
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:01:31] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560008
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 18:01:26] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560008
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:58:03] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560037
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:55:58] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560038
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:55:55] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560038
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:55:50] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560038
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:54:23] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560009
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:54:20] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560009
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:28:13] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560009
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:28:08] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560009
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:28:06] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560009
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:28:04] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560009
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:26:44] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560009
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:26:40] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560015
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:26:39] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560015
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:26:36] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560009
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:26:32] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560009
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:26:31] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560009
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:25:30] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:25:29] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:25:29] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:25:27] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:25:26] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:24:57] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560023
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:24:54] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560053
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:24:52] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560103
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:24:50] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560009
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:22:19] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560014
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:22:18] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560014
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:22:17] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560014
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:22:16] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560014
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:22:07] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560012
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:22:06] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560012
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:22:04] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:22:03] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:22:01] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:15:57] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:14:06] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:14:04] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:13:59] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:13:52] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:13:46] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:13:43] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:13:41] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:13:38] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:13:37] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:13:36] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:13:33] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:13:28] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560029
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:11:46] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560100
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:11:42] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560100
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:11:39] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560100
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:11:37] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560100
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:09:32] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560100
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:09:31] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560100
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:09:22] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560100
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:09:19] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560100
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:08:31] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560100
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:08:23] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560100
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:08:19] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560100
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:08:13] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560100
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:04:17] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560082
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:04:14] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560082
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:04:12] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560082
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:04:07] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560082
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:04:04] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560082
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 17:03:44] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560082
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:59:59] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560082
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:59:57] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560082
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:59:51] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560082
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:59:48] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560082
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:59:17] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560082
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:58:54] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560028
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:58:46] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560028
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:48:01] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560018
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:47:52] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560047
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:47:43] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560047
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:46:21] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560038
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:46:20] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560038
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:42:15] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560064
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:42:13] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560064
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:36:03] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560043
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:36:02] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560043
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:33:01] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560043
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:27:46] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560090
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:27:36] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560016
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:21:24] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560012
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:21:07] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560052
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:21:03] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560054
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:21:02] [IP: ::1] [操作: unlike_success]
+日志内容:
+- 取消点赞成功: ip_address=::1, wallpaper_id=17496074560054
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+
+```
+[2025-06-11 16:21:01] [IP: ::1] [操作: like_success]
+日志内容:
+- 点赞成功: ip_address=::1, wallpaper_id=17496074560054
+
+调试追踪：本次调试涉及文件 wallpaper.js、api/write_log.php、logs/like_debug_log.txt
+请在问题解决后清理这些调试内容
+```
+

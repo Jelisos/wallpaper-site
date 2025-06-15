@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>调试页面</title>
+</head>
+<body>
+    <h1>调试页面</h1>
+    <div id="result"></div>
+    <div id="error"></div>
+    
+    <script>
+        console.log('调试页面开始加载');
+        
+        async function testLoadList() {
+            const resultDiv = document.getElementById('result');
+            const errorDiv = document.getElementById('error');
+            
+            try {
+                console.log('开始加载 list.json');
+                const response = await fetch('/static/data/list.json');
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP错误: ${response.status} ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('加载的数据:', data);
+                console.log('数据长度:', data.length);
+                
+                resultDiv.innerHTML = `<p>成功加载 ${data.length} 个壁纸</p><pre>${JSON.stringify(data.slice(0, 3), null, 2)}</pre>`;
+                
+            } catch (error) {
+                console.error('加载失败:', error);
+                errorDiv.innerHTML = `<p style="color: red;">错误: ${error.message}</p>`;
+            }
+        }
+        
+        // 页面加载完成后执行测试
+        document.addEventListener('DOMContentLoaded', testLoadList);
+    </script>
+</body>
+</html>

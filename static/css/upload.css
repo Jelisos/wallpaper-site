@@ -1,0 +1,303 @@
+/* 上传壁纸页面样式 */
+
+/* 文件拖拽区域 */
+.upload-area {
+    border: 2px dashed #e2e8f0;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.upload-area:hover {
+    border-color: #1A73E8;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+}
+
+.upload-area.dragover {
+    border-color: #1A73E8;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    transform: scale(1.02);
+}
+
+/* 文件预览 */
+.file-preview {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.file-preview:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.file-preview img {
+    transition: transform 0.3s ease;
+}
+
+.file-preview:hover img {
+    transform: scale(1.05);
+}
+
+/* 进度条 */
+.progress-bar {
+    background: linear-gradient(90deg, #1A73E8 0%, #4285F4 100%);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    box-shadow: 0 2px 4px rgba(26, 115, 232, 0.3);
+}
+
+.progress-container {
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* 表单输入框 */
+.form-input {
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.form-input:focus {
+    border-color: #1A73E8;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+    outline: none;
+}
+
+.form-input:hover {
+    border-color: #cbd5e1;
+}
+
+/* 标签输入 */
+.tag-input {
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    min-height: 42px;
+    padding: 8px 12px;
+    transition: all 0.3s ease;
+}
+
+.tag-input:focus-within {
+    border-color: #1A73E8;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+}
+
+.tag {
+    background: linear-gradient(135deg, #1A73E8 0%, #4285F4 100%);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 16px;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    margin: 2px;
+    transition: all 0.2s ease;
+}
+
+.tag:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 4px rgba(26, 115, 232, 0.3);
+}
+
+.tag .remove-tag {
+    margin-left: 4px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.tag .remove-tag:hover {
+    opacity: 1;
+}
+
+/* 按钮样式 */
+.btn-primary {
+    background: linear-gradient(135deg, #1A73E8 0%, #4285F4 100%);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(26, 115, 232, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(26, 115, 232, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-secondary {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    color: #64748b;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #475569;
+}
+
+/* 模态框 */
+.modal {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* 成功图标动画 */
+.success-icon {
+    animation: successPulse 0.6s ease-out;
+}
+
+@keyframes successPulse {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 加载动画 */
+.loading-spinner {
+    border: 2px solid #e2e8f0;
+    border-top: 2px solid #1A73E8;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .upload-area {
+        padding: 2rem 1rem;
+    }
+    
+    .file-preview {
+        max-width: 100%;
+    }
+    
+    .modal-content {
+        margin: 1rem;
+        width: calc(100% - 2rem);
+    }
+}
+
+/* 文件信息显示 */
+.file-info {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 12px;
+}
+
+.file-info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.file-info-item:last-child {
+    border-bottom: none;
+}
+
+.file-info-label {
+    font-weight: 600;
+    color: #475569;
+}
+
+.file-info-value {
+    color: #64748b;
+}
+
+/* 错误状态 */
+.error {
+    border-color: #ef4444 !important;
+    background: #fef2f2;
+}
+
+.error-message {
+    color: #ef4444;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+/* 成功状态 */
+.success {
+    border-color: #10b981 !important;
+    background: #f0fdf4;
+}
+
+/* 动画效果 */
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.slide-up {
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

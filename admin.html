@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>壁纸网站管理后台</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -94,6 +94,10 @@
                 <i class="fa fa-users"></i>
                 <span>用户管理</span>
             </a>
+            <a href="#exile-management" class="sidebar-link" id="admin-exile-menu-item">
+                <i class="fa fa-ban"></i>
+                <span>流放管理</span>
+            </a>
             
             <div class="px-4 mt-8 mb-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">系统设置</div>
             <a href="#settings" class="sidebar-link">
@@ -148,9 +152,14 @@
                 
                 <div class="h-8 border-r border-gray-200 mx-1"></div>
                 
-                <div class="flex items-center space-x-2">
-                    <img src="https://picsum.photos/id/64/40/40" alt="管理员头像" class="w-8 h-8 rounded-full">
-                    <span class="font-medium">超级管理员</span>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <img src="https://picsum.photos/id/64/40/40" alt="管理员头像" class="w-8 h-8 rounded-full">
+                        <span class="font-medium" id="admin-username">超级管理员</span>
+                    </div>
+                    <button id="admin-logout-btn" class="px-3 py-1 text-sm bg-danger text-white rounded-lg hover:bg-danger/90 transition-colors">
+                        <i class="fa fa-sign-out mr-1"></i> 退出登录
+                    </button>
                 </div>
             </div>
         </header>
@@ -573,6 +582,43 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- 流放管理区域 -->
+            <section id="exile-management-section" class="animate-fade-in hidden">
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <div class="mb-6 flex justify-between items-center">
+                        <h1 class="text-2xl font-bold">流放管理</h1>
+                        <button id="batch-recall-btn" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors hidden">
+                            <i class="fa fa-undo mr-1"></i> 批量召回
+                        </button>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h3 class="text-xl font-bold mb-4">操作日志</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-white">
+                                <thead>
+                                    <tr>
+                                        <th class="py-2 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600">壁纸ID</th>
+                                        <th class="py-2 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600">操作类型</th>
+                                        <th class="py-2 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600">操作人ID</th>
+                                        <th class="py-2 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600">操作时间</th>
+                                        <th class="py-2 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600">原状态</th>
+                                        <th class="py-2 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600">新状态</th>
+                                        <th class="py-2 px-4 border-b border-gray-200 text-left text-sm font-semibold text-gray-600">备注</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="operation-logs-table-body">
+                                    <!-- 操作日志将在这里动态加载 -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="log-pagination" class="mt-4 flex justify-center space-x-2">
+                            <!-- 分页按钮将在这里动态加载 -->
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
     
@@ -647,4 +693,170 @@
     </div>
     
     <!-- 拒绝理由模态框 -->
+    
+    <!-- JavaScript 引用 -->
+    <script src="static/js/config.js"></script>
+    <script src="static/js/utils.js"></script>
+    <script src="static/js/modals.js"></script>
+    <script src="static/js/admin-exile.js"></script>
+    
+    <script>
+        // 管理员后台初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('[Admin] 页面加载完成，初始化模块');
+            
+            // 检查管理员登录状态
+            checkAdminLogin();
+            
+            // 绑定退出登录按钮事件
+            const logoutBtn = document.getElementById('admin-logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', handleAdminLogout);
+            }
+            
+            // 初始化侧边栏导航
+            initSidebarNavigation();
+            
+            // 初始化管理员流放管理逻辑
+            if (typeof AdminExile !== 'undefined') {
+                AdminExile.init();
+            }
+        });
+        
+        // 侧边栏导航逻辑
+        function initSidebarNavigation() {
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            const sections = {
+                '#': document.querySelector('main > div:first-child'), // 仪表盘区域
+                '#wallpaper-review': document.querySelector('main > div:first-child'), // 壁纸审核区域（暂时共用仪表盘）
+                '#wallpapers': document.querySelector('main > div:first-child'), // 壁纸管理区域（暂时共用仪表盘）
+                '#categories': document.querySelector('main > div:first-child'), // 分类管理区域（暂时共用仪表盘）
+                '#users': document.querySelector('main > div:first-child'), // 用户管理区域（暂时共用仪表盘）
+                '#exile-management': document.getElementById('exile-management-section'),
+                '#settings': document.querySelector('main > div:first-child'), // 系统设置区域（暂时共用仪表盘）
+                '#logs': document.querySelector('main > div:first-child') // 操作日志区域（暂时共用仪表盘）
+            };
+            
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    
+                    // 移除所有活动状态
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // 添加当前活动状态
+                    this.classList.add('active');
+                    
+                    // 隐藏所有区域
+                    Object.values(sections).forEach(section => {
+                        if (section) section.classList.add('hidden');
+                    });
+                    
+                    // 显示对应区域
+                    if (sections[href]) {
+                        sections[href].classList.remove('hidden');
+                        
+                        // 如果是流放管理，加载数据
+                        if (href === '#exile-management' && typeof AdminExile !== 'undefined') {
+                            AdminExile.loadOperationLogs();
+                        }
+                    }
+                    
+                    // 更新页面标题
+                    const pageTitle = document.querySelector('header h1');
+                    if (pageTitle) {
+                        const titleMap = {
+                            '#': '仪表盘',
+                            '#wallpaper-review': '壁纸审核',
+                            '#wallpapers': '壁纸管理',
+                            '#categories': '分类管理',
+                            '#users': '用户管理',
+                            '#exile-management': '流放管理',
+                            '#settings': '系统设置',
+                            '#logs': '操作日志'
+                        };
+                        pageTitle.textContent = titleMap[href] || '仪表盘';
+                    }
+                });
+            });
+        }
+        
+        // 壁纸审核相关函数（保持原有功能）
+        function showPreviewModal(id) {
+            console.log('显示预览模态框，壁纸ID:', id);
+        }
+        
+        function approveWallpaper(id) {
+            console.log('通过壁纸，ID:', id);
+        }
+        
+        function rejectWallpaper(id) {
+            console.log('拒绝壁纸，ID:', id);
+        }
+        
+        /**
+         * 检查管理员登录状态
+         * 文件: admin.html
+         * 功能: 验证用户是否已登录且具有管理员权限
+         */
+        function checkAdminLogin() {
+            fetch('/api/auth.php?action=getUserInfo')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('登录状态已过期');
+                }
+                return response.json();
+            })
+            .then(result => {
+                if (result.code === 200 && result.data && result.data.is_admin === 1) {
+                    const adminUsername = document.getElementById('admin-username');
+                    if (adminUsername) {
+                        adminUsername.textContent = result.data.username || '管理员';
+                    }
+                } else {
+                    alert('您没有管理员权限');
+                    window.location.href = '/index.html';
+                }
+            })
+            .catch(error => {
+                console.error('验证登录状态失败:', error);
+                alert('验证登录状态失败，请重新登录');
+                window.location.href = '/index.html';
+            });
+        }
+        
+        /**
+         * 处理管理员退出登录
+         * 文件: admin.html
+         * 功能: 清除登录状态并跳转到首页
+         */
+        function handleAdminLogout() {
+            if (confirm('确定要退出登录吗？')) {
+                fetch('/api/auth.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({action: 'logout'})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.code === 200) {
+                        alert('退出成功');
+                        window.location.href = 'index.html';
+                    } else {
+                        alert('退出失败: ' + data.msg);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error during logout:', error);
+                    alert('退出失败，请检查网络');
+                    window.location.href = 'index.html';
+                });
+            }
+        }
+    </script>
+</body>
+</html>
     

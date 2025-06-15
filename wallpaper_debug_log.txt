@@ -1,0 +1,8 @@
+[2025-06-05 03:20:36] [LIKE] wallpaper_id=static/wallpapers/巨眼迷雾城市.jpeg, url=/api/like_wallpaper.php
+[2025-06-05 03:20:36] [LIKE-RESPONSE] url=/api/like_wallpaper.php, resp={"code":1,"msg":"参数错误"}
+[2025-06-05 03:20:38] [LIKE] wallpaper_id=static/wallpapers/巨眼迷雾城市.jpeg, url=/api/like_wallpaper.php
+[2025-06-05 03:20:38] [LIKE-RESPONSE] url=/api/like_wallpaper.php, resp={"code":1,"msg":"参数错误"}
+[2025-06-05 03:20:39] [LIKE] wallpaper_id=static/wallpapers/巨眼迷雾城市.jpeg, url=/api/like_wallpaper.php
+[2025-06-05 03:20:39] [LIKE-RESPONSE] url=/api/like_wallpaper.php, resp={"code":1,"msg":"参数错误"}
+[2025-06-05 03:33:01] [LIKE] wallpaper_id=static/wallpapers/巨眼迷雾城市.jpeg, url=/api/like_wallpaper.php
+[2025-06-05 03:33:01] [LIKE-RESPONSE] url=/api/like_wallpaper.php, resp={"code":1,"msg":"参数错误"}

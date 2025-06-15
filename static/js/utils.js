@@ -91,5 +91,71 @@ const Utils = {
             };
             reader.onerror = reject;
         });
+    },
+
+    /**
+     * 弹出右下角消息提示 (Toast)
+     * @param {string} msg - 提示内容
+     * @param {string} [type='info'] - 消息类型：'info', 'success', 'warning', 'error'
+     * @param {number} [duration=2000] - 显示时长（毫秒），默认2000
+     */
+    showToastMessage(msg, type = 'info', duration = 2000) {
+        // 创建提示容器
+        let toastContainer = document.getElementById('utils-toast-container');
+        if (!toastContainer) {
+            toastContainer = document.createElement('div');
+            toastContainer.id = 'utils-toast-container';
+            toastContainer.style.position = 'fixed';
+            toastContainer.style.right = '24px';
+            toastContainer.style.bottom = '24px';
+            toastContainer.style.zIndex = '9999';
+            toastContainer.style.display = 'flex';
+            toastContainer.style.flexDirection = 'column';
+            toastContainer.style.alignItems = 'flex-end';
+            document.body.appendChild(toastContainer);
+        }
+        // 创建单条toast
+        const toast = document.createElement('div');
+        toast.textContent = msg;
+        toast.style.color = '#fff';
+        toast.style.padding = '10px 20px';
+        toast.style.marginTop = '8px';
+        toast.style.borderRadius = '6px';
+        toast.style.fontSize = '15px';
+        toast.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+        toast.style.transition = 'opacity 0.3s';
+        toast.style.opacity = '1';
+
+        let backgroundColor;
+        switch (type) {
+            case 'success':
+                backgroundColor = '#4CAF50'; // Green
+                break;
+            case 'warning':
+                backgroundColor = '#FFC107'; // Amber
+                break;
+            case 'error':
+                backgroundColor = '#F44336'; // Red
+                break;
+            case 'info':
+            default:
+                backgroundColor = 'rgba(0,0,0,0.85)'; // Dark gray
+        }
+        toast.style.background = backgroundColor;
+
+        toastContainer.appendChild(toast);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => {
+                toast.remove();
+                // 如果没有toast了，移除容器
+                if (!toastContainer.hasChildNodes()) {
+                    toastContainer.remove();
+                }
+            }, 300);
+        }, duration);
     }
-}; 
+};
+
+// 将 Utils 对象暴露到全局作用域
+window.Utils = Utils; 

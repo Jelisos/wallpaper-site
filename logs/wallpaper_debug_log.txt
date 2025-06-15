@@ -1,0 +1,207 @@
+==== [2025-06-15 14:13:32] [ip:::1] [ua:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_start] {
+    "msg": "handleGetUserInfo called",
+    "session_id": "642igond21svdk4ri7bl480673",
+    "session_data": {
+        "user": {
+            "id": 1,
+            "username": "jeliso",
+            "email": "582311520@qq.com",
+            "is_admin": 1
+        },
+        "user_id": 1
+    }
+} ====
+==== [2025-06-15 14:13:32] [ip:::1] [ua:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_success] {
+    "msg": "handleGetUserInfo: user found",
+    "user_data": {
+        "id": 1,
+        "username": "jeliso",
+        "email": "582311520@qq.com",
+        "is_admin": 1,
+        "created_at": "2025-06-03 10:19:53"
+    }
+} ====
+==== [2025-06-15 14:16:16] [ip:::1] [ua:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_start] {
+    "msg": "handleGetUserInfo called",
+    "session_id": "642igond21svdk4ri7bl480673",
+    "session_data": {
+        "user": {
+            "id": 1,
+            "username": "jeliso",
+            "email": "582311520@qq.com",
+            "is_admin": 1
+        },
+        "user_id": 1
+    }
+} ====
+==== [2025-06-15 14:16:16] [ip:::1] [ua:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_success] {
+    "msg": "handleGetUserInfo: user found",
+    "user_data": {
+        "id": 1,
+        "username": "jeliso",
+        "email": "582311520@qq.com",
+        "is_admin": 1,
+        "created_at": "2025-06-03 10:19:53"
+    }
+} ====
+==== [2025-06-15 14:20:43] [ip:::1] [ua:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_start] {
+    "msg": "handleGetUserInfo called",
+    "session_id": "642igond21svdk4ri7bl480673",
+    "session_data": {
+        "user": {
+            "id": 1,
+            "username": "jeliso",
+            "email": "582311520@qq.com",
+            "is_admin": 1
+        },
+        "user_id": 1
+    }
+} ====
+==== [2025-06-15 14:20:44] [ip:::1] [ua:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_success] {
+    "msg": "handleGetUserInfo: user found",
+    "user_data": {
+        "id": 1,
+        "username": "jeliso",
+        "email": "582311520@qq.com",
+        "is_admin": 1,
+        "created_at": "2025-06-03 10:19:53"
+    }
+} ====
+==== [2025-06-15 14:21:17] [ip:::1] [ua:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_start] {
+    "msg": "handleGetUserInfo called",
+    "session_id": "642igond21svdk4ri7bl480673",
+    "session_data": {
+        "user": {
+            "id": 1,
+            "username": "jeliso",
+            "email": "582311520@qq.com",
+            "is_admin": 1
+        },
+        "user_id": 1
+    }
+} ====
+==== [2025-06-15 14:21:18] [ip:::1] [ua:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_success] {
+    "msg": "handleGetUserInfo: user found",
+    "user_data": {
+        "id": 1,
+        "username": "jeliso",
+        "email": "582311520@qq.com",
+        "is_admin": 1,
+        "created_at": "2025-06-03 10:19:53"
+    }
+} ====
+==== [2025-06-15 14:27:30] [ip:::1] [ua:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_start] {
+    "msg": "handleGetUserInfo called",
+    "session_id": "642igond21svdk4ri7bl480673",
+    "session_data": {
+        "user": {
+            "id": 1,
+            "username": "jeliso",
+            "email": "582311520@qq.com",
+            "is_admin": 1
+        },
+        "user_id": 1
+    }
+} ====
+==== [2025-06-15 14:27:30] [ip:::1] [ua:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_success] {
+    "msg": "handleGetUserInfo: user found",
+    "user_data": {
+        "id": 1,
+        "username": "jeliso",
+        "email": "582311520@qq.com",
+        "is_admin": 1,
+        "created_at": "2025-06-03 10:19:53"
+    }
+} ====
+==== [2025-06-15 14:32:39] [ip:::1] [ua:Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_start] {
+    "msg": "handleGetUserInfo called",
+    "session_id": "642igond21svdk4ri7bl480673",
+    "session_data": {
+        "user": {
+            "id": 1,
+            "username": "jeliso",
+            "email": "582311520@qq.com",
+            "is_admin": 1
+        },
+        "user_id": 1
+    }
+} ====
+==== [2025-06-15 14:32:40] [ip:::1] [ua:Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_success] {
+    "msg": "handleGetUserInfo: user found",
+    "user_data": {
+        "id": 1,
+        "username": "jeliso",
+        "email": "582311520@qq.com",
+        "is_admin": 1,
+        "created_at": "2025-06-03 10:19:53"
+    }
+} ====
+==== [2025-06-15 14:36:50] [ip:::1] [ua:Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_start] {
+    "msg": "handleGetUserInfo called",
+    "session_id": "642igond21svdk4ri7bl480673",
+    "session_data": {
+        "user": {
+            "id": 1,
+            "username": "jeliso",
+            "email": "582311520@qq.com",
+            "is_admin": 1
+        },
+        "user_id": 1
+    }
+} ====
+==== [2025-06-15 14:36:50] [ip:::1] [ua:Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_success] {
+    "msg": "handleGetUserInfo: user found",
+    "user_data": {
+        "id": 1,
+        "username": "jeliso",
+        "email": "582311520@qq.com",
+        "is_admin": 1,
+        "created_at": "2025-06-03 10:19:53"
+    }
+} ====
+==== [2025-06-15 14:37:46] [ip:::1] [ua:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_start] {
+    "msg": "handleGetUserInfo called",
+    "session_id": "642igond21svdk4ri7bl480673",
+    "session_data": {
+        "user": {
+            "id": 1,
+            "username": "jeliso",
+            "email": "582311520@qq.com",
+            "is_admin": 1
+        },
+        "user_id": 1
+    }
+} ====
+==== [2025-06-15 14:37:46] [ip:::1] [ua:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_success] {
+    "msg": "handleGetUserInfo: user found",
+    "user_data": {
+        "id": 1,
+        "username": "jeliso",
+        "email": "582311520@qq.com",
+        "is_admin": 1,
+        "created_at": "2025-06-03 10:19:53"
+    }
+} ====
+==== [2025-06-15 14:54:06] [ip:::1] [ua:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_start] {
+    "msg": "handleGetUserInfo called",
+    "session_id": "642igond21svdk4ri7bl480673",
+    "session_data": {
+        "user": {
+            "id": 1,
+            "username": "jeliso",
+            "email": "582311520@qq.com",
+            "is_admin": 1
+        },
+        "user_id": 1
+    }
+} ====
+==== [2025-06-15 14:54:06] [ip:::1] [ua:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36] [referer:http://localhost/admin.html] [tag:auth_getuserinfo_success] {
+    "msg": "handleGetUserInfo: user found",
+    "user_data": {
+        "id": 1,
+        "username": "jeliso",
+        "email": "582311520@qq.com",
+        "is_admin": 1,
+        "created_at": "2025-06-03 10:19:53"
+    }
+} ====

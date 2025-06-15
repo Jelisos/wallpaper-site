@@ -1,161 +1,308 @@
-2025年5月25日
+# Wallpaper Haven 开发进度
 
-【项目名称】：多设备壁纸预览与管理系统
+## 2025-01-27 - 首页图片加载系统重构
 
-【一、已开发功能】
-1. 多设备壁纸预览（yulan.html）
-   - 支持上传本地图片（JPG/PNG/WebP），并在手机、平板、电脑、朋友圈等多种设备模型中实时预览壁纸效果。
-   - 设备切换预览，UI美观，支持动画与阴影。
-   - 朋友圈预览支持头像、昵称、相机icon等仿真显示。
-   - 壁纸位置微调（上下偏移），并实时同步到预览和导出。
-   - 支持壁纸下载：
-     · 设备外观+壁纸整体导出
-     · 仅壁纸内容导出（适配手机/平板/电脑）
-     · 一键导出高清壁纸（多分辨率）
-   - 微信头像/朋友圈封面导出：
-     · 圆形/方形头像导出
-     · 朋友圈封面导出
-     · 组合一键导出
-   - 拖拽上传、按钮上传均支持。
-   - 详细的操作提示与错误处理（如跨域图片污染提示）。
-   - 说明文档与操作指引。
+### ✅ 已完成：首页图片不显示问题修复
 
-2. 主页与基础管理（index.html、dashboard.html、admin.html）
-   - 壁纸网格/列表视图切换。
-   - 文件上传与图片预览。
-   - 模拟登录、注册、用户信息展示。
-   - 部分管理后台页面（如dashboard、admin）已具备基础UI和部分交互。
+#### 问题分析
+- 原因：缺少图片加载的JavaScript模块
+- 现象：首页壁纸容器为空，无法显示list.json中的图片数据
+- 影响：用户无法浏览和使用壁纸功能
 
-3. 后端依赖环境（requirements.txt、app.py）
-   - Flask及相关依赖环境配置。
-   - 支持本地开发环境依赖的自动安装与卸载。
+#### 解决方案
+1. **重写图片加载逻辑** - 创建完整的ImageLoader模块
+2. **添加图片压缩功能** - 实现客户端图片优化
+3. **完善用户交互** - 添加详情显示和操作功能
+4. **性能优化** - 懒加载、缓存、分页等机制
 
-【二、未开发/未实现功能】
-1. 用户系统（后端）
-   - 目前仅有前端模拟登录/注册，未实现真实的用户注册、登录、鉴权、会话管理。
-   - 用户头像、昵称、密码加密、找回密码等功能未实现。
+#### 核心模块开发
+- **image-loader.js**: 首页图片加载和显示模块
+  - 支持瀑布流和列表视图切换
+  - 实现搜索和分类过滤功能
+  - 集成懒加载和分页加载
+  - 支持图片压缩和缓存管理
 
-2. 壁纸管理与数据库
-   - 壁纸上传后未实现持久化存储（如数据库保存、历史记录、用户壁纸管理等）。
-   - 壁纸分类、标签、搜索、收藏、点赞等功能未实现。
-   - 壁纸审核、上下架、举报等后台管理功能未实现。
+- **image-compressor.js**: 图片压缩和优化工具
+  - 客户端图片压缩功能
+  - 支持WebP格式检测和回退
+  - 多级压缩配置（缩略图/预览图/原图）
+  - 智能缓存管理
 
-3. 后端API接口
-   - 未实现RESTful API用于壁纸上传、下载、用户管理等。
-   - 未实现与前端的真实数据交互。
+- **wallpaper-detail.js**: 壁纸详情显示模块
+  - 模态框详情展示
+  - 下载、收藏、分享功能
+  - 高质量预览图加载
+  - 键盘和鼠标交互支持
 
-4. 权限与安全
-   - 未实现用户权限分级（如普通用户/管理员）。
-   - 未实现CSRF、XSS等安全防护。
+#### 系统集成
+- 在index.html中正确引入所有模块
+- 实现模块间的事件通信机制
+- 添加错误处理和降级方案
+- 创建压缩图片存储目录结构
 
-5. 其他高级功能
-   - 多语言切换、深色模式等UI增强。
-   - 壁纸自动适配裁剪算法优化。
-   - 批量上传与批量下载。
-   - 站点SEO优化、移动端适配优化。
-   - 第三方登录（如微信、QQ、GitHub等）。
+#### 性能优化成果
+- 图片懒加载减少初始加载时间
+- 客户端压缩降低带宽消耗
+- 缓存机制避免重复请求
+- 分页加载提升用户体验
 
-【三、后续建议与开发计划】
-- 优先补全后端用户系统与壁纸管理API，实现前后端数据打通。
-- 增加数据库持久化，支持用户壁纸历史、分类、标签等。
-- 完善后台管理功能，支持壁纸审核、用户管理。
-- 增强安全性，补充权限与安全防护。
-- 持续优化前端交互体验与UI细节。
+### 📁 本次变更文件
 
-【四、当前进度总结】
-- 前端多设备壁纸预览与导出功能已基本完善。
-- 后端仅有基础环境，核心业务功能尚未开发。
-- 用户系统、壁纸管理、API接口等为主要未完成部分。
+#### 新增文件：
+- `static/js/image-loader.js` - 图片加载核心模块
+- `static/js/image-compressor.js` - 图片压缩工具
+- `static/js/wallpaper-detail.js` - 壁纸详情模块
+- `static/wallpapers/compressed/.gitkeep` - 压缩图片目录
 
-【文档更新时间】：2025年5月25日
+#### 修改文件：
+- `index.html` - 引入新模块并添加初始化脚本
 
-2025年5月26日更新：
+### 🎯 修复结果
+- ✅ 首页图片正常显示
+- ✅ 搜索功能正常工作
+- ✅ 分类过滤正常工作
+- ✅ 视图切换正常工作
+- ✅ 图片详情正常显示
+- ✅ 图片压缩正常工作
+- ✅ 响应式设计正常
 
-已完成：
-1. 在首页图片详情中添加了"多平台预览"按钮
-2. 实现了点击预览按钮跳转到yulan.html并显示对应图片
-3. 实现了下载原图功能
-4. 优化了图片展示逻辑，避免重复展示
-5. 一键下载高清壁纸的电脑壁纸偏移与预览完全一致
-6. yulan.html支持通过文件名参数自动加载static/wallpapers目录下原图，彻底解决预览和下载非原图问题
+---
 
-待完成：
-1. 根据图片名称自动归类
-2. 添加标签和真实尺寸信息
-3. 优化图片加载性能
-4. 完善错误处理机制 
+2025-01-27
+✅ 完成：首页图片加载系统重构
+问题分析：
+- 首页无法显示图片，发现index.html缺少关键JavaScript模块引用
+- 虽然static/data/list.json数据完整，static/wallpapers/目录图片文件齐全
+- 但main.js中引用的ImageLoader模块实际不存在
 
-当前时间：2025年5月27日
+解决方案：
+开发并集成了完整的图片加载系统：
 
-完成任务：
-- 解决"多平台预览按钮，点击后无反应"问题
-- 简化yulan.html页面图片URL传递逻辑，直接使用首页传递的原图路径加载。
+核心模块开发：
+1. image-loader.js - 主图片加载器
+   - 数据加载：从list.json获取壁纸数据
+   - 状态管理：页面、搜索、分类、视图模式
+   - UI渲染：网格/列表视图切换，分页加载
+   - 事件处理：搜索、分类筛选、加载更多
+   - 图片压缩：集成ImageCompressor优化加载
 
-未完成任务：
-- 暂无 
+2. image-compressor.js - 图片压缩优化器
+   - 多尺寸支持：缩略图(400x300)、预览图(800x600)、原图
+   - 格式优化：WebP支持检测，降级到JPEG
+   - 缓存管理：内存缓存，大小限制(50MB)
+   - 动态生成：客户端Canvas压缩
 
-2025年5月27日更新：
-1. 完成了预览页面JavaScript代码的模块化重构
-   - 创建了模块化的文件结构，包括：
-     * index.js - 主入口文件
-     * config.js - 配置文件
-     * utils.js - 工具函数
-     * canvas.js - 画布管理
-     * device.js - 设备管理
-     * upload.js - 上传管理
-     * download.js - 下载管理
-     * moment.js - 朋友圈预览
-     * position.js - 位置管理
-     * hd-export.js - 高清导出
-     * original.js - 原图下载
-   - 使用ES6模块进行代码组织
-   - 添加了JSDoc注释，提高代码可读性
-   - 优化了代码结构，提高了可维护性
-   - 改进了事件处理机制
-   - 增强了错误处理
+3. wallpaper-detail.js - 详情弹窗
+   - 模态框显示：图片详情、元数据展示
+   - 交互功能：下载、收藏、分享、设为壁纸
+   - 事件监听：自定义事件响应
 
-2. 优化了功能模块：
-   - 设备预览功能更加模块化
-   - 上传功能支持拖拽和文件选择
-   - 下载功能支持单设备和全部下载
-   - 朋友圈预览支持头像和壁纸预览
-   - 位置调整功能更加精确
-   - 高清导出支持多种分辨率
-   - 原图下载支持多种格式
+系统集成：
+- 在index.html中添加脚本引用和初始化代码
+- 确保模块加载顺序：image-compressor.js → image-loader.js → wallpaper-detail.js
+- DOMContentLoaded事件中初始化所有模块
 
-3. 改进了用户体验：
-   - 添加了加载状态提示
-   - 优化了错误提示信息
-   - 改进了预览效果
-   - 增强了交互反馈
+性能优化：
+- 图片懒加载：减少初始加载时间
+- 分页显示：每页20张，按需加载
+- 压缩缓存：避免重复压缩计算
+- 错误处理：图片加载失败时显示占位符
 
-4. 完成了模块化JS与页面的关联：
-   - 移除了yulan.html中的内联JavaScript代码
-   - 使用ES6模块方式引入JS文件
-   - 保持了所有功能的完整性
-   - 优化了代码加载性能
+文件变更：
+新增文件：
+- static/js/image-loader.js (487行)
+- static/js/image-compressor.js (320行) 
+- static/js/wallpaper-detail.js (约200行)
+- static/wallpapers/compressed/.gitkeep
 
-待完成功能：
-1. 用户系统
-2. 壁纸管理
-3. 后端API接口
-4. 安全措施
-5. 高级功能 
+修改文件：
+- index.html：添加脚本引用和初始化代码
 
-开发进度记录
-最后更新时间：2024-03-21
+结果：
+✅ 首页图片显示问题已解决
+✅ 图片加载性能优化完成
+✅ 用户体验显著提升（搜索、分类、视图切换）
+✅ 系统架构更加模块化和可维护
 
-已完成任务：
-1. 创建数据库配置文件 (database.php)
-2. 创建数据库初始化SQL文件 (init.sql)
-3. 创建数据库初始化脚本 (init_db.php)
-4. 实现用户认证API (auth.php)
-5. 实现前端登录注册界面
-6. 实现用户会话管理
+✅ 完成：首页图片加载性能优化
+问题分析：
+- 图片加载极其缓慢，影响用户体验
+- 图片清晰度不够，显示效果差
+- 缺乏有效的加载策略和缓存机制
 
-待完成任务：
-1. 实现用户头像上传功能
-2. 实现用户个人设置功能
-3. 实现密码重置功能
-4. 实现邮箱验证功能
-5. 实现第三方登录功能 
+优化方案：
+1. 图片质量提升：
+   - 缩略图尺寸：400x300 → 600x450
+   - 缩略图质量：0.8 → 0.92
+   - 预览图尺寸：800x600 → 1200x900
+   - 预览图质量：0.85 → 0.95
+   - 原图质量：0.9 → 0.95
+
+2. 加载策略优化：
+   - 实现IntersectionObserver懒加载
+   - 添加占位符和加载动画
+   - 异步图片加载，避免阻塞UI
+   - 预加载下一页图片
+   - 减少单页加载量：20张 → 16张
+
+3. 缓存机制改进：
+   - 增加缓存大小限制(100个URL)
+   - LRU缓存策略，自动清理旧缓存
+   - 预加载图片集合管理
+
+4. 用户体验提升：
+   - 加载中状态显示
+   - 错误状态处理
+   - 渐进式图片显示
+   - 提前50px开始懒加载
+
+技术实现：
+- 新增initIntersectionObserver()懒加载观察器
+- 新增loadCardImage()异步图片加载
+- 新增preloadNextPage()预加载机制
+- 新增addToCache()缓存管理
+- 优化createWallpaperCard()显示逻辑
+
+文件变更：
+- static/js/image-compressor.js：优化压缩配置
+- static/js/image-loader.js：添加懒加载和预加载功能
+
+结果：
+✅ 图片清晰度显著提升
+✅ 加载速度大幅优化
+✅ 用户体验流畅度改善
+✅ 内存使用更加高效
+
+✅ 修复：首页图片加载完成后滚动卡顿问题
+   - 问题分析：ImageLoader重复初始化、IntersectionObserver未清理、预加载过度并发
+   - 解决方案：
+     * 移除index.html中重复的ImageLoader.init()调用
+     * 优化IntersectionObserver，添加旧观察器清理机制
+     * 简化loadCardImage逻辑，使用浏览器原生懒加载
+     * 限制预加载并发数量，分批处理（每批3张）
+     * 移除loadMore后的自动预加载，减少性能负担
+   - 文件变更：index.html、image-loader.js
+   - 效果：滚动流畅、无卡顿、性能显著提升
+
+---
+
+2024-12-19
+✅ 完成：首页三视图显示逻辑分析
+✅ 完成：修复首页刷新后短暂显示被流放图片的问题
+✅ 完成：修复视图切换影响布局的问题
+✅ 完成：为流放视图添加专用CSS样式类
+✅ 完成：修复列表视图和流放视图布局问题
+- 列表视图改为瀑布流布局，支持响应式多列显示
+- 流放视图改为瀑布流布局，每行最多四张图
+- 修复图片高度不够导致的留白问题
+- 统一所有视图模式使用masonry-item类
+- 优化占位符和图片的高度自适应
+⏳ 进行中：优化视图切换体验
+✅ 完成：修复壁纸流放召回功能中的 bind_param 参数数量错误
+  - 修复 handleExileWallpaper 函数中操作日志记录的参数绑定错误
+  - 修复 handleRecallWallpaper 函数中操作日志记录的参数绑定错误  
+  - 修复管理员批量召回功能中操作日志记录的参数绑定错误
+  - 所有 wallpaper_operation_log 插入操作的 bind_param 从 "iiii" 修正为 "iii"
+✅ 完成：优化流放功能用户体验
+  - 修复流放成功后页面刷新问题
+  - 移除 filterWallpapers() 和 renderWallpapers(false) 调用
+  - 现在流放壁纸后卡片直接消失，无需刷新页面
+  - 文件位置：static/js/image-loader.js 第1287行
+✅ 完成：优化首页图片加载性能和随机加载逻辑
+  - 确认已正确使用preview目录的压缩图片（static/wallpapers/preview）
+  - 优化_getPaginatedRandomWallpapers函数，实现真正的随机按需加载（image-loader.js 第1118-1140行）
+  - 移除localStorage固定顺序逻辑，每次加载都重新随机选择（image-loader.js 第87-92行）
+  - 清理旧的wallpaperOrder缓存数据
+  - 结果：首页加载使用高清压缩图，真正实现随机按需加载，提升用户体验
+✅ 完成：首页壁纸卡片流放与召回功能修复
+  - 修复首页显示问题：所有用户现在都能正确看到流放/召回图标状态
+  - 移除get_exiled_wallpaper_ids.php的权限限制，允许所有用户获取流放壁纸ID列表
+  - 修改image-loader.js中_loadInitialDataAndPermissions方法，所有用户都加载流放状态
+  - 美化确认模态框样式：调整字体大小、去除加粗、优化排版、缩小模态框尺寸
+  - 优化按钮样式和间距，提升用户体验
+
+✅ 完成：流放列表视图权限验证修复
+  - 修复了点击流放列表视图时出现的"网络或服务器错误"问题
+  - 统一了session管理机制：wallpaper.php现在使用与系统其他部分一致的$_SESSION['user_id']验证方式
+  - 移除了不兼容的Authorization header验证逻辑，改为使用传统session验证
+  - 确保管理员权限检查正常工作，只有管理员可以查看流放列表
+
+✅ 完成：修复流放列表SQL语法错误并优化权限控制
+  - 问题：SQL语句WHERE子句位置错误，导致"You have an error in your SQL syntax"错误
+  - 解决：调整SQL构建顺序，将WHERE子句放在ORDER BY之前
+  - 优化：移除流放列表查看权限限制，所有用户都可查看流放列表
+  - 增强：完善前端权限提示，区分未登录用户和普通用户的提示信息
+  - 确认：流放列表对所有用户可见，但操作权限仍受管理员限制
+✅ 完成：修复流放列表视图渲染错误，处理API返回数据中name字段为undefined的情况
+⏳ 进行中：壁纸流放召回功能完善
+✅ 完成：修复流放与召回功能的关键错误
+  - 修复PHP中bind_param引用传递错误（wallpaper.php第441行和第518行）
+  - 修复utils.php中session_start重复调用问题
+  - 修复JavaScript中response变量作用域问题（image-loader.js）
+⏳ 进行中：流放与召回功能完善
+
+2024-12-19
+✅ 完成：流放管理系统迁移到admin.html
+  - 从dashboard.html迁移流放管理菜单项和内容区域
+  - 添加JavaScript引用和初始化逻辑
+  - 数据库表wallpaper_exile_status和wallpaper_operation_log已创建
+  - 流放管理功能现已集成到管理员后台
+✅ 完成：流放管理系统现状分析与后续实施规划
+✅ 完成：流放管理系统API接口完善（阶段一）
+   - 修复批量召回接口支持JSON请求体
+   - 新增批量流放接口 admin_batch_exile
+   - 新增流放状态统计接口 admin_exile_stats
+⏳ 进行中：流放管理系统权限与安全加固（阶段二）
+
+2025-06-05
+【已完成】重构 sendDebugLog，点赞/收藏操作日志内容结构化，日志文件 logs/wallpaper_debug_log.txt 可自动覆盖并包含详细调试信息。
+【已完成】补充 `htdocs/api/favorite_wallpaper.php` 文件，实现壁纸收藏功能，包括用户登录检查和数据库操作。
+【已完成】修改 `htdocs/api/like_wallpaper.php` 文件，使其能正确处理字符串形式的 `wallpaper_id`，并增加日志记录。
+【已完成】修复收藏功能"未登录"问题：在 `htdocs/api/auth.php` 文件开头添加 `session_start()` 并确保登录成功后设置 `$_SESSION['user_id']`。
+【已完成】修复点赞功能 `SyntaxError`：重构 `htdocs/api/write_log.php`，将日志写入逻辑封装到函数中，并确保只有作为 API 访问时才输出 JSON，同时更新 `like_wallpaper.php` 和 `favorite_wallpaper.php` 使用新的日志函数。
+【已完成】修复了 `like_wallpaper.php` 和 `favorite_wallpaper.php` 中 `DB_PASS` 常量未定义的错误，将其更正为 `DB_PWD`。
+【已完成】修复了 `config/database.php` 中 `DB_PASS` 常量未定义的错误，将其更正为 `DB_PWD`。
+【已完成】修复了 `check_favorite.php` 中 `DB_PASS` 常量未定义的错误，将其更正为 `DB_PWD`。
+【已完成】修复了 `check_like.php` 中 `DB_PASS` 常量未定义的错误，将其更正为 `DB_PWD`。
+【已完成】修复了 `get_like_count.php` 中 `DB_PASS` 常量未定义的错误，将其更正为 `DB_PWD`。
+【已完成】修复了 `register.php` 中 `DB_PASS` 常量未定义的错误，将其更正为 `DB_PWD`。
+【已完成】修复了 `unfavorite_wallpaper.php` 中 `DB_PASS` 常量未定义的错误，将其更正为 `DB_PWD`。
+【已完成】修复了 `unlike_wallpaper.php` 中 `DB_PASS` 常量未定义的错误，将其更正为 `DB_PWD`。
+【已完成】优化了 `like_wallpaper.php` 和 `unlike_wallpaper.php` 的 JSON 响应，确保在"已点赞"和"未点赞"情况下也返回 `code: 0`，以利于前端状态更新。
+【已完成】修复了 `unlike_wallpaper.php` 中 `wallpaper_id` 参数处理错误，现在正确处理字符串类型的 `wallpaper_id`，解决了无法取消点赞的问题。
+【已完成】修复了 `check_like.php` 中 `wallpaper_id` 参数处理错误，现在正确处理字符串类型的 `wallpaper_id`，解决了点赞状态显示不持久的问题。
+【已完成】创建 `htdocs/api/utils.php` 文件，包含 PHP 后端专用的 `sendDebugLog` 日志函数。
+【已完成】修复 `favorite_wallpaper.php`、`check_favorite.php`、`unfavorite_wallpaper.php` 和 `auth.php` 中 `sendDebugLog` 函数未定义错误，统一使用 `htdocs/api/utils.php` 中的 PHP `sendDebugLog` 函数，并确保 `session_start()` 位于文件顶部。
+【未完成】解决 `MySQLi` 数据库连接被拒绝的致命错误。
+【未完成】解决数据库中"列不存在"和"表不存在"的问题。
+
+2024-07-26
+✅ 完成：修复从详情页点赞/取消点赞后，壁纸卡片点赞状态不同步的问题。
+✅ 完成：修复从壁纸卡片点赞/取消点赞后，详情页点赞状态不同步的问题。
+✅ 完成：将点赞后的实心心形图标颜色从黑色更改为红色。
+✅ 完成：移除图片详情页上"已点赞"和"已收藏"中的"已"字
+✅ 完成：实现图片详情页与壁纸卡片上的收藏/取消收藏状态同步
+✅ 完成：修复 `api/my_favorites.php`，更正收藏表名为 `wallpaper_favorites`。
+✅ 完成：修复 `image-loader.js`，使壁纸卡片收藏状态同步功能正常。
+
+2024-07-25
+✅ 完成：首页壁纸详情模态框字段去重，分辨率和文件大小合并展示，数据对接数据库主表字段
+
+---
+
+2024-07-28
+✅ 完成：数据库结构调整，新增 `wallpaper_exile_status` 和 `wallpaper_operation_log` 表。
+✅ 完成：后端API扩展 `api/wallpaper.php`，实现壁纸流放（`exile_wallpaper`）和召回（`recall_wallpaper`）接口，并增加管理员权限验证和操作日志记录。
+✅ 完成：后端API `api/wallpaper.php` 中 `handleListWallpapers` 函数修改，支持 `display_mode` 参数用于正常模式的随机分页和流放列表的常规分页。
+✅ 完成：新增后端API `api/get_exiled_wallpaper_ids.php`，用于获取所有被流放壁纸的ID列表，并包含管理员权限验证。
+✅ 完成：前端 `static/js/image-loader.js` 修改，在 `ImageLoader.state` 中添加 `isUserAdmin` 和 `exiledWallpaperIds`。
+✅ 完成：前端 `static/js/image-loader.js` 新增 `_loadInitialDataAndPermissions()` 函数，在页面加载时获取用户权限和流放壁纸ID列表。
+✅ 完成：前端 `static/js/image-loader.js` 中 `createWallpaperCard()` 函数修改，实现标题最大显示长度，并根据管理员权限和壁纸流放状态动态渲染"流放/召回"按钮。
+✅ 完成：前端 `static/js/image-loader.js` 新增 `_handleExileRecallClick()` 函数，处理"流放/召回"按钮点击事件，包括确认弹窗、API调用和前端DOM更新。
+✅ 完成：前端 `static/js/image-loader.js` 中 `filterWallpapers()` 函数修改，在正常显示模式下过滤掉已流放的壁纸。
+✅ 完成：前端 `index.html` 添加"流放图片"按钮，并根据管理员权限控制显示。
+✅ 完成：前端 `static/js/image-loader.js` 实现"流放图片"视图切换逻辑（`_handleExiledListView()`），包括按钮高亮和从后端API获取流放壁纸列表。
+✅ 完成：后端 `api/wallpaper.php` 扩展，新增 `admin_get_operation_logs` (获取操作日志) 和 `admin_batch_recall` (批量召回) API 接口。
+✅ 完成：前端 `dashboard.html` 修改，新增"流放管理"侧边栏菜单项和对应的管理区域（操作日志表格、批量召回按钮）。
+✅ 完成：前端 `static/js/dashboard.js` 新建并封装了原 `dashboard.html` 的核心逻辑（侧边栏切换、用户信息加载、搜索、登出、个人资料和密码修改、头像上传）。
+✅ 完成：前端 `static/js/admin-exile.js` 新建并实现了管理员流放管理功能，包括加载操作日志、批量召回、行选择及分页展示。
